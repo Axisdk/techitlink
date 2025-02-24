@@ -1,34 +1,74 @@
 <div class="w-full h-screen">
-  <div class="w-full h-full flex flex-col justify-between items-center">
+  <div class="p-10 w-full h-full flex flex-col justify-between items-center">
 
-    <div class="navbar">
-      <div class="navbar-start">
-        <a class="navbar-item text-xl font-bold">TechIT link</a>
-      </div>
+    <div class="w-full flex justify-start">
+      <a href="./" class="w-48">
+        <img src="./assets/images/logo/logo.svg" alt="tech it link">
+      </a>
     </div>
 
     <div class="card">
       <div class="card-body p-3">
         <div class="flex flex-col justify-center items-center gap-7">
           <h1 class="text-2xl font-bold">Авторизация</h1>
-          <form class="w-full flex flex-col justify-center items-center gap-3">
-            <input type="text" placeholder="Login" class="input input-block input-lg">
-            <input type="password" placeholder="Password" class="input input-block input-lg">
+          <form [formGroup]="formGroup" class="w-full flex flex-col justify-center items-center gap-3 form-group">
+            <div class="form-field w-full">
+              <label class="form-label text-gray-600 text-xs">Адрес эл. почты</label>
+              <input placeholder="Ваш email"
+                     type="email"
+                     class="input input-block w-full"
+                     formControlName="email"
+              />
+              <div *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched"
+                   class="text-red-600 text-md">
+                <small *ngIf="formGroup.get('email')?.errors?.['required']">Email обязателен</small>
+                <small *ngIf="formGroup.get('email')?.errors?.['email']">Некорректный Email</small>
+              </div>
+            </div>
+            <div class="form-field w-full">
+              <label class="form-label text-gray-600 text-xs">Пароль</label>
+              <div class="relative">
+                <input placeholder="Ваш пароль"
+                       [type]="[isShowPassword ? 'text' : 'password']"
+                       class="input input-block"
+                       formControlName="password"
+                />
+                <span class="absolute inset-y-0 right-4 inline-flex items-center cursor-pointer"
+                      (click)="toggleTypeInput()"
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-content3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </span>
+              </div>
+              <div *ngIf="formGroup.get('password')?.invalid && formGroup.get('password')?.touched"
+                   class="text-red-600 text-md">
+                <small *ngIf="formGroup.get('password')?.errors?.['required']">Пароль обязателен</small>
+                <small *ngIf="formGroup.get('password')?.errors?.['minlength']">Минимум 8 символов</small>
+              </div>
+            </div>
             <div class="w-full">
               <label class="w-full flex justify-end items-center cursor-pointer gap-2">
-                <input type="checkbox" class="checkbox checkbox-sm checkbox-primary" checked />
+                <input type="checkbox"
+                       class="checkbox checkbox-sm checkbox-primary"
+                       formControlName="remember"
+                />
                 <span>Запомнить меня?</span>
               </label>
             </div>
-            <button class="mt-5 btn btn-md btn-primary btn-block">Войти</button>
+            <button class="mt-5 btn btn-md btn-primary btn-block"
+                    [class.btn-loading]="isLoading"
+                    [disabled]="formGroup.invalid"
+                    (click)="onSubmit()">Войти</button>
           </form>
         </div>
       </div>
     </div>
 
-    <div class="p-10 w-full flex justify-end items-center gap-5">
-      <a href="#" class="text-lg font-medium text-cyan-900">Политика конфедициальности</a>
-      <a href="#" class="text-lg font-medium text-cyan-900">Пользовательское соглашение</a>
+    <div class="w-full flex justify-end items-center gap-5">
+      <a href="#" class="text-lg font-medium text-gray-900">Политика конфедициальности</a>
+      <a href="#" class="text-lg font-medium text-gray-900">Пользовательское соглашение</a>
     </div>
 
   </div>
