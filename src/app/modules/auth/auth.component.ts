@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {TokenService} from "../../core/services/token.service";
+import {UserInterface} from "../../core/interfaces/user.interface";
+import {UserService} from "../../core/services/user.service";
 
 @Component({
   selector: 'app-auth',
@@ -16,6 +18,7 @@ import {TokenService} from "../../core/services/token.service";
 
 export class AuthComponent implements OnInit{
 
+  public userData!: UserInterface
   public formGroup!: FormGroup
   public isShowPassword: boolean = false
   public isLoading: boolean = false
@@ -23,7 +26,8 @@ export class AuthComponent implements OnInit{
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _tokenService: TokenService
+    private _tokenService: TokenService,
+    private _userService: UserService
   ) {}
 
   private _initForm() {
@@ -42,6 +46,9 @@ export class AuthComponent implements OnInit{
     this.isLoading = true
     setTimeout(() => {
       this._tokenService.setToken()
+      this.userData = this.formGroup.value
+      this._userService.setUser(this.userData)
+
       this.isLoading = false
 
       this._router.navigate(['/cabinet']).then()
