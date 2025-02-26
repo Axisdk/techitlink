@@ -7,17 +7,16 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {RouterModule, RouterOutlet} from "@angular/router";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     AuthComponent,
     RouterOutlet,
-    RouterModule
+    RouterModule,
+    AppComponent
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: []
 })
 export class AppModule { }
