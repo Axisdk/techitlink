@@ -23,7 +23,7 @@ export class AuthComponent implements OnInit{
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _tokenService: TokenService
+    private _tokenService: TokenService 
   ) {}
 
   private _initForm() {
