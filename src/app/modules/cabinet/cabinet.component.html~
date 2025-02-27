@@ -1,6 +1,5 @@
 <div class="w-full h-full flex">
   <div>
-    <app-menu></app-menu>
   </div>
   <div>
 
