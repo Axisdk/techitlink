@@ -1,7 +1,9 @@
-<div class="w-full h-full flex">
+<div class="max-w-full w-full h-full flex">
   <div>
+    <app-menu></app-menu>
   </div>
-  <div>
+  <div class="w-full h-full p-10">
+    <app-top-line></app-top-line>
 
   </div>
 </div>

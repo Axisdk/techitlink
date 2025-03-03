@@ -2,12 +2,14 @@ import {Component, OnInit} from "@angular/core";
 import {TokenService} from "../../core/services/token.service";
 import {Router} from "@angular/router";
 import {MenuComponent} from "../../shared/components/menu/menu.component";
+import {TopLineComponent} from "../../shared/components/top-line/top-line.component";
 
 @Component({
   selector: 'app-cabinet',
   templateUrl: './cabinet.component.html',
   imports: [
-    MenuComponent
+    MenuComponent,
+    TopLineComponent
   ],
   standalone: true
 })

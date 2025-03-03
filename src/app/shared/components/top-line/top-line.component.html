@@ -1,0 +1,22 @@
+<div class="max-w-full w-full bg-gray-50 rounded-2xl">
+  <div class="px-10 py-2 flex justify-between items-center">
+    <div class="flex">
+      <button class="w-8 h-8"
+              (click)="toggleTheme()"
+      >
+        <img *ngIf="currentTheme === themeEnum.light" src="./assets/images/icons/moon.svg" alt="dark theme">
+        <img *ngIf="currentTheme === themeEnum.dark" src="./assets/images/icons/sun.svg" alt="light theme">
+      </button>
+    </div>
+    <div class="flex gap-2">
+      <button class="w-8 h-8">
+        <img src="./assets/images/icons/info-circle.svg" alt="bell">
+      </button>
+      <button class="w-8 h-8 relative">
+        <img src="./assets/images/icons/bell-bing.svg" alt="bell">
+        <span class="absolute top-0 right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse">
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
