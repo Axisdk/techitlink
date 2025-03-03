@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {TokenService} from "../../core/services/token.service";
-import {Router} from "@angular/router";
+import {Router, RouterOutlet} from "@angular/router";
 import {MenuComponent} from "../../shared/components/menu/menu.component";
 import {TopLineComponent} from "../../shared/components/top-line/top-line.component";
 
@@ -9,7 +9,8 @@ import {TopLineComponent} from "../../shared/components/top-line/top-line.compon
   templateUrl: './cabinet.component.html',
   imports: [
     MenuComponent,
-    TopLineComponent
+    TopLineComponent,
+    RouterOutlet
   ],
   standalone: true
 })
