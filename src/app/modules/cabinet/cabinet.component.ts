@@ -3,6 +3,7 @@ import {TokenService} from "../../core/services/token.service";
 import {Router, RouterOutlet} from "@angular/router";
 import {MenuComponent} from "../../shared/components/menu/menu.component";
 import {TopLineComponent} from "../../shared/components/top-line/top-line.component";
+import {MessageModalComponent} from "../../shared/components/message-modal/message-modal.component";
 
 @Component({
   selector: 'app-cabinet',
@@ -10,7 +11,8 @@ import {TopLineComponent} from "../../shared/components/top-line/top-line.compon
   imports: [
     MenuComponent,
     TopLineComponent,
-    RouterOutlet
+    RouterOutlet,
+    MessageModalComponent
   ],
   standalone: true
 })
@@ -28,7 +30,6 @@ export class CabinetComponent implements OnInit {
       this._router.navigate(['/auth']).then()
     }
   }
-
 
   ngOnInit() {
     this.checkToken()

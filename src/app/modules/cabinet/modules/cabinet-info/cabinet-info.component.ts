@@ -3,6 +3,8 @@ import {TimetableComponent} from "../../../../shared/components/timetable/timeta
 import {TimeTableInterface} from "../../../../core/interfaces/time-table.interface";
 import {TimeTableMocks} from "../../../../mocks/time-table.mocks";
 import {MiniMessengerComponent} from "../../../../shared/components/mini-messanger/mini-messenger.component";
+import {MiniMessengerMocks} from "../../../../mocks/mini-messenger.mocks";
+import {MessengerInterface} from "../../../../core/interfaces/messenger.interface";
 
 @Component({
   selector: 'app-cabinet-info',
@@ -17,7 +19,7 @@ import {MiniMessengerComponent} from "../../../../shared/components/mini-messang
 export class CabinetInfoComponent {
 
   protected readonly tablePosition: TimeTableInterface[] = TimeTableMocks
-  protected readonly userMessages = 123
+  protected readonly messenger: MessengerInterface[] = MiniMessengerMocks
 
   constructor() {}
 
