@@ -1,0 +1,12 @@
+<div class="flex justify-center items-center gap-2">
+  <div class="flex justify-center items-center">
+    <span class="tooltip tooltip-top flex justify-center items-center" [attr.data-tooltip]="'Прогресс: ' + value + '/' + maxValue">
+      <progress class="progress" [ngClass]="progressClass" [value]="value" [max]="maxValue"></progress>
+    </span>
+  </div>
+  <div class="flex justify-center items-center">
+    <span class="text-base font-medium">{{value}}</span>
+    <span class="text-sm">/</span>
+    <span class="text-sm">{{maxValue}}</span>
+  </div>
+</div>

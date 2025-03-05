@@ -6,7 +6,7 @@
 
   <div class="flex gap-3">
 
-    <app-timetable [tablePosition]="tablePosition"></app-timetable>
+    <app-timetable></app-timetable>
 
 
   </div>

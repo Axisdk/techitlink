@@ -1,0 +1,37 @@
+<div class="card max-w-full w-full">
+  <div class="card-body">
+    <div class="flex flex-col w-full">
+      <h2 class="text-2xl font-medium">Успеваемость по предметам</h2>
+      <div class="divider"></div>
+      <table class="table-hover table">
+        <thead>
+        <tr>
+          <th>Предмет</th>
+          <th>Преподаватель</th>
+          <th>Успеваемость</th>
+          <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr *ngFor="let position of tablePosition" class="bg-gray-100 hover:bg-gray-400">
+          <th>{{ position.item }}</th>
+          <td>{{ position.teacher }}</td>
+          <td>
+            <app-progress [value]="position.grade"></app-progress>
+          </td>
+          <td>
+            <div class="flex justify-end items-center">
+              <span class="tooltip tooltip-top flex justify-center items-center" data-tooltip="Информация">
+                <button class="w-5">
+                  <img src="./assets/images/icons/clipboard-list.svg" alt="clipboard">
+                </button>
+              </span>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
