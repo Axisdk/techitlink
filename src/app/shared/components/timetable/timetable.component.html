@@ -15,10 +15,20 @@
         <tbody>
 
         <tr *ngFor="let position of tablePosition" class="bg-gray-100 hover:bg-gray-400">
-          <th>{{ position.item }}</th>
-          <td>{{ position.teacher }}</td>
+          <th>
+            <span class="text-base text-medium">
+              {{ position.item }}
+            </span>
+          </th>
           <td>
-            <app-progress [value]="position.grade"></app-progress>
+            <span class="text-base text-medium">
+              {{ position.teacher }}
+            </span>
+          </td>
+          <td>
+            <div class="flex justify-start items-center">
+              <app-progress [value]="position.grade"></app-progress>
+            </div>
           </td>
           <td>
             <div class="flex justify-end items-center">

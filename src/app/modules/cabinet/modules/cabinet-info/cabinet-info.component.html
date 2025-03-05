@@ -5,10 +5,12 @@
   </div>
 
   <div class="flex gap-3">
-
-    <app-timetable [tablePosition]="tablePosition"></app-timetable>
-
-
+    <div class="w-8/12">
+      <app-timetable [tablePosition]="tablePosition"></app-timetable>
+    </div>
+    <div class="w-4/12">
+      <app-mini-messenger [userMessages]="userMessages"></app-mini-messenger>
+    </div>
   </div>
 
 </div>
