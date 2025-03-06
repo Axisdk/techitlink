@@ -26,8 +26,8 @@ export class MiniMessengerComponent implements OnInit, OnDestroy {
   ) {}
 
   public openMessage(message: MessengerInterface) {
-    console.log(123)
     this._messageModalService.toggleModal()
+    this._messageModalService.loadMessage(message)
   }
 
   ngOnInit() {

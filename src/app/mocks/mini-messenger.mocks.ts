@@ -25,6 +25,46 @@ export const MiniMessengerMocks: MessengerInterface[] = [
         id: 4,
         send: 'teacher',
         message: 'Какая, вам нужна помошь?'
+      },
+      {
+        id: 1,
+        send: 'me',
+        message: 'Привет'
+      },
+      {
+        id: 2,
+        send: 'teacher',
+        message: 'Привет'
+      },
+      {
+        id: 3,
+        send: 'me',
+        message: 'Мне нужна помощь'
+      },
+      {
+        id: 4,
+        send: 'teacher',
+        message: 'Какая, вам нужна помошь?'
+      },
+      {
+        id: 1,
+        send: 'me',
+        message: 'Привет'
+      },
+      {
+        id: 2,
+        send: 'teacher',
+        message: 'Привет'
+      },
+      {
+        id: 3,
+        send: 'me',
+        message: 'Мне нужна помощь'
+      },
+      {
+        id: 4,
+        send: 'teacher',
+        message: 'Какая, вам нужна помошь?'
       }
     ]
   },
