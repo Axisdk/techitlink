@@ -1,7 +1,7 @@
-<div class="w-full h-screen">
+<div class="w-full h-screen bg-zinc-50 dark:bg-gray-900">
   <div class="w-full h-full flex justify-between">
 
-    <div class="relative p-10 w-full h-full flex justify-center items-center bg-zinc-100">
+    <div class="relative p-10 w-full h-full flex justify-center items-center">
       <div class="absolute top-10 left-10 flex justify-start w-48">
         <a href="#" class="">
           <img src="./assets/images/logo/logo.svg" alt="tech it link">
@@ -12,18 +12,18 @@
       </div>
     </div>
 
-    <div class="p-10 max-w-xl w-full flex justify-center items-center rounded-2xl">
+    <div class="p-10 max-w-xl w-full flex justify-center items-center rounded-bl-2xl rounded-tl-2xl bg-gray-100 dark:bg-gray-800">
       <div class="w-full flex flex-col justify-center items-center gap-7">
         <div class="w-full flex flex-col gap-5">
-          <h1 class="text-2xl font-bold">Приветствуем вас в образовательной платформе TechITlink 👋</h1>
+          <h1 class="text-2xl font-bold dark:text-gray-200">Приветствуем вас в образовательной платформе TechITlink 👋</h1>
           <span class="text-sm text-neutral">Для входа в систему, введите ваши учётные данные</span>
         </div>
         <form [formGroup]="formGroup" class="w-full flex flex-col justify-center items-center gap-3 form-group">
           <div class="form-field w-full">
-            <label class="form-label text-gray-600 text-xs">Адрес эл. почты</label>
+            <label class="form-label text-gray-600 text-xs dark:text-gray-400">Адрес эл. почты</label>
             <input placeholder="Ваш email"
                    type="email"
-                   class="input input-block w-full"
+                   class="input input-xl input-block w-full border-none dark:text-gray-200 dark:bg-gray-900"
                    formControlName="email"
             />
             <div *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched"
@@ -33,11 +33,11 @@
             </div>
           </div>
           <div class="form-field w-full">
-            <label class="form-label text-gray-600 text-xs">Пароль</label>
+            <label class="form-label text-gray-600 text-xs dark:text-gray-400">Пароль</label>
             <div class="relative">
               <input placeholder="Ваш пароль"
                      [type]="[isShowPassword ? 'text' : 'password']"
-                     class="input input-block"
+                     class="input input-xl input-block border-none dark:text-gray-200 dark:bg-gray-900"
                      formControlName="password"
               />
               <span class="absolute inset-y-0 right-4 inline-flex items-center cursor-pointer"
@@ -61,10 +61,10 @@
                      class="checkbox checkbox-sm checkbox-primary"
                      formControlName="remember"
               />
-              <span>Запомнить меня?</span>
+              <span class="dark:text-gray-400">Запомнить меня?</span>
             </label>
           </div>
-          <button class="mt-5 btn btn-md btn-primary btn-block"
+          <button class="mt-5 btn btn-md btn-primary btn-block dark:btn-secondary"
                   [class.btn-loading]="isLoading"
                   [disabled]="formGroup.invalid"
                   (click)="onSubmit()">Войти</button>
