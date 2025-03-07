@@ -4,13 +4,15 @@ import {NgForOf} from "@angular/common";
 import {MessageModalComponent} from "../message-modal/message-modal.component";
 import {BehaviorSubject, takeUntil} from "rxjs";
 import {MessageModalService} from "../message-modal/message-modal.service";
+import {CardComponent} from "../card/card.component";
 
 @Component({
   selector: 'app-mini-messenger',
   templateUrl: 'mini-messenger.component.html',
   imports: [
     NgForOf,
-    MessageModalComponent
+    MessageModalComponent,
+    CardComponent
   ],
   standalone: true
 })

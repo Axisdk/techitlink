@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import {RouterModule} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {Router, RouterModule} from "@angular/router";
+import {LocalStorageService} from "./core/services/localstorage.service";
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,14 @@ import {RouterModule} from "@angular/router";
   ],
   standalone: true,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
+  constructor(
+    private _localStorageService: LocalStorageService,
+  ) {}
 
+  ngOnInit() {
+    this._localStorageService.initializeTheme()
+  }
 
 }

@@ -1,39 +1,36 @@
-<div class="card max-w-full w-full">
-  <div class="card-body">
-    <div class="flex flex-col">
-      <h2 class="text-2xl font-medium">Мессенджер</h2>
-      <div class="divider"></div>
+<app-card>
+  <div class="flex flex-col">
+    <h2 class="text-2xl font-medium dark:text-gray-200">Мессенджер</h2>
+    <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
 
-      <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1">
 
-        <div *ngFor="let message of userMessages"
-             class="px-5 py-2 flex justify-between items-center gap-3 duration-300 hover:bg-gray-200"
-        >
-          <div class="flex justify-center items-center">
-            <div class="flex gap-3">
-              <div class="avatar avatar-xl">
-                <img [src]=[message.avatar] alt="avatar">
-              </div>
-              <div class="flex flex-col justify-start">
-                <h3 class="text-lg font-medium">{{ message.name }}</h3>
-                <span class="text-sm text-neutral">{{ message.message[message.message.length - 1].message }}</span>
-              </div>
+      <div *ngFor="let message of userMessages"
+           class="px-5 py-2 flex justify-between items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+      >
+        <div class="flex justify-center items-center">
+          <div class="flex gap-3">
+            <div class="avatar avatar-xl">
+              <img [src]=[message.avatar] alt="avatar">
+            </div>
+            <div class="flex flex-col justify-start">
+              <h3 class="text-lg font-medium dark:text-gray-200">{{ message.name }}</h3>
+              <span class="text-sm text-neutral">{{ message.message[message.message.length - 1].message }}</span>
             </div>
           </div>
-          <div class="flex justify-end items-center">
+        </div>
+        <div class="flex justify-end items-center">
             <span class="tooltip tooltip-top flex justify-center items-center" data-tooltip="Написать">
               <button class="w-5" (click)="openMessage(message)">
-                <img src="./assets/images/icons/plain.svg" alt="message">
+                <img src="./assets/images/icons/plain.svg" alt="message" class="dark:brightness-200">
               </button>
             </span>
-          </div>
         </div>
-
       </div>
+
     </div>
   </div>
-</div>
-
+</app-card>
 
 <app-message-modal></app-message-modal>
 

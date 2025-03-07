@@ -19,7 +19,7 @@ export class TopLineComponent implements OnInit, OnDestroy {
 
   private _destroy$: Subject<void> = new Subject<void>()
 
-  public currentTheme: ThemeEnum = ThemeEnum.light
+  public currentTheme: string | null = ThemeEnum.light
 
   constructor(
     private _themeService: ThemeService
@@ -27,16 +27,11 @@ export class TopLineComponent implements OnInit, OnDestroy {
 
   public toggleTheme() {
     this._themeService.toggleTheme()
-
-    console.log(this.currentTheme)
+    this.getTheme()
   }
 
   private getTheme() {
-    this._themeService.currentTheme$
-      .pipe(takeUntil(this._destroy$))
-      .subscribe(() => {
-        this.currentTheme = this._themeService.currentTheme$.value
-      })
+    this.currentTheme = this._themeService.currentTheme ?? null
   }
 
   ngOnInit() {

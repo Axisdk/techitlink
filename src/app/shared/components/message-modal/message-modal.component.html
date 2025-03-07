@@ -4,32 +4,32 @@
      [class.-z-10]="!isOpen"
      [class.z-0]="isOpen"
 >
-  <div class="absolute z-20 top-0 left-0 w-full h-full bg-gray-700 opacity-50"
+  <div class="absolute z-20 top-0 left-0 w-full h-full bg-gray-700 opacity-70 dark:bg-gray-950"
        (click)="toggleModal()"
   ></div>
 
-  <div class="relative card max-w-full w-6/12 z-30" *ngIf="message">
-    <div class="absolute top-5 right-5 cursor-pointer" (click)="toggleModal()">X</div>
+  <div class="relative card dark:bg-gray-800 max-w-full w-6/12 z-30" *ngIf="message">
+    <div class="absolute top-5 right-5 cursor-pointer dark:text-gray-200" (click)="toggleModal()">X</div>
     <div class="card-body">
       <div class="flex justify-start items-center gap-2">
         <div class="avatar avatar-md">
           <img [src]="message.avatar" alt="avatar">
         </div>
-        <p class="text-base font-medium">{{ message.name }}</p>
+        <span class="text-xl font-medium dark:text-gray-200">{{ message.name }}</span>
       </div>
-      <div class="divider"></div>
-      <div #messageContainer class="p-5 flex flex-col gap-2 w-full h-96 overflow-y-scroll bg-gray-100">
+      <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
+      <div #messageContainer class="p-5 flex flex-col gap-2 w-full h-96 overflow-y-auto bg-gray-100 dark:bg-gray-900">
         <div class="flex flex-col gap-2">
           <div *ngFor="let message of message.message">
             <app-message [message]="message"></app-message>
           </div>
         </div>
       </div>
-      <div class="divider"></div>
+      <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
       <div class="flex w-full max-w-full">
         <form [formGroup]="formGroup" class="w-full">
           <div class="relative max-w-full w-full">
-            <input class="input-block input-solid input-xl input"
+            <input class="input-block input-solid input-xl input dark:bg-gray-900 dark:text-gray-200"
                    placeholder="Написать сообщение..."
                    formControlName="message"
             />
@@ -37,7 +37,7 @@
               <button class="w-5 h-5 flex justify-center items-center"
                       (click)="sendMessage()"
               >
-                <img src="./assets/images/icons/plain.svg" alt="send message">
+                <img src="./assets/images/icons/plain.svg" alt="send message" class="dark:brightness-200">
               </button>
             </div>
           </div>
