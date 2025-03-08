@@ -9,7 +9,7 @@ export const TimeTableMocks: TimeTableInterface[] = [
   {
     item: 'Python программирование',
     teacher: 'Кельбетов Айдын',
-    grade: 57
+    grade: 95
   },
   {
     item: 'Информационная безопасность',

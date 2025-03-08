@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {TokenService} from "../../core/services/token.service";
-import {UserInterface} from "../../core/interfaces/user.interface";
+import {AuthInterface} from "../../core/interfaces/auth.interface";
 import {UserService} from "../../core/services/user.service";
 
 @Component({
@@ -18,7 +18,7 @@ import {UserService} from "../../core/services/user.service";
 
 export class AuthComponent implements OnInit{
 
-  public userData!: UserInterface
+  public authData!: AuthInterface
   public formGroup!: FormGroup
   public isShowPassword: boolean = false
   public isLoading: boolean = false
@@ -43,16 +43,26 @@ export class AuthComponent implements OnInit{
   }
 
   public onSubmit() {
-    this.isLoading = true
+    this.isLoading = true;
+
     setTimeout(() => {
-      this._tokenService.setToken()
-      this.userData = this.formGroup.value
-      this._userService.setUser(this.userData)
+      this.authData = this.formGroup.value;
 
-      this.isLoading = false
+      this._userService.setUser(this.authData);
 
-      this._router.navigate(['/cabinet']).then()
-    }, 1000)
+      const isCorrectUser: boolean = this._userService.authUser(this.authData);
+
+      if (!isCorrectUser) {
+        console.log('Неверный email или пароль');
+        this.isLoading = false;
+        return;
+      }
+
+      this._tokenService.setToken();
+      this.isLoading = false;
+
+      this._router.navigate(['/cabinet']).then();
+    }, 1000);
   }
 
   ngOnInit() {

@@ -1,5 +1,10 @@
+import {MessengerInterface} from "./messenger.interface";
+
 export interface UserInterface {
+  fname: string
+  lname: string
   email: string
   password: string
-  remember: boolean
+  avatar_url: string
+  message: MessengerInterface[]
 }

@@ -12,10 +12,6 @@ export class TokenService {
     return Math.floor(Math.random() * 10000000).toString()
   }
 
-  public clearStorage() {
-    localStorage.clear()
-  }
-
   public getToken(): string | null {
     return localStorage.getItem(userTokenLocalstorageConst) ?? null
   }
@@ -23,5 +19,9 @@ export class TokenService {
   public setToken() {
     const token: string = this._generateToken()
     localStorage.setItem(userTokenLocalstorageConst, token);
+  }
+
+  public deleteToken() {
+    localStorage.removeItem(userTokenLocalstorageConst)
   }
 }
