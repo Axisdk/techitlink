@@ -27,8 +27,6 @@ export class UserService {
   public initUser() {
     const activeToken: boolean = this._tokenService.checkToken(this._tokenService.getToken())
 
-    console.log(123123123123, activeToken)
-
     if (!activeToken) this.logout()
 
     const user: UserInterface | null = this._localStorageService.getUser ?? null
@@ -38,6 +36,7 @@ export class UserService {
     }
 
     this.user$.next(user);
+    this._router.navigate(['/cabinet/info'])
   }
 
   public setUser(userData: AuthInterface){
@@ -62,7 +61,6 @@ export class UserService {
 
   public logout(): void {
     localStorage.removeItem(userLocalstorageConst)
-    // this._tokenService.deleteToken()
     this._router.navigate(['/'])
   }
 }

@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {TokenService} from "../../core/services/token.service";
 import {AuthInterface} from "../../core/interfaces/auth.interface";
 import {UserService} from "../../core/services/user.service";
+import {NotificationService} from "../../shared/components/notification/notification.service";
+import {NotificationTypeEnum} from "../../shared/components/notification/core/enums/notification-type.enum";
 
 @Component({
   selector: 'app-auth',
@@ -27,7 +29,8 @@ export class AuthComponent implements OnInit{
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _tokenService: TokenService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _notificationService: NotificationService
   ) {}
 
   private _initForm() {
@@ -53,12 +56,21 @@ export class AuthComponent implements OnInit{
       const isCorrectUser: boolean = this._userService.authUser(this.authData);
 
       if (!isCorrectUser) {
-        console.log('Неверный email или пароль');
+        this._notificationService.showNotification({
+          type: NotificationTypeEnum.error,
+          title: 'Ошибка',
+          message: 'Неверный логин или пароль'
+        })
         this.isLoading = false;
         return;
       }
 
       this._tokenService.setToken();
+      this._notificationService.showNotification({
+        type: NotificationTypeEnum.success,
+        title: 'Добро пожаловать!',
+        message: 'Спасибо за авторизацию'
+      })
       this.isLoading = false;
 
       this._router.navigate(['/cabinet']).then();
