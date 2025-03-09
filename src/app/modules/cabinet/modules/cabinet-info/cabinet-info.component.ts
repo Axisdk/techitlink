@@ -24,7 +24,6 @@ import {NgIf} from "@angular/common";
 export class CabinetInfoComponent implements OnInit {
 
   protected readonly tablePosition: TimeTableInterface[] = TimeTableMocks
-  protected readonly messenger: MessengerInterface[] = MiniMessengerMocks
 
   public destroy$: Subject<void> = new Subject<void>();
   public user!: UserInterface | null;

@@ -1,7 +1,10 @@
 import {UserInterface} from "../core/interfaces/user.interface";
+import {UserRoleEnum} from "../core/enums/user-role.enum";
 
 export const userMocks: UserInterface[] = [
   {
+    id: 1,
+    role: UserRoleEnum.teacher,
     fname: 'Atom',
     lname: 'Mato',
     email: 'user329@test.com',
@@ -169,6 +172,8 @@ export const userMocks: UserInterface[] = [
     ]
   },
   {
+    id: 2,
+    role: UserRoleEnum.user,
     fname: 'Mary',
     lname: 'Jane',
     email: 'maryjane666@gmail.com',
@@ -242,6 +247,8 @@ export const userMocks: UserInterface[] = [
     ]
   },
   {
+    id: 3,
+    role: UserRoleEnum.user,
     fname: 'Jake',
     lname: 'Paul',
     email: 'jpaul@gmail.com',
@@ -315,6 +322,8 @@ export const userMocks: UserInterface[] = [
     ]
   },
   {
+    id: 4,
+    role: UserRoleEnum.user,
     fname: 'Kennedy',
     lname: 'Jakob',
     email: 'kennedy1986@gmail.com',

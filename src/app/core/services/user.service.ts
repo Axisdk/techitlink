@@ -6,6 +6,7 @@ import {UserInterface} from "../interfaces/user.interface";
 import {BehaviorSubject} from "rxjs";
 import {TokenService} from "./token.service";
 import {LocalStorageService} from "./localstorage.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +19,25 @@ export class UserService {
   public user$: BehaviorSubject<UserInterface | null> = new BehaviorSubject<UserInterface | null>(null);
 
   constructor(
+    private _router: Router,
     private _tokenService: TokenService,
     private _localStorageService: LocalStorageService,
   ) {}
 
   public initUser() {
-    const user: UserInterface | null = JSON.parse(<string>this._localStorageService.getUser ?? null)
-    if (!user) this.logout()
+    const activeToken: boolean = this._tokenService.checkToken(this._tokenService.getToken())
 
-    this.user$.next(user)
+    console.log(123123123123, activeToken)
+
+    if (!activeToken) this.logout()
+
+    const user: UserInterface | null = this._localStorageService.getUser ?? null
+    if (!user) {
+      this.logout()
+      return
+    }
+
+    this.user$.next(user);
   }
 
   public setUser(userData: AuthInterface){
@@ -51,6 +62,7 @@ export class UserService {
 
   public logout(): void {
     localStorage.removeItem(userLocalstorageConst)
-    this._tokenService.deleteToken()
+    // this._tokenService.deleteToken()
+    this._router.navigate(['/'])
   }
 }

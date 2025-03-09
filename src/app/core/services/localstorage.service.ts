@@ -14,8 +14,14 @@ export class LocalStorageService {
     return localStorage.getItem(themeLocalStorage) ?? null
   }
 
-  get getUser(): string | null {
-    return localStorage.getItem(userLocalstorageConst)
+  get getUser(): UserInterface | null {
+    try {
+      const userData: string | null = localStorage.getItem(userLocalstorageConst);
+      return userData ? JSON.parse(userData) : null;
+    } catch (error) {
+      console.error("Error parsing user data from localStorage:", error);
+      return null;
+    }
   }
 
   constructor() {}
