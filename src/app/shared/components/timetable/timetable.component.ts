@@ -1,6 +1,6 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {TimeTableInterface} from "../../../core/interfaces/time-table.interface";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {ProgressComponent} from "../progress/progress.component";
 import {CardComponent} from "../card/card.component";
 
@@ -10,15 +10,27 @@ import {CardComponent} from "../card/card.component";
   imports: [
     NgForOf,
     ProgressComponent,
-    CardComponent
+    CardComponent,
+    NgIf
   ],
   standalone: true
 })
 
-export class TimetableComponent {
+export class TimetableComponent implements OnInit {
 
   @Input() tablePosition!: TimeTableInterface[]
 
+  public isLoading: boolean = false
+
   constructor() {}
+
+  ngOnInit(): void {
+    this.isLoading = true
+
+    setTimeout(() => {
+      if (!this.tablePosition) return
+      this.isLoading = false
+    }, 3000)
+  }
 
 }

@@ -2,7 +2,7 @@
   <div class="flex flex-col w-full">
     <h2 class="text-2xl font-medium dark:text-gray-200">Успеваемость по предметам</h2>
     <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
-    <table class="table-hover table dark:bg-gray-800">
+    <table class="table-hover table dark:bg-gray-800" *ngIf="!isLoading">
       <thead class="bg-blue-500 dark:bg-gray-800">
       <tr>
         <th class="font-medium border-none dark:text-neutral dark:bg-gray-800">Предмет</th>
@@ -12,7 +12,6 @@
       </tr>
       </thead>
       <tbody class="dark:bg-gray-800">
-
       <tr *ngFor="let position of tablePosition"
           class="group bg-gray-100 hover:!bg-gray-400 dark:bg-gray-800 dark:hover:!bg-gray-700"
       >
@@ -40,6 +39,24 @@
               </span>
           </div>
         </td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table w-full max-w-full" *ngIf="isLoading">
+      <thead class="bg-blue-500 dark:bg-gray-800">
+      <tr>
+        <th class="border-none dark:bg-gray-800"><div class="skeleton h-5 rounded-md"></div></th>
+        <th class="border-none dark:bg-gray-800"><div class="skeleton h-5 rounded-md"></div></th>
+        <th class="border-none dark:bg-gray-800"><div class="skeleton h-5 rounded-md"></div></th>
+        <th class="border-none dark:bg-gray-800"><div class="skeleton h-5 rounded-md"></div></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let i of [1, 2, 3, 4, 5]">
+        <th class="dark:border-b-gray-700"><div class="skeleton h-6 rounded-md"></div></th>
+        <td class="dark:border-b-gray-700"><div class="skeleton h-6 rounded-md"></div></td>
+        <td class="dark:border-b-gray-700"><div class="skeleton h-6 rounded-md"></div></td>
+        <td class="dark:border-b-gray-700"><div class="skeleton h-6 rounded-md"></div></td>
       </tr>
       </tbody>
     </table>

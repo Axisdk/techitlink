@@ -9,6 +9,7 @@ import {Subject, takeUntil} from "rxjs";
 import {UserInterface} from "../../../../core/interfaces/user.interface";
 import {UserService} from "../../../../core/services/user.service";
 import {NgIf} from "@angular/common";
+import {NewsComponent} from "../../../../shared/components/news/news.component";
 
 @Component({
   selector: 'app-cabinet-info',
@@ -16,7 +17,8 @@ import {NgIf} from "@angular/common";
   imports: [
     TimetableComponent,
     MiniMessengerComponent,
-    NgIf
+    NgIf,
+    NewsComponent
   ],
   standalone: true
 })
@@ -27,17 +29,25 @@ export class CabinetInfoComponent implements OnInit {
 
   public destroy$: Subject<void> = new Subject<void>();
   public user!: UserInterface | null;
+  public isLoading: boolean = false
 
   constructor(
     private _userService: UserService,
   ) {}
 
   ngOnInit() {
+    this.isLoading = true
+
     this._userService.user$
       .pipe(takeUntil(this.destroy$))
       .subscribe((user: UserInterface | null) => {
         this.user = user;
       })
+
+    setTimeout(() => {
+      this.isLoading = false
+    }, 3000)
+
   }
 
 }

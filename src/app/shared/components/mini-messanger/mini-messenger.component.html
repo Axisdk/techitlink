@@ -5,26 +5,52 @@
 
     <div class="flex flex-col gap-1">
 
-      <div *ngFor="let message of userMessages"
-           class="px-5 py-2 flex justify-between items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-      >
-        <div class="flex justify-center items-center">
-          <div class="flex gap-3">
-            <div class="avatar avatar-xl">
-              <img [src]=[message.avatar] alt="avatar">
-            </div>
-            <div class="flex flex-col justify-start">
-              <h3 class="text-lg font-medium dark:text-gray-200">{{ message.name }}</h3>
-              <span class="text-sm text-neutral">{{ message.message[message.message.length - 1].message }}</span>
+      <div *ngIf="!isLoading">
+        <div *ngFor="let message of userMessages"
+             class="px-5 py-2 flex justify-between items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+        >
+          <div class="flex justify-center items-center">
+            <div class="flex gap-3">
+              <div class="avatar avatar-xl">
+                <img [src]=[message.avatar] alt="avatar">
+              </div>
+              <div class="flex flex-col justify-start">
+                <h3 class="text-lg font-medium dark:text-gray-200">{{ message.name }}</h3>
+                <span class="text-sm text-neutral">{{ message.message[message.message.length - 1].message }}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="flex justify-end items-center">
-            <span class="tooltip tooltip-top flex justify-center items-center" data-tooltip="Написать">
+          <div class="flex justify-end items-center">
+            <span class="tooltip tooltip-top flex justify-center items-center" data-tooltip="Написать" *ngIf="!loadingStates[message.id]">
               <button class="w-5" (click)="openMessage(message)">
                 <img src="./assets/images/icons/plain.svg" alt="message" class="dark:brightness-200">
               </button>
             </span>
+            <div *ngIf="loadingStates[message.id]">
+              <svg class="spinner-ring spinner-primary spinner-sm" viewBox="25 25 50 50" stroke-width="5">
+                <circle cx="50" cy="50" r="20" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isLoading">
+        <div *ngFor="let i of [1, 2, 3, 4, 5]"
+             class="px-5 py-2 flex justify-between items-center gap-3"
+        >
+          <div class="flex justify-center items-center">
+            <div class="flex gap-3">
+              <div class="skeleton w-14 h-14 rounded-full"></div>
+              <div class="flex flex-col justify-start gap-3">
+                <div class="skeleton w-56 h-5"></div>
+                <div class="skeleton w-24 h-3"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end items-center">
+            <div class="skeleton w-5 h-5 rounded-full"></div>
+          </div>
         </div>
       </div>
 
