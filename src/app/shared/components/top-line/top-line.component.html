@@ -5,8 +5,11 @@
               data-tooltip="Сменить тему"
               (click)="toggleTheme()"
       >
-        <img *ngIf="currentTheme === themeEnum.light" src="./assets/images/icons/moon.svg" alt="dark theme">
-        <img *ngIf="currentTheme === themeEnum.dark" src="./assets/images/icons/sun.svg" alt="light theme" class="dark:brightness-200">
+        @if (currentTheme === themeEnum.light) {
+          <img src="./assets/images/icons/moon.svg" alt="dark theme">
+        } @else {
+            <img src="./assets/images/icons/sun.svg" alt="light theme" class="dark:brightness-200">
+        }
       </button>
       <div class="breadcrumbs text-md">
         <ul>

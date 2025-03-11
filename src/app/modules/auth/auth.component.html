@@ -26,11 +26,12 @@
                    class="input input-xl input-block w-full border-none dark:text-gray-200 dark:bg-gray-900"
                    formControlName="email"
             />
-            <div *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched"
-                 class="text-red-600 text-md">
-              <small *ngIf="formGroup.get('email')?.errors?.['required']">Email обязателен</small>
-              <small *ngIf="formGroup.get('email')?.errors?.['email']">Некорректный Email</small>
-            </div>
+            @if (formGroup.get('email')?.invalid && formGroup.get('email')?.touched) {
+              <div class="text-red-600 text-md">
+                <small *ngIf="formGroup.get('email')?.errors?.['required']">Email обязателен</small>
+                <small *ngIf="formGroup.get('email')?.errors?.['email']">Некорректный Email</small>
+              </div>
+            }
           </div>
           <div class="form-field w-full">
             <label class="form-label text-gray-600 text-xs dark:text-gray-400">Пароль</label>
@@ -49,11 +50,12 @@
                 </svg>
               </span>
             </div>
-            <div *ngIf="formGroup.get('password')?.invalid && formGroup.get('password')?.touched"
-                 class="text-red-600 text-md">
-              <small *ngIf="formGroup.get('password')?.errors?.['required']">Пароль обязателен</small>
-              <small *ngIf="formGroup.get('password')?.errors?.['minlength']">Минимум 8 символов</small>
-            </div>
+            @if (formGroup.get('password')?.invalid && formGroup.get('password')?.touched) {
+              <div class="text-red-600 text-md">
+                <small *ngIf="formGroup.get('password')?.errors?.['required']">Пароль обязателен</small>
+                <small *ngIf="formGroup.get('password')?.errors?.['minlength']">Минимум 8 символов</small>
+              </div>
+            }
           </div>
           <div class="w-full">
             <label class="w-full flex justify-end items-center cursor-pointer gap-2">

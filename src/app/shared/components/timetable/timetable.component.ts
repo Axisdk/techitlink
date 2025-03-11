@@ -11,7 +11,6 @@ import {CardComponent} from "../card/card.component";
         NgForOf,
         ProgressComponent,
         CardComponent,
-        NgIf
     ]
 })
 

@@ -1,20 +1,24 @@
 <div class="w-full flex flex-col gap-3">
 
-  <div class="pl-5" *ngIf="!isLoading">
-    <h1 class="text-2xl font-medium dark:text-gray-200">Добро пожаловать {{ user?.fname + ' ' + user?.lname }}.👋</h1>
-  </div>
-  <div class="pl-5" *ngIf="isLoading">
-    <div class="skeleton w-96 h-8"></div>
-  </div>
-
-  <div class="flex gap-3" *ngIf="user">
-    <div class="w-8/12 flex flex-col gap-3">
-      <app-timetable [tablePosition]="tablePosition"></app-timetable>
+  @if (!isLoading) {
+    <div class="pl-5">
+      <h1 class="text-2xl font-medium dark:text-gray-200">Добро пожаловать {{ user?.fname + ' ' + user?.lname }}.👋</h1>
     </div>
-    <div class="w-4/12 flex flex-col gap-3">
-      <app-mini-messenger [userMessages]="user.message"></app-mini-messenger>
-      <app-news ></app-news>
+  } @else {
+    <div class="pl-5">
+      <div class="skeleton w-96 h-8"></div>
     </div>
-  </div>
+  }
 
+  @if (user) {
+    <div class="flex gap-3">
+      <div class="w-8/12 flex flex-col gap-3">
+        <app-timetable [tablePosition]="tablePosition" />
+      </div>
+      <div class="w-4/12 flex flex-col gap-3">
+        <app-mini-messenger [userMessages]="user.message" />
+        <app-news />
+      </div>
+    </div>
+  }
 </div>
