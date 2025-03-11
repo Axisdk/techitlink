@@ -8,15 +8,14 @@ import {BehaviorSubject, Subject, takeUntil} from "rxjs";
 import {NewsService} from "../../../core/services/news.service";
 
 @Component({
-  selector: 'app-news',
-  templateUrl: './news.component.html',
-  imports: [
-    CardComponent,
-    MessageModalComponent,
-    NgForOf,
-    NgIf
-  ],
-  standalone: true
+    selector: 'app-news',
+    templateUrl: './news.component.html',
+    imports: [
+        CardComponent,
+        MessageModalComponent,
+        NgForOf,
+        NgIf
+    ]
 })
 export class NewsComponent implements OnInit, OnDestroy {
 

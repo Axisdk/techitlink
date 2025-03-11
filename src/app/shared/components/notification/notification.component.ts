@@ -6,13 +6,12 @@ import {NgClass, NgIf} from "@angular/common";
 import {NotificationService} from "./notification.service";
 
 @Component({
-  selector: "app-notification",
-  templateUrl: "./notification.component.html",
-  imports: [
-    NgIf,
-    NgClass
-  ],
-  standalone: true,
+    selector: "app-notification",
+    templateUrl: "./notification.component.html",
+    imports: [
+        NgIf,
+        NgClass
+    ]
 })
 export class NotificationComponent implements OnInit, OnDestroy {
 

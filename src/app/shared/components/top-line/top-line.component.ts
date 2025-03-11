@@ -5,12 +5,11 @@ import {ThemeService} from "../../../core/services/theme.service";
 import {Subject, takeUntil} from "rxjs";
 
 @Component({
-  selector: 'app-top-line',
-  templateUrl: './top-line.component.html',
-  imports: [
-    NgIf
-  ],
-  standalone: true
+    selector: 'app-top-line',
+    templateUrl: './top-line.component.html',
+    imports: [
+        NgIf
+    ]
 })
 
 export class TopLineComponent implements OnInit, OnDestroy {

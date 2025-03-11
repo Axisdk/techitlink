@@ -5,14 +5,13 @@ import {UserService} from "./core/services/user.service";
 import {NotificationComponent} from "./shared/components/notification/notification.component";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  imports: [
-    RouterModule,
-    NotificationComponent
-  ],
-  standalone: true,
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    imports: [
+        RouterModule,
+        NotificationComponent
+    ]
 })
 export class AppComponent implements OnInit {
 

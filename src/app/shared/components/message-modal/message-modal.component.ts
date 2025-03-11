@@ -7,16 +7,15 @@ import { MessageComponent } from "../message/message.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 @Component({
-  selector: 'app-message-modal',
-  templateUrl: './message-modal.component.html',
-  imports: [
-    NgClass,
-    MessageComponent,
-    NgForOf,
-    NgIf,
-    ReactiveFormsModule
-  ],
-  standalone: true
+    selector: 'app-message-modal',
+    templateUrl: './message-modal.component.html',
+    imports: [
+        NgClass,
+        MessageComponent,
+        NgForOf,
+        NgIf,
+        ReactiveFormsModule
+    ]
 })
 export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messageContainer') private _messageContainer!: ElementRef;

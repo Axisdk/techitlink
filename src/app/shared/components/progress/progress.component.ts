@@ -2,12 +2,11 @@ import {Component, Input, OnInit} from "@angular/core";
 import {NgClass} from "@angular/common";
 
 @Component({
-  selector: 'app-progress',
-  templateUrl: './progress.component.html',
-  imports: [
-    NgClass
-  ],
-  standalone: true
+    selector: 'app-progress',
+    templateUrl: './progress.component.html',
+    imports: [
+        NgClass
+    ]
 })
 
 export class ProgressComponent implements OnInit {

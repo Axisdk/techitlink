@@ -9,13 +9,12 @@ import {NotificationService} from "../../shared/components/notification/notifica
 import {NotificationTypeEnum} from "../../shared/components/notification/core/enums/notification-type.enum";
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  imports: [
-    NgIf,
-    ReactiveFormsModule,
-  ],
-  standalone: true
+    selector: 'app-auth',
+    templateUrl: './auth.component.html',
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+    ]
 })
 
 export class AuthComponent implements OnInit{

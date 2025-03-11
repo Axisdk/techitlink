@@ -5,15 +5,14 @@ import {ProgressComponent} from "../progress/progress.component";
 import {CardComponent} from "../card/card.component";
 
 @Component({
-  selector: 'app-timetable',
-  templateUrl: './timetable.component.html',
-  imports: [
-    NgForOf,
-    ProgressComponent,
-    CardComponent,
-    NgIf
-  ],
-  standalone: true
+    selector: 'app-timetable',
+    templateUrl: './timetable.component.html',
+    imports: [
+        NgForOf,
+        ProgressComponent,
+        CardComponent,
+        NgIf
+    ]
 })
 
 export class TimetableComponent implements OnInit {

@@ -7,15 +7,14 @@ import {MessageModalService} from "../message-modal/message-modal.service";
 import {CardComponent} from "../card/card.component";
 
 @Component({
-  selector: 'app-mini-messenger',
-  templateUrl: 'mini-messenger.component.html',
-  imports: [
-    NgForOf,
-    MessageModalComponent,
-    CardComponent,
-    NgIf
-  ],
-  standalone: true
+    selector: 'app-mini-messenger',
+    templateUrl: 'mini-messenger.component.html',
+    imports: [
+        NgForOf,
+        MessageModalComponent,
+        CardComponent,
+        NgIf
+    ]
 })
 
 export class MiniMessengerComponent implements OnInit, OnDestroy {

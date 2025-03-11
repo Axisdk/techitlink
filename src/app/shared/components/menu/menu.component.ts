@@ -5,12 +5,11 @@ import {UserService} from "../../../core/services/user.service";
 import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  imports: [
-    NgIf
-  ],
-  standalone: true
+    selector: 'app-menu',
+    templateUrl: './menu.component.html',
+    imports: [
+        NgIf
+    ]
 })
 
 export class MenuComponent implements OnInit {

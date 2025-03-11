@@ -9,15 +9,14 @@ import {UserInterface} from "../../core/interfaces/user.interface";
 import {UserService} from "../../core/services/user.service";
 
 @Component({
-  selector: 'app-cabinet',
-  templateUrl: './cabinet.component.html',
-  imports: [
-    MenuComponent,
-    TopLineComponent,
-    RouterOutlet,
-    MessageModalComponent
-  ],
-  standalone: true
+    selector: 'app-cabinet',
+    templateUrl: './cabinet.component.html',
+    imports: [
+        MenuComponent,
+        TopLineComponent,
+        RouterOutlet,
+        MessageModalComponent
+    ]
 })
 
 export class CabinetComponent implements OnInit {

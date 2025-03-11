@@ -12,15 +12,14 @@ import {NgIf} from "@angular/common";
 import {NewsComponent} from "../../../../shared/components/news/news.component";
 
 @Component({
-  selector: 'app-cabinet-info',
-  templateUrl: './cabinet-info.component.html',
-  imports: [
-    TimetableComponent,
-    MiniMessengerComponent,
-    NgIf,
-    NewsComponent
-  ],
-  standalone: true
+    selector: 'app-cabinet-info',
+    templateUrl: './cabinet-info.component.html',
+    imports: [
+        TimetableComponent,
+        MiniMessengerComponent,
+        NgIf,
+        NewsComponent
+    ]
 })
 
 export class CabinetInfoComponent implements OnInit {
