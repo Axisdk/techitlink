@@ -1,15 +1,11 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ThemeEnum} from "../../../core/enums/theme.enum";
-import {NgIf} from "@angular/common";
 import {ThemeService} from "../../../core/services/theme.service";
-import {Subject, takeUntil} from "rxjs";
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'app-top-line',
-    templateUrl: './top-line.component.html',
-    imports: [
-        NgIf
-    ]
+    templateUrl: './top-line.component.html'
 })
 
 export class TopLineComponent implements OnInit, OnDestroy {

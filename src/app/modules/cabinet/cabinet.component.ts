@@ -15,7 +15,6 @@ import {UserService} from "../../core/services/user.service";
         MenuComponent,
         TopLineComponent,
         RouterOutlet,
-        MessageModalComponent
     ]
 })
 

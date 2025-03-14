@@ -3,12 +3,9 @@ import {TimetableComponent} from "../../../../shared/components/timetable/timeta
 import {TimeTableInterface} from "../../../../core/interfaces/time-table.interface";
 import {TimeTableMocks} from "../../../../mocks/time-table.mocks";
 import {MiniMessengerComponent} from "../../../../shared/components/mini-messanger/mini-messenger.component";
-import {MiniMessengerMocks} from "../../../../mocks/mini-messenger.mocks";
-import {MessengerInterface} from "../../../../core/interfaces/messenger.interface";
 import {Subject, takeUntil} from "rxjs";
 import {UserInterface} from "../../../../core/interfaces/user.interface";
 import {UserService} from "../../../../core/services/user.service";
-import {NgIf} from "@angular/common";
 import {NewsComponent} from "../../../../shared/components/news/news.component";
 
 @Component({
@@ -17,7 +14,6 @@ import {NewsComponent} from "../../../../shared/components/news/news.component";
     imports: [
         TimetableComponent,
         MiniMessengerComponent,
-        NgIf,
         NewsComponent
     ]
 })

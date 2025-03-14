@@ -9,5 +9,4 @@ export interface UserInterface {
   email: string
   password: string
   avatar_url: string
-  message: MessengerInterface[]
 }

@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {TimeTableInterface} from "../../../core/interfaces/time-table.interface";
-import {NgForOf, NgIf} from "@angular/common";
 import {ProgressComponent} from "../progress/progress.component";
 import {CardComponent} from "../card/card.component";
 
@@ -8,7 +7,6 @@ import {CardComponent} from "../card/card.component";
     selector: 'app-timetable',
     templateUrl: './timetable.component.html',
     imports: [
-        NgForOf,
         ProgressComponent,
         CardComponent,
     ]

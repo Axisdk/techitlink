@@ -1,10 +1,8 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {CardComponent} from "../card/card.component";
 import {MessageModalComponent} from "../message-modal/message-modal.component";
-import {NgForOf, NgIf} from "@angular/common";
 import {NewsInterface} from "../../../core/interfaces/news.interface";
-import {newsMocks} from "../../../mocks/news.mocks";
-import {BehaviorSubject, Subject, takeUntil} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 import {NewsService} from "../../../core/services/news.service";
 
 @Component({
@@ -13,8 +11,6 @@ import {NewsService} from "../../../core/services/news.service";
     imports: [
         CardComponent,
         MessageModalComponent,
-        NgForOf,
-        NgIf
     ]
 })
 export class NewsComponent implements OnInit, OnDestroy {
@@ -45,7 +41,6 @@ export class NewsComponent implements OnInit, OnDestroy {
       this._newsService.news$
         .pipe(takeUntil(this._destroy$))
         .subscribe((news: NewsInterface[] | null) => {
-          console.log(news)
           if(!news) return
           this.news = news.slice(0, 5).map((newsItem: NewsInterface, index: number) => {
             return {

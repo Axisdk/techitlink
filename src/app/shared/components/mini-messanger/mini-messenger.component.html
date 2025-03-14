@@ -5,23 +5,27 @@
 
     <div class="flex flex-col gap-1">
       @if (!isLoading) {
-        @for (message of userMessages; track message.id) {
+        @for (message of userMessages; track message.id; let companionId = $index) {
           <div class="px-5 py-2 flex justify-between items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700">
             <div class="flex justify-center items-center">
               <div class="flex gap-3">
                 <div class="avatar avatar-xl">
-                  <img [src]=[message.avatar] alt="avatar">
+                  <img [src]="companionsMap[companionId].avatar_url" alt="avatar">
                 </div>
                 <div class="flex flex-col justify-start">
-                  <h3 class="text-lg font-medium dark:text-gray-200">{{ message.name }}</h3>
-                  <span class="text-sm text-neutral">{{ message.message[message.message.length - 1].message }}</span>
+                  <h3 class="text-lg font-medium dark:text-gray-200">
+                    {{ getFullNameCompanion(companionsMap[companionId]) }}
+                  </h3>
+                  <span class="text-sm text-neutral">
+                    {{ getLastMessage(message) }}
+                  </span>
                 </div>
               </div>
             </div>
             <div class="flex justify-end items-center">
               @if (!loadingStates[message.id]) {
                 <span class="tooltip tooltip-top flex justify-center items-center" data-tooltip="Написать">
-                  <button class="w-5" (click)="openMessage(message)">
+                  <button class="w-5" (click)="openMessage(message, companionsMap[companionId])">
                     <img src="./assets/images/icons/plain.svg" alt="message" class="dark:brightness-200">
                   </button>
                 </span>

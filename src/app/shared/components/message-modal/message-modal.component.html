@@ -8,20 +8,20 @@
        (click)="toggleModal()"
   ></div>
 
-  @if (message) {
+  @if (message && companion) {
     <div class="relative card dark:bg-gray-800 max-w-full w-6/12 z-30">
       <div class="absolute top-5 right-5 cursor-pointer dark:text-gray-200" (click)="toggleModal()">X</div>
       <div class="card-body">
         <div class="flex justify-start items-center gap-2">
           <div class="avatar avatar-md">
-            <img [src]="message.avatar" alt="avatar">
+            <img [src]="companion.avatar_url" alt="avatar">
           </div>
-          <span class="text-xl font-medium dark:text-gray-200">{{ message.name }}</span>
+          <span class="text-xl font-medium dark:text-gray-200">{{ companion.fname + ' ' + companion.lname }}</span>
         </div>
         <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
         <div #messageContainer class="p-5 flex flex-col gap-2 w-full h-96 overflow-y-auto scroll-smooth snap-end bg-gray-100 dark:bg-gray-900">
           <div class="flex flex-col gap-2">
-            @for (message of message.message; track message.id) {
+            @for (message of message.messages; track message.id) {
               <app-message [message]="message"></app-message>
             }
           </div>
@@ -35,11 +35,17 @@
                      formControlName="message"
               />
               <div class="absolute top-1/2 right-5 -translate-y-1/2">
-                <button class="w-5 h-5 flex justify-center items-center"
-                        (click)="sendMessage()"
-                >
-                  <img src="./assets/images/icons/plain.svg" alt="send message" class="dark:brightness-200">
-                </button>
+                @if (!isLoading) {
+                  <button class="w-5 h-5 flex justify-center items-center"
+                          (click)="sendMessage()"
+                  >
+                    <img src="./assets/images/icons/plain.svg" alt="send message" class="dark:brightness-200">
+                  </button>
+                } @else {
+                  <svg class="spinner-ring spinner-primary spinner-sm" viewBox="25 25 50 50" stroke-width="5">
+                    <circle cx="50" cy="50" r="20" />
+                  </svg>
+                }
               </div>
             </div>
           </form>

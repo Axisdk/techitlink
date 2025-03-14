@@ -1,24 +1,26 @@
-<div class="w-full flex flex-col gap-3">
+@if (user) {
+  <div class="w-full flex flex-col gap-3">
 
-  @if (!isLoading) {
-    <div class="pl-5">
-      <h1 class="text-2xl font-medium dark:text-gray-200">Добро пожаловать {{ user?.fname + ' ' + user?.lname }}.👋</h1>
-    </div>
-  } @else {
-    <div class="pl-5">
-      <div class="skeleton w-96 h-8"></div>
-    </div>
-  }
+    @if (!isLoading) {
+      <div class="pl-5">
+        <h1 class="text-2xl font-medium dark:text-gray-200">Добро пожаловать {{ user.fname + ' ' + user.lname }}.👋</h1>
+      </div>
+    } @else {
+      <div class="pl-5">
+        <div class="skeleton w-96 h-8"></div>
+      </div>
+    }
 
-  @if (user) {
     <div class="flex gap-3">
       <div class="w-8/12 flex flex-col gap-3">
         <app-timetable [tablePosition]="tablePosition" />
       </div>
       <div class="w-4/12 flex flex-col gap-3">
-        <app-mini-messenger [userMessages]="user.message" />
+        <app-mini-messenger [user]="user" />
         <app-news />
       </div>
     </div>
-  }
-</div>
+
+  </div>
+}
+

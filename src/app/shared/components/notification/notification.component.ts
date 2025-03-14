@@ -1,15 +1,14 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {Subject, takeUntil} from "rxjs";
 import {NotificationInterface} from "./core/interfaces/notification.interface";
 import {NotificationTypeEnum} from "./core/enums/notification-type.enum";
-import {NgClass, NgIf} from "@angular/common";
+import {NgClass} from "@angular/common";
 import {NotificationService} from "./notification.service";
 
 @Component({
     selector: "app-notification",
     templateUrl: "./notification.component.html",
     imports: [
-        NgIf,
         NgClass
     ]
 })

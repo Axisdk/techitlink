@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, RouterModule} from "@angular/router";
+import { RouterModule} from "@angular/router";
 import {LocalStorageService} from "./core/services/localstorage.service";
 import {UserService} from "./core/services/user.service";
 import {NotificationComponent} from "./shared/components/notification/notification.component";

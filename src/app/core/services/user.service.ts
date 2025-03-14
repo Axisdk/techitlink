@@ -43,6 +43,17 @@ export class UserService {
     localStorage.setItem(userLocalstorageConst, JSON.stringify(userData))
   }
 
+  public getUser(id: number): UserInterface | null {
+    const foundUser: UserInterface | undefined = this.userMocks.find((user: UserInterface): boolean => user.id === id);
+    if (!foundUser) return null
+
+    return foundUser
+  }
+
+  public getIdThisUser(): number | null {
+    return this.user$.value?.id ?? null
+  }
+
   public authUser(userData: AuthInterface): boolean {
     if (!userData) return false;
 

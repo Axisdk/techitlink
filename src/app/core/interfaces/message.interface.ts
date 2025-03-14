@@ -1,5 +1,5 @@
 export interface MessageInterface {
   id: number
-  send: string
+  senderId: number
   message: string
 }
