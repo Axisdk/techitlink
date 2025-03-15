@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {TimetableComponent} from "../../../../shared/components/timetable/timetable.component";
+import {RatingTableComponent} from "../../../../shared/components/rating-table/rating-table.component";
 import {TimeTableInterface} from "../../../../core/interfaces/time-table.interface";
 import {TimeTableMocks} from "../../../../mocks/time-table.mocks";
 import {MiniMessengerComponent} from "../../../../shared/components/mini-messanger/mini-messenger.component";
@@ -12,15 +12,13 @@ import {NewsComponent} from "../../../../shared/components/news/news.component";
     selector: 'app-cabinet-info',
     templateUrl: './cabinet-info.component.html',
     imports: [
-        TimetableComponent,
+        RatingTableComponent,
         MiniMessengerComponent,
         NewsComponent
     ]
 })
 
 export class CabinetInfoComponent implements OnInit {
-
-  protected readonly tablePosition: TimeTableInterface[] = TimeTableMocks
 
   public destroy$: Subject<void> = new Subject<void>();
   public user!: UserInterface | null;
