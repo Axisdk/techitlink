@@ -33,6 +33,7 @@
               <input class="input-block input-solid input-xl input dark:bg-gray-900 dark:text-gray-200"
                      placeholder="Написать сообщение..."
                      formControlName="message"
+                     [readonly]="isLoading"
               />
               <div class="absolute top-1/2 right-5 -translate-y-1/2">
                 @if (!isLoading) {
@@ -42,7 +43,7 @@
                     <img src="./assets/images/icons/plain.svg" alt="send message" class="dark:brightness-200">
                   </button>
                 } @else {
-                  <svg class="spinner-ring spinner-primary spinner-sm" viewBox="25 25 50 50" stroke-width="5">
+                  <svg class="spinner-ring" viewBox="25 25 50 50" stroke-width="5">
                     <circle cx="50" cy="50" r="20" />
                   </svg>
                 }

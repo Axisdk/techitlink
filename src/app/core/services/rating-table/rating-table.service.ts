@@ -19,7 +19,6 @@ export class RatingTableService {
       this._ratingTable.filter((table: TimeTableInterface): boolean => table.forUser === userId);
 
     this.ratingTable$.next(filteredRatingTable);
-    console.log(filteredRatingTable)
   }
 
 }

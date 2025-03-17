@@ -1,7 +1,5 @@
 import {Component, OnInit} from "@angular/core";
 import {RatingTableComponent} from "../../../../shared/components/rating-table/rating-table.component";
-import {TimeTableInterface} from "../../../../core/interfaces/time-table.interface";
-import {TimeTableMocks} from "../../../../mocks/time-table.mocks";
 import {MiniMessengerComponent} from "../../../../shared/components/mini-messanger/mini-messenger.component";
 import {Subject, takeUntil} from "rxjs";
 import {UserInterface} from "../../../../core/interfaces/user.interface";
