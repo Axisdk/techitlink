@@ -5,9 +5,9 @@ import {MessageModalService} from "./message-modal.service";
 import {MessageComponent} from "../message/message.component";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UserInterface} from "../../../core/interfaces/user.interface";
-import {MessengerService} from "../../../core/services/messenger.service";
+import {MessengerService} from "../../../core/services/messanger/messenger.service";
 import {MessageInterface} from "../../../core/interfaces/message.interface";
-import {UserService} from "../../../core/services/user.service";
+import {UserService} from "../../../core/services/user/user.service";
 import {NotificationService} from "../notification/notification.service";
 import {NotificationTypeEnum} from "../notification/core/enums/notification-type.enum";
 

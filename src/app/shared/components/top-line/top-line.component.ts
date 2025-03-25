@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ThemeEnum} from "../../../core/enums/theme.enum";
-import {ThemeService} from "../../../core/services/theme.service";
 import {Subject} from "rxjs";
+import {ThemeService} from "../../../core/services/theme/theme.service";
 
 @Component({
     selector: 'app-top-line',

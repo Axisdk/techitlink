@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
-import {ThemeEnum} from "../enums/theme.enum";
-import {themeLocalStorage} from "../consts/theme-localstorage.const";
-import {UserInterface} from "../interfaces/user.interface";
-import {userLocalstorageConst} from "../consts/user-localstorage.const";
-import {UserService} from "./user.service";
+import {ThemeEnum} from "../../enums/theme.enum";
+import {themeLocalStorage} from "../../consts/theme-localstorage.const";
+import {UserInterface} from "../../interfaces/user.interface";
+import {userLocalstorageConst} from "../../consts/user-localstorage.const";
+import {UserService} from "../user/user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class LocalStorageService {
 
   constructor() {}
 
-  private applyTheme(theme: string) {
+  private applyTheme(theme: string): void {
     const htmlElement: HTMLElement = document.documentElement;
 
     if (theme === ThemeEnum.dark) {
@@ -36,7 +36,7 @@ export class LocalStorageService {
     }
   }
 
-  public changeTheme(theme: string | null) {
+  public changeTheme(theme: string | null): void  {
     if (!theme) return;
 
     // Сохраняем тему в localStorage
@@ -46,8 +46,8 @@ export class LocalStorageService {
     this.applyTheme(theme);
   }
 
-  public initializeTheme() {
-    const savedTheme = this.getTheme;
+  public initializeTheme(): void {
+    const savedTheme: string | null = this.getTheme;
 
     if (savedTheme) {
       this.applyTheme(savedTheme);

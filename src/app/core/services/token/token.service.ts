@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {userTokenLocalstorageConst} from "../consts/user-token-localstorage.const";
+import {userTokenLocalstorageConst} from "../../consts/user-token-localstorage.const";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,8 @@ export class TokenService {
     localStorage.setItem(userTokenLocalstorageConst, JSON.stringify(token));
   }
 
-  public checkToken(token: number | null): boolean {
+  public checkToken(): boolean {
+    const token: number | null = this.getToken()
     if (!token) return false
 
     const dateNow: Date = new Date();

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {Router, RouterLink} from "@angular/router";
 import {UserInterface} from "../../../core/interfaces/user.interface";
-import {UserService} from "../../../core/services/user.service";
+import {UserService} from "../../../core/services/user/user.service";
 import {NgIf} from "@angular/common";
 
 @Component({

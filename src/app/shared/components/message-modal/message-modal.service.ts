@@ -3,7 +3,7 @@ import { BehaviorSubject } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { MessengerInterface } from "../../../core/interfaces/messenger.interface";
 import { UserInterface } from "../../../core/interfaces/user.interface";
-import { MessengerService } from "../../../core/services/messenger.service";
+import { MessengerService } from "../../../core/services/messanger/messenger.service";
 
 @Injectable({
   providedIn: 'root'

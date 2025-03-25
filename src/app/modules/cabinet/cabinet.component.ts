@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
-import {TokenService} from "../../core/services/token.service";
+import {TokenService} from "../../core/services/token/token.service";
 import {Router, RouterOutlet} from "@angular/router";
 import {MenuComponent} from "../../shared/components/menu/menu.component";
 import {TopLineComponent} from "../../shared/components/top-line/top-line.component";
 import {MessageModalComponent} from "../../shared/components/message-modal/message-modal.component";
 import {BehaviorSubject, Subject, take, takeUntil} from "rxjs";
 import {UserInterface} from "../../core/interfaces/user.interface";
-import {UserService} from "../../core/services/user.service";
+import {UserService} from "../../core/services/user/user.service";
 
 @Component({
     selector: 'app-cabinet',

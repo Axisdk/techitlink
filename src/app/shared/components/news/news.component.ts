@@ -3,7 +3,7 @@ import {CardComponent} from "../card/card.component";
 import {MessageModalComponent} from "../message-modal/message-modal.component";
 import {NewsInterface} from "../../../core/interfaces/news.interface";
 import {Subject, takeUntil} from "rxjs";
-import {NewsService} from "../../../core/services/news.service";
+import {NewsService} from "../../../core/services/news/news.service";
 
 @Component({
     selector: 'app-news',

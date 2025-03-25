@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
-import {ThemeEnum} from "../enums/theme.enum";
+import {ThemeEnum} from "../../enums/theme.enum";
 import {BehaviorSubject} from "rxjs";
-import {LocalStorageService} from "./localstorage.service";
+import {LocalStorageService} from "../localstorage/localstorage.service";
 
 @Injectable({
   providedIn: 'root'

@@ -3,8 +3,9 @@ import {RatingTableComponent} from "../../../../shared/components/rating-table/r
 import {MiniMessengerComponent} from "../../../../shared/components/mini-messanger/mini-messenger.component";
 import {Subject, takeUntil} from "rxjs";
 import {UserInterface} from "../../../../core/interfaces/user.interface";
-import {UserService} from "../../../../core/services/user.service";
+import {UserService} from "../../../../core/services/user/user.service";
 import {NewsComponent} from "../../../../shared/components/news/news.component";
+import {CalendarComponent} from "../../../../shared/components/calendar/calendar.component";
 
 @Component({
     selector: 'app-cabinet-info',
@@ -12,7 +13,8 @@ import {NewsComponent} from "../../../../shared/components/news/news.component";
     imports: [
         RatingTableComponent,
         MiniMessengerComponent,
-        NewsComponent
+        NewsComponent,
+        CalendarComponent
     ]
 })
 

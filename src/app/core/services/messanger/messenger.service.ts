@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
-import {messengerLocalStorage} from "../consts/messenger-localstorage";
-import {MessengerInterface} from "../interfaces/messenger.interface";
-import {MessengersMocks} from "../../mocks/messenger.mocks";
+import {messengerLocalStorage} from "../../consts/messenger-localstorage";
+import {MessengerInterface} from "../../interfaces/messenger.interface";
+import {MessengersMocks} from "../../../mocks/messenger.mocks";
 import {BehaviorSubject} from "rxjs";
-import {UserService} from "./user.service";
-import {UserInterface} from "../interfaces/user.interface";
-import {MessageInterface} from "../interfaces/message.interface";
+import {UserService} from "../user/user.service";
+import {UserInterface} from "../../interfaces/user.interface";
+import {MessageInterface} from "../../interfaces/message.interface";
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {MessageInterface} from "../../../core/interfaces/message.interface";
 import {UserInterface} from "../../../core/interfaces/user.interface";
-import {UserService} from "../../../core/services/user.service";
+import {UserService} from "../../../core/services/user/user.service";
 import {Subject, takeUntil} from "rxjs";
 
 @Component({

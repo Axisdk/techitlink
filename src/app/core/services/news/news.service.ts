@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject} from "rxjs";
-import {NewsInterface} from "../interfaces/news.interface";
-import {newsMocks} from "../../mocks/news.mocks";
+import {NewsInterface} from "../../interfaces/news.interface";
+import {newsMocks} from "../../../mocks/news.mocks";
 
 @Injectable({
   providedIn: 'root'

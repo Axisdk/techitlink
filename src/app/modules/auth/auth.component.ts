@@ -2,9 +2,9 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {Router} from "@angular/router";
-import {TokenService} from "../../core/services/token.service";
+import {TokenService} from "../../core/services/token/token.service";
 import {AuthInterface} from "../../core/interfaces/auth.interface";
-import {UserService} from "../../core/services/user.service";
+import {UserService} from "../../core/services/user/user.service";
 import {NotificationService} from "../../shared/components/notification/notification.service";
 import {NotificationTypeEnum} from "../../shared/components/notification/core/enums/notification-type.enum";
 

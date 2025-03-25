@@ -4,9 +4,9 @@ import {MessageModalComponent} from "../message-modal/message-modal.component";
 import {BehaviorSubject, Subject, takeUntil} from "rxjs";
 import {MessageModalService} from "../message-modal/message-modal.service";
 import {CardComponent} from "../card/card.component";
-import {MessengerService} from "../../../core/services/messenger.service";
+import {MessengerService} from "../../../core/services/messanger/messenger.service";
 import {UserInterface} from "../../../core/interfaces/user.interface";
-import {UserService} from "../../../core/services/user.service";
+import {UserService} from "../../../core/services/user/user.service";
 import {MessageInterface} from "../../../core/interfaces/message.interface";
 
 @Component({
