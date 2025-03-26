@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { RouterModule} from "@angular/router";
 import {NotificationComponent} from "./shared/components/notification/notification.component";
+import {LocalStorageService} from "./core/services/localstorage/localstorage.service";
 
 @Component({
     selector: 'app-root',
@@ -11,8 +12,14 @@ import {NotificationComponent} from "./shared/components/notification/notificati
         NotificationComponent
     ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  constructor() {}
+  constructor(
+    private _localStorageService: LocalStorageService,
+  ) {}
+
+  ngOnInit() {
+    this._localStorageService.initializeTheme()
+  }
 
 }
