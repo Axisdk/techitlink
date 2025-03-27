@@ -1,6 +1,5 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, signal, WritableSignal} from "@angular/core";
 import {CardComponent} from "../card/card.component";
-import {MessageModalComponent} from "../message-modal/message-modal.component";
 import {NewsInterface} from "../../../core/interfaces/news.interface";
 import {Subject, takeUntil} from "rxjs";
 import {NewsService} from "../../../core/services/news/news.service";
@@ -10,7 +9,6 @@ import {NewsService} from "../../../core/services/news/news.service";
     templateUrl: './news.component.html',
     imports: [
         CardComponent,
-        MessageModalComponent,
     ]
 })
 export class NewsComponent implements OnInit, OnDestroy {
@@ -18,7 +16,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
   public news!: NewsInterface[]
-  public isLoading: boolean = false;
+  public isLoading: WritableSignal<boolean> = signal(false);
 
   constructor(
     private _newsService: NewsService,
@@ -34,7 +32,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isLoading = true
+    this.isLoading.update((value: boolean): boolean => !value)
     this._newsService.getNews()
 
     setTimeout(() => {
@@ -48,7 +46,7 @@ export class NewsComponent implements OnInit, OnDestroy {
               order: index + 1,
             };
           });
-          this.isLoading = false
+          this.isLoading.update((value: boolean): boolean => !value)
         })
     }, 3000)
   }

@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {Component, Input, OnDestroy, OnInit, signal, WritableSignal} from "@angular/core";
 import {TimeTableInterface} from "../../../core/interfaces/time-table.interface";
 import {ProgressComponent} from "../progress/progress.component";
 import {CardComponent} from "../card/card.component";
@@ -21,7 +21,7 @@ export class RatingTableComponent implements OnInit, OnDestroy {
 
   private _destroy$: Subject<void> = new Subject<void>();
 
-  public isLoading: boolean = false
+  public isLoading: WritableSignal<boolean> = signal(false)
   public tablePosition!: TimeTableInterface[]
 
   constructor(
@@ -30,7 +30,7 @@ export class RatingTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._ratingTableService.getRatingTable(this.user.id)
-    this.isLoading = true
+    this.isLoading.update((value: boolean): boolean => !value)
 
     setTimeout(() => {
       this._ratingTableService.ratingTable$
@@ -38,7 +38,7 @@ export class RatingTableComponent implements OnInit, OnDestroy {
         .subscribe((ratingTable : TimeTableInterface[] | null) => {
           if (!ratingTable) return
           this.tablePosition = ratingTable
-          this.isLoading = false
+          this.isLoading.update((value: boolean): boolean => !value)
         })
     }, 3000)
   }

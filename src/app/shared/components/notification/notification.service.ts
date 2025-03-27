@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject} from "rxjs";
 import {NotificationInterface} from "./core/interfaces/notification.interface";
-import {NotificationTypeEnum} from "./core/enums/notification-type.enum";
 
 @Injectable({
   providedIn: 'root'

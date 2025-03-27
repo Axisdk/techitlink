@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, signal, WritableSignal} from "@angular/core";
 import {ThemeEnum} from "../../../core/enums/theme.enum";
-import {Subject} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 import {ThemeService} from "../../../core/services/theme/theme.service";
 
 @Component({
@@ -14,29 +14,37 @@ export class TopLineComponent implements OnInit, OnDestroy {
 
   private _destroy$: Subject<void> = new Subject<void>()
 
-  public currentTheme: string | null = ThemeEnum.light
+  protected currentTheme: WritableSignal<ThemeEnum> = signal(this.themeEnum.light)
 
   constructor(
     private _themeService: ThemeService
   ) {}
 
-  public toggleTheme() {
+  private _initTheme(): void {
+    this._themeService.initTheme()
+  }
+
+  private _getTheme(): void {
+
+    this._themeService.currentTheme$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((theme: ThemeEnum): void => {
+        this.currentTheme.set(theme)
+      })
+  }
+
+  protected toggleTheme(): void {
     this._themeService.toggleTheme()
-    this.getTheme()
   }
 
-  private getTheme() {
-    this.currentTheme = this._themeService.currentTheme ?? null
+  ngOnInit(): void {
+    this._initTheme()
+    this._getTheme()
   }
 
-  ngOnInit() {
-    this.getTheme()
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._destroy$.next()
     this._destroy$.complete()
   }
-
 
 }

@@ -1,22 +1,18 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {Router, RouterLink} from "@angular/router";
+import {Component, Input, OnInit, signal, WritableSignal} from "@angular/core";
+import {Router} from "@angular/router";
 import {UserInterface} from "../../../core/interfaces/user.interface";
 import {UserService} from "../../../core/services/user/user.service";
-import {NgIf} from "@angular/common";
 
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.component.html',
-    imports: [
-        NgIf
-    ]
 })
 
 export class MenuComponent implements OnInit {
 
   @Input() user!: UserInterface
 
-  public isLoading: boolean = false
+  protected isLoading: WritableSignal<boolean> = signal(false)
 
   constructor(
     private _router: Router,
@@ -30,12 +26,12 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoading = true
+    this.isLoading.update((value: boolean): boolean => !value)
 
     setTimeout(() => {
       if(!this.user) return
-      this.isLoading = false
-    }, 3000)
+      this.isLoading.update((value: boolean): boolean => !value)
+    }, 1500)
   }
 
 }
