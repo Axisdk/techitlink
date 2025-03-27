@@ -1,27 +1,35 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgIf} from "@angular/common";
-import {AuthService} from "./auth.service";
+import {Router} from "@angular/router";
+import {TokenService} from "../../core/services/token/token.service";
+import {AuthInterface} from "../../core/interfaces/auth.interface";
+import {UserService} from "../../core/services/user/user.service";
+import {NotificationService} from "../../shared/components/notification/notification.service";
+import {NotificationTypeEnum} from "../../shared/components/notification/core/enums/notification-type.enum";
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  imports: [
-    NgIf,
-    ReactiveFormsModule,
-  ],
-  standalone: true
+    selector: 'app-auth',
+    templateUrl: './auth.component.html',
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+    ]
 })
 
 export class AuthComponent implements OnInit{
 
+  public authData!: AuthInterface
   public formGroup!: FormGroup
   public isShowPassword: boolean = false
   public isLoading: boolean = false
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _authService: AuthService
+    private _router: Router,
+    private _tokenService: TokenService,
+    private _userService: UserService,
+    private _notificationService: NotificationService
   ) {}
 
   private _initForm() {
@@ -37,11 +45,35 @@ export class AuthComponent implements OnInit{
   }
 
   public onSubmit() {
-    this.isLoading = true
+    this.isLoading = true;
+
     setTimeout(() => {
-      this._authService.setToken()
-      this.isLoading = false
-    }, 1000)
+      this.authData = this.formGroup.value;
+
+      this._userService.setUser(this.authData);
+
+      const isCorrectUser: boolean = this._userService.authUser(this.authData);
+
+      if (!isCorrectUser) {
+        this._notificationService.showNotification({
+          type: NotificationTypeEnum.error,
+          title: 'Ошибка',
+          message: 'Неверный логин или пароль'
+        })
+        this.isLoading = false;
+        return;
+      }
+
+      this._tokenService.setToken();
+      this._notificationService.showNotification({
+        type: NotificationTypeEnum.success,
+        title: 'Добро пожаловать!',
+        message: 'Спасибо за авторизацию'
+      })
+      this.isLoading = false;
+
+      this._router.navigate(['/cabinet']).then();
+    }, 1000);
   }
 
   ngOnInit() {

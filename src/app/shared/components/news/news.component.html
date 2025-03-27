@@ -1,0 +1,59 @@
+<app-card>
+  <div class="flex flex-col">
+    <h2 class="text-2xl font-medium dark:text-gray-200">Последние новости</h2>
+    <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
+
+    @if (!isLoading) {
+      <div class="flex flex-col gap-1">
+        @for (news of news; track news.date) {
+          <div class="px-5 py-2 flex justify-between items-center gap-3 cursor-pointer duration-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+            <div class="flex justify-center items-center">
+              <div class="flex gap-3">
+                <div class="flex justify-between items-start">
+                  <div class="flex flex-col gap-3 w-4/5">
+                    <h3 class="text-lg font-medium dark:text-gray-200">{{ news.title }}</h3>
+                    <span class="text-sm text-neutral line-clamp-2">{{ news.text }}</span>
+                  </div>
+                  <div class="flex flex-col justify-center items-end w-1/5">
+                    <span class="text-sm text-neutral">{{ parseDate(news.date) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <ng-container>
+        <div class="flex flex-col gap-1">
+          @for (i of [1, 2, 3]; track i) {
+            <div class="px-5 py-2 flex justify-between items-center gap-3">
+              <div class="flex justify-center items-center">
+                <div class="flex gap-3">
+                  <div class="w-full flex justify-between items-start gap-5">
+                    <div class="flex flex-col gap-3">
+                      <div class="skeleton w-80 h-5"></div>
+                      <div class="skeleton w-72 h-4"></div>
+                      <div class="skeleton w-72 h-4"></div>
+                    </div>
+                    <div class="flex flex-col justify-center items-end">
+                      <div class="skeleton w-14 h-3"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </ng-container>
+    }
+
+
+
+
+
+  </div>
+</app-card>
+
+<app-message-modal></app-message-modal>
+

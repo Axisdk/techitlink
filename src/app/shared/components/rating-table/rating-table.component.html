@@ -1,0 +1,69 @@
+<app-card>
+  <div class="flex flex-col w-full">
+    <h2 class="text-2xl font-medium dark:text-gray-200">Успеваемость по предметам</h2>
+    <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
+    @if (!isLoading) {
+      <table class="table-hover table dark:bg-gray-800">
+        <thead class="bg-blue-500 dark:bg-gray-800">
+        <tr>
+          <th class="font-medium border-none dark:text-neutral dark:bg-gray-800">Предмет</th>
+          <th class="font-medium border-none dark:text-neutral dark:bg-gray-800">Преподаватель</th>
+          <th class="font-medium border-none dark:text-neutral dark:bg-gray-800">Успеваемость</th>
+          <th class="font-medium border-none dark:text-neutral dark:bg-gray-800">Действие</th>
+        </tr>
+        </thead>
+        <tbody class="dark:bg-gray-800">
+          @for (position of tablePosition; track  position.item) {
+            <tr class="group bg-gray-100 hover:!bg-gray-400 dark:bg-gray-800 dark:hover:!bg-gray-700">
+              <th class="group-hover:!bg-gray-200 dark:group-hover:!bg-gray-700 dark:border-b-gray-700">
+            <span class="text-base text-medium dark:text-gray-300">
+              {{ position.item }}
+            </span>
+              </th>
+              <td class="group-hover:!bg-gray-200 dark:group-hover:!bg-gray-700 dark:border-b-gray-700">
+            <span class="text-base text-medium dark:text-gray-500">
+              {{ position.teacher }}
+            </span>
+              </td>
+              <td class="group-hover:!bg-gray-200 dark:group-hover:!bg-gray-700 dark:border-b-gray-700">
+                <div class="flex justify-start items-center">
+                  <app-progress [value]="position.grade"></app-progress>
+                </div>
+              </td>
+              <td class="group-hover:!bg-gray-200 dark:group-hover:!bg-gray-700 dark:border-b-gray-700">
+                <div class="flex justify-end items-center">
+              <span class="tooltip tooltip-top flex justify-center items-center" data-tooltip="Информация">
+                <button class="w-5">
+                  <img src="./assets/images/icons/clipboard-list.svg" alt="clipboard" class="dark:brightness-200">
+                </button>
+              </span>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <table class="table w-full max-w-full">
+        <thead class="bg-blue-500 dark:bg-gray-800">
+        <tr>
+          <th class="border-none dark:bg-gray-800"><div class="skeleton h-5 rounded-md"></div></th>
+          <th class="border-none dark:bg-gray-800"><div class="skeleton h-5 rounded-md"></div></th>
+          <th class="border-none dark:bg-gray-800"><div class="skeleton h-5 rounded-md"></div></th>
+          <th class="border-none dark:bg-gray-800"><div class="skeleton h-5 rounded-md"></div></th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (i of [1, 2, 3, 4, 5]; track i) {
+            <tr>
+              <th class="dark:border-b-gray-700"><div class="skeleton h-6 rounded-md"></div></th>
+              <td class="dark:border-b-gray-700"><div class="skeleton h-6 rounded-md"></div></td>
+              <td class="dark:border-b-gray-700"><div class="skeleton h-6 rounded-md"></div></td>
+              <td class="dark:border-b-gray-700"><div class="skeleton h-6 rounded-md"></div></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</app-card>

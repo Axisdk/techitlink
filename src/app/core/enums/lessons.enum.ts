@@ -1,0 +1,16 @@
+export enum LessonsEnum {
+  web_development = "Веб-разработка",
+  frontend_development = "Фронтенд-разработка",
+  backend_development = "Бэкенд-разработка",
+  mobile_development = "Мобильная разработка",
+  cybersecurity = "Кибербезопасность",
+  devops = "DevOps",
+  software_testing = "Тестирование программного обеспечения",
+  game_development = "Разработка игр",
+  ui_ux_design = "UI/UX дизайн",
+  programming_basics = "Основы программирования",
+  python_programming = "Программирование на Python",
+  java_programming = "Программирование на Java",
+  javascript_programming = "Программирование на JavaScript",
+  csharp_programming = "Программирование на C#",
+}

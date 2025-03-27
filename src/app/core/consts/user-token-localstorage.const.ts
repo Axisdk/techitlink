@@ -1,1 +1,1 @@
-export const userTokenLocalstorageConst: string = 'userToken';
+export const userTokenLocalstorageConst: string = 'token';
