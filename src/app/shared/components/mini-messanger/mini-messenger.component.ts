@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {Component, Input, OnDestroy, OnInit, signal, WritableSignal} from "@angular/core";
 import {MessengerInterface} from "../../../core/interfaces/messenger.interface";
 import {MessageModalComponent} from "../message-modal/message-modal.component";
 import {BehaviorSubject, Subject, takeUntil} from "rxjs";
@@ -7,7 +7,6 @@ import {CardComponent} from "../card/card.component";
 import {MessengerService} from "../../../core/services/messanger/messenger.service";
 import {UserInterface} from "../../../core/interfaces/user.interface";
 import {UserService} from "../../../core/services/user/user.service";
-import {MessageInterface} from "../../../core/interfaces/message.interface";
 
 @Component({
     selector: 'app-mini-messenger',
@@ -25,10 +24,10 @@ export class MiniMessengerComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
   protected isOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
-  protected isLoading: boolean = false
   protected loadingStates: { [key: string]: boolean } = {};
   protected userMessages!: MessengerInterface[]
-  public companionsMap: Pick<UserInterface, 'id' | 'avatar_url' | 'fname' | 'lname'>[] = []
+  protected companionsMap: Pick<UserInterface, 'id' | 'avatar_url' | 'fname' | 'lname'>[] = []
+  protected isLoading: WritableSignal<boolean> = signal(false)
 
   constructor(
     private _messengerService: MessengerService,
@@ -37,7 +36,7 @@ export class MiniMessengerComponent implements OnInit, OnDestroy {
   ) {}
 
   private _getDialogs() {
-    this.isLoading = true
+    this.isLoading.update((value: boolean): boolean => !value)
     this._messengerService.getMessengers(this.user.id)
 
     setTimeout(() => {
@@ -47,7 +46,7 @@ export class MiniMessengerComponent implements OnInit, OnDestroy {
           if (!messengers) return
           this.userMessages = messengers
           this._companionsUser()
-          this.isLoading = false
+          this.isLoading.update((value: boolean): boolean => !value)
         });
     }, 2000);
   }

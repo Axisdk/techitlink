@@ -1,5 +1,9 @@
 <div class="card max-w-full w-full dark:bg-gray-800">
   <div class="card-body">
-    <ng-content></ng-content>
+    <div class="flex flex-col">
+      <h2 class="text-2xl font-medium text-gray-700 dark:text-gray-200">{{ title }}</h2>
+      <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
+      <ng-content></ng-content>
+    </div>
   </div>
 </div>

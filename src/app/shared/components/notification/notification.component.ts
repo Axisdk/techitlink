@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, signal, WritableSignal} from "@angular/core";
 import {Subject, takeUntil} from "rxjs";
 import {NotificationInterface} from "./core/interfaces/notification.interface";
 import {NotificationTypeEnum} from "./core/enums/notification-type.enum";
@@ -19,24 +19,13 @@ export class NotificationComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
   public notification!: NotificationInterface | null;
-  public isVisible: boolean = false;
+  public isVisible: WritableSignal<boolean> = signal(false);
 
   constructor(
     private _notificationService: NotificationService,
   ) {}
 
-  public showNotification(): void {
-    this.isVisible = true
-    setTimeout(() => {
-      this.hideNotification()
-    }, 5000)
-  }
-
-  public hideNotification(): void {
-    this.isVisible = false
-  }
-
-  ngOnInit() {
+  private _onCreateNotification(): void {
     this._notificationService.notifications$
       .pipe(takeUntil(this._destroy$))
       .subscribe((notification: NotificationInterface | null) => {
@@ -46,9 +35,20 @@ export class NotificationComponent implements OnInit, OnDestroy {
       })
   }
 
+  public showNotification(): void {
+    this.isVisible.update((value: boolean): boolean => !value)
+    setTimeout(() => {
+      this.isVisible.update((value: boolean): boolean => !value)
+    }, 5000)
+  }
+
+  ngOnInit() {
+    this._onCreateNotification()
+  }
+
   ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+    this._destroy$.next()
+    this._destroy$.complete()
   }
 
 }
