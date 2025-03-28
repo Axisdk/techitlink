@@ -1,4 +1,3 @@
-import {MessengerInterface} from "./messenger.interface";
 import {UserRoleEnum} from "../enums/user-role.enum";
 
 export interface UserInterface {

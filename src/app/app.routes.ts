@@ -4,6 +4,7 @@ import {CabinetComponent} from "./modules/cabinet/cabinet.component";
 import {CabinetInfoComponent} from "./modules/cabinet/modules/cabinet-info/cabinet-info.component";
 import {AuthGuard} from "./core/guards/auth.guard";
 import {TokenGuard} from "./core/guards/token.guard";
+import {SettingsComponent} from "./modules/cabinet/modules/settings/settings.component";
 
 export const appRoutes: Routes = [
   {
@@ -29,7 +30,12 @@ export const appRoutes: Routes = [
       {
         path: 'info',
         component: CabinetInfoComponent
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        canActivate: [TokenGuard, AuthGuard]
       }
     ]
-  }
+  },
 ];

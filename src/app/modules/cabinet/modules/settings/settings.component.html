@@ -1,0 +1,41 @@
+<app-card title="Настройки">
+  <div class="flex flex-col gap-5">
+    <div class="flex items-center gap-5">
+      <div class="avatar w-32 h-32">
+        <img [src]="user()?.avatar_url" alt="avatar" />
+      </div>
+      <div class="flex flex-col gap-5">
+        <div class="w-80">
+          <input [placeholder]="user()?.fname"
+                 type="password"
+                 class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
+                 disabled
+          />
+        </div>
+        <div class="w-80">
+          <input [placeholder]="user()?.lname"
+                 type="password"
+                 class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
+                 disabled
+          />
+        </div>
+      </div>
+      <div class="flex flex-col gap-5">
+        <div class="w-80">
+          <input [placeholder]="user()?.email"
+                 type="password"
+                 class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
+                 disabled
+          />
+        </div>
+        <div class="w-80">
+          <input [placeholder]="user()?.password"
+                 type="password"
+                 class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
+                 disabled
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</app-card>

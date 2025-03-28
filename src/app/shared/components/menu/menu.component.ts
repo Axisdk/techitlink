@@ -1,11 +1,14 @@
 import {Component, Input, OnInit, signal, WritableSignal} from "@angular/core";
-import {Router} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {UserInterface} from "../../../core/interfaces/user.interface";
 import {UserService} from "../../../core/services/user/user.service";
 
 @Component({
     selector: 'app-menu',
     templateUrl: './menu.component.html',
+    imports: [
+      RouterModule
+    ]
 })
 
 export class MenuComponent implements OnInit {
