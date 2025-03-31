@@ -4,9 +4,7 @@ import {AuthInterface} from "../../interfaces/auth.interface";
 import {userMocks} from "../../../mocks/user.mocks";
 import {UserInterface} from "../../interfaces/user.interface";
 import {BehaviorSubject} from "rxjs";
-import {TokenService} from "../token/token.service";
 import {LocalStorageService} from "../localstorage/localstorage.service";
-import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +19,18 @@ export class UserService {
   constructor(
     private _localStorageService: LocalStorageService,
   ) {}
+
+  private getUsers(): UserInterface[] {
+    const usersJson: string | null = localStorage.getItem('users');
+
+    if (!usersJson) {
+      const defaultUsers: string = JSON.stringify(this.userMocks);
+      localStorage.setItem('users', defaultUsers);
+      return this.userMocks;
+    }
+
+    return JSON.parse(usersJson) || this.userMocks;
+  }
 
   public checkAuthUser(): boolean {
     const user: UserInterface | null = this._localStorageService.getUser ?? null
@@ -51,7 +61,7 @@ export class UserService {
   public authUser(userData: AuthInterface): boolean {
     if (!userData) return false;
 
-    const foundUser: UserInterface | undefined = this.userMocks.find((user: UserInterface) => {
+    const foundUser: UserInterface | undefined = this.getUsers().find((user: UserInterface) => {
       return user.email === userData.email && user.password === userData.password;
     });
 
@@ -62,6 +72,30 @@ export class UserService {
     }
 
     return false;
+  }
+
+  private changeUserInLocalStorage(updatedUser: UserInterface): void {
+    const users: UserInterface[] = this.getUsers()
+    const updatedUsers: UserInterface[] = users.map((user: UserInterface): UserInterface =>
+      user.id === updatedUser.id ? updatedUser : user
+    );
+
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+
+    console.log('Пользователь обновлен:', updatedUser);
+  }
+
+  public changeUserData(user: Partial<UserInterface>): boolean {
+    let thisUser: UserInterface | null = this.user$.value
+    if (!thisUser) return false
+
+    const updatedUser: UserInterface = {...thisUser, ...user}
+
+    this.changeUserInLocalStorage(updatedUser)
+    this._localStorageService.setUser(updatedUser)
+    this.user$.next(updatedUser);
+
+    return true
   }
 
   public logout(): void {

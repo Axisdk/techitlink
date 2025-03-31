@@ -34,7 +34,6 @@ export const appRoutes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent,
-        canActivate: [TokenGuard, AuthGuard]
       }
     ]
   },

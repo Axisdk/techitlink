@@ -1,40 +1,104 @@
 <app-card title="Настройки">
   <div class="flex flex-col gap-5">
-    <div class="flex items-center gap-5">
+    <form [formGroup]="form" class="flex items-center gap-5">
       <div class="avatar w-32 h-32">
         <img [src]="user()?.avatar_url" alt="avatar" />
       </div>
       <div class="flex flex-col gap-5">
         <div class="w-80">
-          <input [placeholder]="user()?.fname"
-                 type="password"
+          <label class="form-label text-neutral mb-2">Имя</label>
+          <input type="text"
                  class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
-                 disabled
+                 formControlName="fname"
           />
         </div>
         <div class="w-80">
-          <input [placeholder]="user()?.lname"
-                 type="password"
+          <label class="form-label text-neutral mb-2">Фамилия</label>
+          <input type="text"
                  class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
-                 disabled
+                 formControlName="lname"
           />
         </div>
       </div>
       <div class="flex flex-col gap-5">
-        <div class="w-80">
-          <input [placeholder]="user()?.email"
-                 type="password"
-                 class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
-                 disabled
-          />
+        <div class="w-80 group">
+          <label class="form-label text-neutral mb-2">Почта</label>
+          <div class="relative overflow-hidden">
+            <input type="email"
+                   class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
+                   formControlName="email"
+            />
+            <div class="tooltip tooltip-left absolute -right-5 top-1/2 -translate-y-1/2 group-hover:right-5 duration-300 cursor-pointer"
+                 data-tooltip="Изменить"
+                 (click)="onChange('email')"
+            >
+              <img class="w-5 dark:brightness-200" src="./assets/images/icons/pen.svg" alt="edit">
+            </div>
+          </div>
+        </div>
+        <div class="w-80 group">
+          <label class="form-label text-neutral mb-2">Пароль</label>
+          <div class="relative overflow-hidden">
+            <input [type]="isShowPassword() ? 'text' : 'password'"
+                   class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
+                   formControlName="password"
+            />
+            <div class="absolute -right-5 top-1/2 -translate-y-1/2 group-hover:right-5 duration-300 flex items-center gap-2">
+              <div class="tooltip tooltip-left  cursor-pointer"
+                   data-tooltip="Изменить"
+                   (click)="toggleShowPassword()"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 text-content3"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              </div>
+              <div class="tooltip tooltip-left  cursor-pointer"
+                   data-tooltip="Изменить"
+                   (click)="onChange('password')"
+              >
+                <img class="w-5 dark:brightness-200" src="./assets/images/icons/pen.svg" alt="edit">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-5">
+        <div class="w-80 group">
+          <label class="form-label text-neutral mb-2">Пароль</label>
+          <div class="relative overflow-hidden">
+            <input type="tel"
+                   class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
+                   formControlName="phone"
+            />
+            <div class="absolute -right-5 top-1/2 -translate-y-1/2 group-hover:right-5 duration-300 flex items-center gap-2">
+              <div class="tooltip tooltip-left  cursor-pointer"
+                   data-tooltip="Изменить"
+                   (click)="onChange('phone')"
+              >
+                <img class="w-5 dark:brightness-200" src="./assets/images/icons/pen.svg" alt="edit">
+              </div>
+            </div>
+
+          </div>
         </div>
         <div class="w-80">
-          <input [placeholder]="user()?.password"
-                 type="password"
+          <label class="form-label text-neutral mb-2">Индификатор пользователя</label>
+          <input type="number"
                  class="input input-xl input-block bg-gray-200 text-neutral border-none dark:text-gray-200 dark:bg-gray-900"
-                 disabled
+                 formControlName="id"
           />
         </div>
+      </div>
+    </form>
+
+    <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
+
+    <div class="flex justify-end items-center">
+      <div class="flex justify-center items-center gap-4">
+        <button class="w-40 btn btn-outline-error" (click)="cancelEdit()">Отмена</button>
+        <button class="w-40 btn btn-primary dark:btn-secondary"
+                [disabled]="!isChangeControl() && isValidForm"
+                (click)="sendChange()"
+        >Сохранить</button>
       </div>
     </div>
   </div>

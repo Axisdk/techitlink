@@ -35,8 +35,7 @@ export class AuthComponent implements OnInit{
   private _initForm() {
     this.formGroup = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      remember: ['']
+      password: ['', [Validators.required, Validators.minLength(8)]]
     })
   }
 

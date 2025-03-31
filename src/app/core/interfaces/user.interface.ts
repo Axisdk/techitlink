@@ -6,6 +6,7 @@ export interface UserInterface {
   fname: string
   lname: string
   email: string
+  phone: string
   password: string
   avatar_url: string
 }
