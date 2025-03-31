@@ -1,4 +1,3 @@
-import {MessengerInterface} from "./messenger.interface";
 import {UserRoleEnum} from "../enums/user-role.enum";
 
 export interface UserInterface {
@@ -7,6 +6,7 @@ export interface UserInterface {
   fname: string
   lname: string
   email: string
+  phone: string
   password: string
   avatar_url: string
 }
