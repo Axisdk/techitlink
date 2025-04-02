@@ -81,8 +81,6 @@ export class UserService {
     );
 
     localStorage.setItem('users', JSON.stringify(updatedUsers));
-
-    console.log('Пользователь обновлен:', updatedUser);
   }
 
   public changeUserData(user: Partial<UserInterface>): boolean {

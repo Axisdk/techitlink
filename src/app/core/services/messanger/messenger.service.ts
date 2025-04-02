@@ -6,6 +6,7 @@ import {BehaviorSubject} from "rxjs";
 import {UserService} from "../user/user.service";
 import {UserInterface} from "../../interfaces/user.interface";
 import {MessageInterface} from "../../interfaces/message.interface";
+import {filter, map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,15 @@ export class MessengerService {
     );
 
     this.messenger$.next(filteredMessenger);
+  }
+
+  public getDialogMessages(dialogId: number): MessengerInterface | undefined {
+    const findMessenger: MessengerInterface | undefined =
+      this.getMessengerFromLocalStorage().find((messenger: MessengerInterface): boolean => messenger.id === dialogId);
+
+    if (!findMessenger) return undefined
+
+    return findMessenger
   }
 
 }

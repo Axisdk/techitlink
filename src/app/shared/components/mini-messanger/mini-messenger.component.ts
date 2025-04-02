@@ -7,11 +7,13 @@ import {CardComponent} from "../card/card.component";
 import {MessengerService} from "../../../core/services/messanger/messenger.service";
 import {UserInterface} from "../../../core/interfaces/user.interface";
 import {UserService} from "../../../core/services/user/user.service";
+import {RouterLink} from "@angular/router";
 
 @Component({
     selector: 'app-mini-messenger',
     templateUrl: 'mini-messenger.component.html',
     imports: [
+        RouterLink,
         MessageModalComponent,
         CardComponent
     ]

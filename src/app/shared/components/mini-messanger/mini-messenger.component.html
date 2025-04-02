@@ -1,38 +1,45 @@
 <app-card title="Мессенджер">
     <div class="flex flex-col gap-1">
       @if (!isLoading()) {
-        @for (message of userMessages; track message.id; let companionId = $index) {
-          <div class="px-5 py-2 flex justify-between items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700">
-            <div class="flex justify-center items-center">
-              <div class="flex gap-3">
-                <div class="avatar avatar-xl">
-                  <img [src]="companionsMap[companionId].avatar_url" alt="avatar">
-                </div>
-                <div class="flex flex-col justify-start">
-                  <h3 class="text-lg font-medium dark:text-gray-200">
-                    {{ getFullNameCompanion(companionsMap[companionId]) }}
-                  </h3>
-                  <span class="text-sm text-neutral">
+        <div class="flex flex-col gap-5">
+          <div>
+            @for (message of userMessages; track message.id; let companionId = $index) {
+              <div class="px-5 py-2 flex justify-between items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+                <div class="flex justify-center items-center">
+                  <div class="flex gap-3">
+                    <div class="avatar avatar-xl">
+                      <img [src]="companionsMap[companionId].avatar_url" alt="avatar">
+                    </div>
+                    <div class="flex flex-col justify-start">
+                      <h3 class="text-lg font-medium dark:text-gray-200">
+                        {{ getFullNameCompanion(companionsMap[companionId]) }}
+                      </h3>
+                      <span class="text-sm text-neutral">
                     {{ getLastMessage(message) }}
                   </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="flex justify-end items-center">
-              @if (!loadingStates[message.id]) {
-                <span class="tooltip tooltip-top flex justify-center items-center" data-tooltip="Написать">
+                <div class="flex justify-end items-center">
+                  @if (!loadingStates[message.id]) {
+                    <span class="tooltip tooltip-top flex justify-center items-center" data-tooltip="Написать">
                   <button class="w-5" (click)="openMessage(message, companionsMap[companionId])">
                     <img src="./assets/images/icons/plain.svg" alt="message" class="dark:brightness-200">
                   </button>
                 </span>
-              } @else {
-                <svg class="spinner-ring spinner-primary spinner-sm dark:spinner-secondary" viewBox="25 25 50 50" stroke-width="5">
-                  <circle cx="50" cy="50" r="20" />
-                </svg>
-              }
-            </div>
+                  } @else {
+                    <svg class="spinner-ring spinner-primary spinner-sm dark:spinner-secondary" viewBox="25 25 50 50" stroke-width="5">
+                      <circle cx="50" cy="50" r="20" />
+                    </svg>
+                  }
+                </div>
+              </div>
+            }
           </div>
-        }
+          <div>
+            <a [routerLink]="['/cabinet/messenger']" class="btn btn-solid-primary dark:btn-solid-secondary btn-block btn-md">Перейти в мессенджер</a>
+          </div>
+        </div>
       } @else {
         @for (i of [1, 2, 3]; track i) {
           <div class="px-5 py-2 flex justify-between items-center gap-3">
@@ -55,4 +62,3 @@
 </app-card>
 
 <app-message-modal></app-message-modal>
-

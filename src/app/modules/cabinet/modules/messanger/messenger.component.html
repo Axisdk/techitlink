@@ -1,0 +1,12 @@
+<app-card title="Мессенджер">
+  <div class="flex rounded-xl">
+    <div class="w-1/4 bg-gray-200 dark:bg-gray-900">
+      @if (user()) {
+        <app-messenger-users [user]="(user())" (messageId)="messageId.set($event)" (companion)="companion.set($event)"/>
+      }
+    </div>
+    <div class="w-3/4">
+      <app-messenger-messages [messageId]="messageId()" [companion]="companion()" />
+    </div>
+  </div>
+</app-card>
