@@ -61,10 +61,18 @@
       </div>
     </div>
   } @else {
-    <div class="w-full h-full flex justify-center items-center">
-      <div class="w-full h-full">
-        <span class="w-full h-full text-center text-neutral font-medium text-lg">Выберите, кому хотели бы написать</span>
+    @if (!isLoading()) {
+      <div class="w-full min-h-96 h-full">
+        <div class="w-full min-h-96 h-full flex justify-center items-center">
+          <span class="text-center text-neutral font-medium text-lg">Выберите, кому хотели бы написать</span>
+        </div>
       </div>
-    </div>
+    } @else {
+      <div class="w-full min-h-96 h-full">
+        <div class="w-full min-h-96 h-full flex justify-center items-center">
+          <div class="skeleton w-96 h-10"></div>
+        </div>
+      </div>
+    }
   }
 </div>
