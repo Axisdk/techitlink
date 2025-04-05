@@ -41,5 +41,65 @@ export const userMocks: UserInterface[] = [
     phone: '+77075553212',
     password: 'test123123',
     avatar_url: 'https://i.pinimg.com/originals/7a/39/e9/7a39e9ae2da1cb8ad319d406539cd627.jpg',
+  },
+  {
+    id: 5,
+    role: UserRoleEnum.user,
+    fname: 'Дмитрий',
+    lname: 'Смирнов',
+    email: 'dmitry.smirnov@example.com',
+    phone: '+79031234567',
+    password: 'securepass123',
+    avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80'
+  },
+  {
+    id: 6,
+    role: UserRoleEnum.admin,
+    fname: 'Александр',
+    lname: 'Петров',
+    email: 'alex.petrov@company.com',
+    phone: '+79165554433',
+    password: 'admin@1234',
+    avatar_url: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1'
+  },
+  {
+    id: 7,
+    role: UserRoleEnum.user,
+    fname: 'Иван',
+    lname: 'Козлов',
+    email: 'ivan.kozlov@mail.ru',
+    phone: '+79261112233',
+    password: 'ivan2023!',
+    avatar_url: 'https://randomuser.me/api/portraits/men/32.jpg'
+  },
+  {
+    id: 8,
+    role: UserRoleEnum.admin,
+    fname: 'Екатерина',
+    lname: 'Волкова',
+    email: 'volkova.ek@yandex.ru',
+    phone: '+79095556677',
+    password: 'katya1988',
+    avatar_url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80'
+  },
+  {
+    id: 9,
+    role: UserRoleEnum.user,
+    fname: 'Анна',
+    lname: 'Соколова',
+    email: 'anna.sokolova@gmail.com',
+    phone: '+79034448899',
+    password: 'anna_sokol',
+    avatar_url: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1'
+  },
+  {
+    id: 10,
+    role: UserRoleEnum.user,
+    fname: 'Ольга',
+    lname: 'Лебедева',
+    email: 'lebedeva.o@mail.com',
+    phone: '+79203334455',
+    password: 'lebedev@2024',
+    avatar_url: 'https://randomuser.me/api/portraits/women/44.jpg'
   }
 ]

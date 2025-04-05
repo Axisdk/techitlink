@@ -1,0 +1,61 @@
+<div class="fixed top-0 left-0 w-full h-dvh transition duration-300"
+     [class.opacity-0]="!isOpen()"
+     [class.opacity-100]="isOpen()"
+     [class.-z-10]="!isOpen()"
+     [class.z-0]="isOpen()"
+>
+  <div class="absolute w-full h-full bg-gray-700 opacity-70 dark:bg-gray-950"
+       (click)="toggleModal()"
+  ></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+    <div class="absolute top-0 -right-5 cursor-pointer dark:text-gray-200" (click)="toggleModal()">X</div>
+    <div class="p-5 w-96 h-full flex flex-col gap-5 bg-gray-200 dark:bg-gray-800 rounded-3xl">
+      <div class="w-full" [formGroup]="form">
+        <input class="input-block input-xl input border-none dark:text-gray-200 dark:bg-gray-900" placeholder="Введите имя пользователя" formControlName="name" />
+      </div>
+      @if (users()?.length) {
+        @if (!isLoading()) {
+          <div class="flex flex-col">
+            @for (user of users()?.slice(0, 5); track user.id) {
+              <div class="w-full px-5 py-2 flex justify-between items-center gap-3 duration-300 hover:bg-gray-300 dark:hover:bg-gray-700 cursor-pointer"
+                   (click)="openDialogWithUser()"
+              >
+                <div class="flex justify-center items-center">
+                  <div class="flex gap-3 items-center">
+                    <div class="avatar avatar-md">
+                      <img [src]="user.avatar_url" alt="avatar">
+                    </div>
+                    <div class="flex flex-col justify-start">
+                      <h3 class="text-lg font-medium dark:text-gray-200">
+                        {{ user.fname + ' ' + user.lname }}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="flex flex-col">
+            @for (i of [1, 2, 3, 4, 5]; track i) {
+              <div class="px-5 py-2 flex justify-between items-center gap-3">
+                <div class="flex justify-center items-center">
+                  <div class="flex gap-3 items-center">
+                    <div class="skeleton w-10 h-10 rounded-full"></div>
+                    <div class="flex flex-col justify-start gap-3">
+                      <div class="skeleton w-56 h-5"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      } @else {
+        <div class="p-10 flex justify-center items-center">
+          <span class="text-xl text-neutral text-center">Никого с таким именем, мы не нашли</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

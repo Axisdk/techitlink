@@ -4,6 +4,7 @@ import {MessengerInterface} from "../../../../../../core/interfaces/messenger.in
 import {UserInterface} from "../../../../../../core/interfaces/user.interface";
 import {MessengerService} from "../../../../../../core/services/messanger/messenger.service";
 import {UserService} from "../../../../../../core/services/user/user.service";
+import {FindUserService} from "../../../../../../shared/components/find-user/find-user.service";
 
 @Component({
   selector: "app-messenger-users",
@@ -25,7 +26,8 @@ export class MessengerUsers implements OnInit, OnDestroy {
 
   constructor(
     private _messengerService: MessengerService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _findUserService: FindUserService
   ) {}
 
   private _getDialogs() {
@@ -85,6 +87,10 @@ export class MessengerUsers implements OnInit, OnDestroy {
   protected openMessage(messageId: number, companion: Pick<UserInterface, 'id' | 'avatar_url' | 'fname' | 'lname'>): void {
     this.messageId.emit(messageId)
     this.companion.emit(companion)
+  }
+
+  protected startDialog(): void {
+    this._findUserService.toggleModal()
   }
 
   ngOnInit(): void {

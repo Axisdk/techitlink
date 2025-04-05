@@ -7,6 +7,7 @@ import {MessageModalComponent} from "../../shared/components/message-modal/messa
 import {BehaviorSubject, Subject, take, takeUntil} from "rxjs";
 import {UserInterface} from "../../core/interfaces/user.interface";
 import {UserService} from "../../core/services/user/user.service";
+import {FindUserComponent} from "../../shared/components/find-user/find-user.component";
 
 @Component({
     selector: 'app-cabinet',
@@ -15,6 +16,7 @@ import {UserService} from "../../core/services/user/user.service";
         MenuComponent,
         TopLineComponent,
         RouterOutlet,
+        FindUserComponent
     ]
 })
 

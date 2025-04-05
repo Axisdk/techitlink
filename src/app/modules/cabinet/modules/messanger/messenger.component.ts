@@ -5,6 +5,7 @@ import {MessengerUsers} from "./modules/messenger-users/messenger-users.componen
 import {UserService} from "../../../../core/services/user/user.service";
 import {UserInterface} from "../../../../core/interfaces/user.interface";
 import {Subject, take, takeUntil} from "rxjs";
+import {FindUserComponent} from "../../../../shared/components/find-user/find-user.component";
 
 @Component({
   selector: "app-messenger-module",

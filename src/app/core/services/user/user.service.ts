@@ -20,7 +20,7 @@ export class UserService {
     private _localStorageService: LocalStorageService,
   ) {}
 
-  private getUsers(): UserInterface[] {
+  public getUsers(): UserInterface[] {
     const usersJson: string | null = localStorage.getItem('users');
 
     if (!usersJson) {

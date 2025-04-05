@@ -25,7 +25,9 @@
         }
       </div>
       <div>
-        <button class="btn btn-solid-primary dark:btn-solid-secondary btn-block btn-md">
+        <button class="btn btn-solid-primary dark:btn-solid-secondary btn-block btn-md"
+                (click)="startDialog()"
+        >
           <div class="flex items-center gap-2">
             <span>Начать диалог</span>
             <img src="./assets/images/icons/plain.svg" alt="message" class="w-4 h-4 dark:brightness-200">
