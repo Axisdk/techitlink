@@ -26,11 +26,11 @@ export class CalendarComponent implements OnInit {
 	protected calendarDays: CalendarDay[] = [];
 	protected weeks: CalendarDay[][] = [];
 
-	constructor() {}
-
-	protected currentMonthName(): string {
+	get currentMonthName(): string {
 		return this.monthNames[this.currentMonth];
 	}
+
+	constructor() {}
 
 	protected generateCalendar(): void {
 		this.calendarDays = [];

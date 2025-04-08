@@ -1,9 +1,9 @@
 <div
 	class="fixed top-0 left-0 w-full h-full flex justify-center items-center transition duration-300"
-	[class.opacity-0]="!isOpen"
-	[class.opacity-100]="isOpen"
-	[class.-z-10]="!isOpen"
-	[class.z-0]="isOpen"
+	[class.opacity-0]="!isOpen()"
+	[class.opacity-100]="isOpen()"
+	[class.-z-10]="!isOpen()"
+	[class.z-0]="isOpen()"
 >
 	<div
 		class="absolute z-20 top-0 left-0 w-full h-full bg-gray-700 opacity-70 dark:bg-gray-950"
@@ -18,9 +18,7 @@
 					<div class="avatar avatar-md">
 						<img [src]="companion.avatar_url" alt="avatar" />
 					</div>
-					<span class="text-xl font-medium dark:text-gray-200">{{
-						companion.fname + ' ' + companion.lname
-					}}</span>
+					<span class="text-xl font-medium dark:text-gray-200">{{ userName }}</span>
 				</div>
 				<div class="divider before:bg-gray-700 after:bg-gray-700"></div>
 				<div
@@ -35,16 +33,16 @@
 				</div>
 				<div class="divider before:bg-gray-700 after:bg-gray-700"></div>
 				<div class="flex w-full max-w-full">
-					<form [formGroup]="formGroup" class="w-full">
+					<form [formGroup]="form" class="w-full">
 						<div class="relative max-w-full w-full">
 							<input
 								class="input-block input-solid input-xl input dark:bg-gray-900 dark:text-gray-200"
 								placeholder="Написать сообщение..."
 								formControlName="message"
-								[readonly]="isLoading"
+								[readonly]="isLoading()"
 							/>
 							<div class="absolute top-1/2 right-5 -translate-y-1/2">
-								@if (!isLoading) {
+								@if (!isLoading()) {
 									<button class="w-5 h-5 flex justify-center items-center" (click)="sendMessage()">
 										<img
 											src="./assets/images/icons/plain.svg"

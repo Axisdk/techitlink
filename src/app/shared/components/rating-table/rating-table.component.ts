@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { TimeTableInterface } from '../../../core/interfaces/time-table.interface';
 import { ProgressComponent } from '../progress/progress.component';
 import { CardComponent } from '../card/card.component';
 import { Subject, takeUntil } from 'rxjs';
-import { UserInterface } from '../../../core/interfaces/user.interface';
 import { RatingTableService } from '../../../core/services/rating-table/rating-table.service';
+import { UserService } from '../../../core/services/user/user.service';
 
 @Component({
 	selector: 'app-rating-table',
@@ -12,17 +12,20 @@ import { RatingTableService } from '../../../core/services/rating-table/rating-t
 	imports: [ProgressComponent, CardComponent],
 })
 export class RatingTableComponent implements OnInit, OnDestroy {
-	@Input() user!: UserInterface;
-
 	private _destroy$: Subject<void> = new Subject<void>();
 
 	protected isLoading: WritableSignal<boolean> = signal(false);
 	protected tablePosition!: TimeTableInterface[];
 
-	constructor(private _ratingTableService: RatingTableService) {}
+	constructor(
+		private _ratingTableService: RatingTableService,
+		private _userService: UserService,
+	) {}
 
-	ngOnInit(): void {
-		this._ratingTableService.getRatingTable(this.user.id);
+	private _initTable(): void {
+		const userId: number | null = this._userService.getIdThisUser();
+		if (!userId) return;
+		this._ratingTableService.getRatingTable(userId);
 		this.isLoading.update((value: boolean): boolean => !value);
 
 		setTimeout(() => {
@@ -34,6 +37,10 @@ export class RatingTableComponent implements OnInit, OnDestroy {
 					this.isLoading.update((value: boolean): boolean => !value);
 				});
 		}, 3000);
+	}
+
+	ngOnInit(): void {
+		this._initTable();
 	}
 
 	ngOnDestroy(): void {

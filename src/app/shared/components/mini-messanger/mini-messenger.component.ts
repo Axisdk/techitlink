@@ -1,13 +1,14 @@
-import { Component, Input, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { MessengerInterface } from '../../../core/interfaces/messenger.interface';
 import { MessageModalComponent } from '../message-modal/message-modal.component';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { MessageModalService } from '../message-modal/message-modal.service';
 import { CardComponent } from '../card/card.component';
 import { MessengerService } from '../../../core/services/messanger/messenger.service';
-import { UserInterface } from '../../../core/interfaces/user.interface';
-import { UserService } from '../../../core/services/user/user.service';
 import { RouterLink } from '@angular/router';
+import { MessengerHelperService } from '../../../core/services/messanger/messenger-helper.service';
+import { CompanionInterface } from '../../../core/interfaces/companion.interface';
+import { UserService } from '../../../core/services/user/user.service';
 
 @Component({
 	selector: 'app-mini-messenger',
@@ -15,33 +16,34 @@ import { RouterLink } from '@angular/router';
 	imports: [RouterLink, MessageModalComponent, CardComponent],
 })
 export class MiniMessengerComponent implements OnInit, OnDestroy {
-	@Input() user!: UserInterface;
-
 	private _destroy$: Subject<void> = new Subject<void>();
 
-	protected isOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 	protected loadingStates: { [key: string]: boolean } = {};
-	protected userMessages!: MessengerInterface[];
-	protected companionsMap: Pick<UserInterface, 'id' | 'avatar_url' | 'fname' | 'lname'>[] = [];
+	protected userMessages: WritableSignal<MessengerInterface[]> = signal([]);
+	protected companionsMap: WritableSignal<CompanionInterface[]> = signal([]);
 	protected isLoading: WritableSignal<boolean> = signal(false);
+	protected isOpen: WritableSignal<boolean> = signal(false);
 
 	constructor(
 		private _messengerService: MessengerService,
+		private _messengerHelperService: MessengerHelperService,
 		private _messageModalService: MessageModalService,
 		private _userService: UserService,
 	) {}
 
 	private _getDialogs(): void {
+		const userId: number | null = this._userService.getIdThisUser();
+		if (!userId) return;
 		this.isLoading.update((value: boolean): boolean => !value);
-		this._messengerService.getMessengers(this.user.id);
+		this._messengerService.getMessengers(userId);
 
 		setTimeout(() => {
-			this._messengerService.messenger$
+			this._messengerService.messengers$
 				.pipe(takeUntil(this._destroy$))
 				.subscribe((messengers: MessengerInterface[] | null) => {
 					if (!messengers) return;
-					this.userMessages = messengers;
-					this._companionsUser();
+					this.userMessages.set(messengers);
+					this._getCompanionsUser();
 					this.isLoading.update((value: boolean): boolean => !value);
 				});
 		}, 2000);
@@ -49,57 +51,30 @@ export class MiniMessengerComponent implements OnInit, OnDestroy {
 
 	private _openMessageModal(): void {
 		this._messageModalService.isOpen$
-			.pipe(takeUntil(this.isOpen$))
-			.subscribe((isOpen: boolean) => this.isOpen$.next(isOpen));
+			.pipe(takeUntil(this._destroy$))
+			.subscribe((isOpen: boolean) => this.isOpen.set(isOpen));
 	}
 
-	private _companionsUser(): void {
-		this.companionsMap = [];
-
-		const uniqueCompanions: Set<number> = new Set<number>();
-
-		this.userMessages.forEach((message: MessengerInterface) => {
-			const companionId: number | undefined = message.participants.find(
-				(id: number): boolean => id !== this.user.id,
-			);
-
-			if (companionId && !uniqueCompanions.has(companionId)) {
-				uniqueCompanions.add(companionId);
-
-				const user: UserInterface | null = this._userService.getUser(companionId);
-
-				if (user) {
-					this.companionsMap.push({
-						id: user.id,
-						fname: user.fname,
-						lname: user.lname,
-						avatar_url: user.avatar_url,
-					});
-				}
-			}
-		});
+	private _getCompanionsUser(): void {
+		this.companionsMap.set(this._messengerHelperService.getCompanionsUser(this.userMessages()));
 	}
 
-	public getFullNameCompanion(companion: Pick<UserInterface, 'id' | 'avatar_url' | 'fname' | 'lname'>): string {
-		if (!companion) return '';
-		return companion.fname + ' ' + companion.lname;
+	protected getCompanionName(companion: CompanionInterface): string {
+		return this._messengerHelperService.getFullNameCompanion(companion);
 	}
 
-	public getLastMessage(messages: MessengerInterface): string {
-		if (!messages) return '';
-		return messages.messages[messages.messages.length - 1].message;
+	protected getLastMessage(messages: MessengerInterface): string {
+		return this._messengerHelperService.getLastMessage(messages);
 	}
 
-	public openMessage(
-		message: MessengerInterface,
-		companion: Pick<UserInterface, 'id' | 'avatar_url' | 'fname' | 'lname'>,
-	): void {
-		this.loadingStates[message.id] = true;
+	public openMessage(messengerId: number, companion: CompanionInterface): void {
+		this.loadingStates[messengerId] = true;
 
 		setTimeout(() => {
 			this._messageModalService.toggleModal();
-			this._messageModalService.loadMessage(message.id, companion);
-			this.loadingStates[message.id] = false;
+			this._messengerService.getMessengerById(messengerId);
+			this._messengerService.setCompanion(companion);
+			this.loadingStates[messengerId] = false;
 		}, 1500);
 	}
 
@@ -109,8 +84,6 @@ export class MiniMessengerComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this.isOpen$.next(false);
-		this.isOpen$.complete();
 		this._destroy$.next();
 		this._destroy$.complete();
 	}

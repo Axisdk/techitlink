@@ -3,18 +3,18 @@
 		@if (!isLoading()) {
 			<div class="flex flex-col gap-5">
 				<div>
-					@for (message of userMessages; track message.id; let companionId = $index) {
+					@for (message of userMessages(); track message.id; let companionId = $index) {
 						<div
 							class="px-5 py-2 flex justify-between items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700"
 						>
 							<div class="flex justify-center items-center">
 								<div class="flex gap-3">
 									<div class="avatar avatar-xl">
-										<img [src]="companionsMap[companionId].avatar_url" alt="avatar" />
+										<img [src]="companionsMap()[companionId].avatar_url" alt="avatar" />
 									</div>
 									<div class="flex flex-col justify-start">
 										<h3 class="text-lg font-medium dark:text-gray-200">
-											{{ getFullNameCompanion(companionsMap[companionId]) }}
+											{{ getCompanionName(companionsMap()[companionId]) }}
 										</h3>
 										<span class="text-sm text-neutral">
 											{{ getLastMessage(message) }}
@@ -28,7 +28,7 @@
 										class="tooltip tooltip-top flex justify-center items-center"
 										data-tooltip="Написать"
 									>
-										<button class="w-5" (click)="openMessage(message, companionsMap[companionId])">
+										<button class="w-5" (click)="openMessage(message.id, companionsMap()[companionId])">
 											<img
 												src="./assets/images/icons/plain.svg"
 												alt="message"

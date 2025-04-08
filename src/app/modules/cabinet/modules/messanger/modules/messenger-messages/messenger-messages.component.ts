@@ -2,61 +2,51 @@ import {
 	AfterViewChecked,
 	Component,
 	ElementRef,
-	Input,
-	OnChanges,
 	OnDestroy,
 	OnInit,
 	signal,
-	SimpleChanges,
 	ViewChild,
 	WritableSignal,
 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { MessengerInterface } from '../../../../../../core/interfaces/messenger.interface';
-import { UserInterface } from '../../../../../../core/interfaces/user.interface';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessengerService } from '../../../../../../core/services/messanger/messenger.service';
-import { UserService } from '../../../../../../core/services/user/user.service';
 import { NotificationService } from '../../../../../../shared/components/notification/notification.service';
-import { MessageInterface } from '../../../../../../core/interfaces/message.interface';
 import { NotificationTypeEnum } from '../../../../../../shared/components/notification/core/enums/notification-type.enum';
 import { MessageComponent } from '../../../../../../shared/components/message/message.component';
-import { filter, map } from 'rxjs/operators';
+import { MessengerHelperService } from '../../../../../../core/services/messanger/messenger-helper.service';
+import { CompanionInterface } from '../../../../../../core/interfaces/companion.interface';
 
 @Component({
 	selector: 'app-messenger-messages',
 	templateUrl: './messenger-messages.component.html',
 	imports: [MessageComponent, ReactiveFormsModule],
 })
-export class MessengerMessagesComponent implements OnChanges, OnInit, OnDestroy, AfterViewChecked {
-	@Input() messageId!: number | undefined;
-	@Input() companion!: Pick<UserInterface, 'id' | 'avatar_url' | 'fname' | 'lname'> | undefined;
-
+export class MessengerMessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
 	@ViewChild('messageContainer') private _messageContainer!: ElementRef;
 
-	protected destroy$: Subject<void> = new Subject<void>();
+	private _destroy$: Subject<void> = new Subject<void>();
 
 	protected form!: FormGroup;
-	protected isOpen: boolean = false;
 
 	protected message: WritableSignal<MessengerInterface | null> = signal(null);
+	protected isLoadingPages: WritableSignal<boolean> = signal(false);
 	protected isLoading: WritableSignal<boolean> = signal(false);
 	protected isLoadingMessage: WritableSignal<boolean> = signal(false);
 
+	protected companion!: CompanionInterface;
+
 	constructor(
 		private _messengerService: MessengerService,
-		private _userService: UserService,
+		private _messengerHelperService: MessengerHelperService,
 		private _formBuilder: FormBuilder,
 		private _notificationService: NotificationService,
 	) {}
 
 	private _scrollToBottom(): void {
-		if (!this.isOpen) return;
-		try {
-			this._messageContainer.nativeElement.scrollTop = this._messageContainer.nativeElement.scrollHeight;
-		} catch (err) {
-			console.error('Ошибка при прокрутке:', err);
-		}
+		if (!this.isLoadingMessage()) return;
+		this._messageContainer.nativeElement.scrollTop = this._messageContainer.nativeElement.scrollHeight;
 	}
 
 	private _initForm(): void {
@@ -65,18 +55,20 @@ export class MessengerMessagesComponent implements OnChanges, OnInit, OnDestroy,
 		});
 	}
 
-	private _loadMessage(): void {
-		if (!this.messageId) return;
+	private _getCompanion(): void {
+		this._messengerService.companion$
+			.pipe(takeUntil(this._destroy$))
+			.subscribe((companion: CompanionInterface | null) => {
+				if (!companion) return;
+				this.companion = companion;
+			});
+	}
 
+	private _loadMessenger(): void {
 		this.isLoading.set(true);
 		this._messengerService.messenger$
-			.pipe(
-				filter((messengers: MessengerInterface[] | null) => !!messengers),
-				map((messengers: MessengerInterface[]) =>
-					messengers.find((messenger: MessengerInterface): boolean => this.messageId === messenger.id),
-				),
-			)
-			.subscribe((messenger: MessengerInterface | undefined) => {
+			.pipe(takeUntil(this._destroy$))
+			.subscribe((messenger: MessengerInterface | null) => {
 				if (!messenger) return;
 				setTimeout(() => {
 					this.message.set(messenger);
@@ -85,25 +77,19 @@ export class MessengerMessagesComponent implements OnChanges, OnInit, OnDestroy,
 			});
 	}
 
-	private _loadMessenger(): void {
-		if (!this.messageId && !this.companion) return;
-		this._loadMessage();
+	protected getCompanionName(companion: CompanionInterface): string {
+		return this._messengerHelperService.getFullNameCompanion(companion);
 	}
 
-	private _setMessage(message: string): MessageInterface {
-		return {
-			id: new Date().getTime(),
-			senderId: this._userService.getIdThisUser() ?? 0,
-			message: message,
-		};
-	}
-
-	public sendMessage(): void {
+	protected sendMessage(): void {
 		const currentMessage: MessengerInterface | null = this.message();
 		if (!currentMessage) return;
 
 		this.isLoadingMessage.set(true);
-		this.form.get('message')?.disabled;
+		const formControl: AbstractControl<string, string> | null = this.form.get('message');
+		if (!formControl) return;
+
+		formControl.disable();
 
 		setTimeout(() => {
 			if (!this.form.valid) {
@@ -116,7 +102,10 @@ export class MessengerMessagesComponent implements OnChanges, OnInit, OnDestroy,
 				return;
 			}
 
-			this._messengerService.sendMessage(currentMessage.id, this._setMessage(this.form.value.message));
+			this._messengerService.sendMessage(
+				currentMessage.id,
+				this._messengerHelperService.setMessage(formControl.value),
+			);
 			this.isLoadingMessage.set(false);
 			this.form.get('message')?.enable();
 			this.form.reset();
@@ -124,14 +113,15 @@ export class MessengerMessagesComponent implements OnChanges, OnInit, OnDestroy,
 		}, 1000);
 	}
 
-	ngOnChanges(changes: SimpleChanges): void {
-		if (changes['messageId'] && changes['companion']) {
-			this._loadMessenger();
-		}
-	}
-
 	ngOnInit(): void {
+		this.isLoadingPages.set(true);
+
+		setTimeout(() => {
+			this.isLoadingPages.set(false);
+		}, 1500);
 		this._initForm();
+		this._loadMessenger();
+		this._getCompanion();
 	}
 
 	ngAfterViewChecked(): void {
@@ -139,7 +129,8 @@ export class MessengerMessagesComponent implements OnChanges, OnInit, OnDestroy,
 	}
 
 	ngOnDestroy(): void {
-		this.destroy$.next();
-		this.destroy$.complete();
+		this._destroy$.next();
+		this._destroy$.complete();
+		this._messengerService.messenger$.next(null);
 	}
 }

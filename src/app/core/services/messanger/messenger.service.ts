@@ -5,14 +5,20 @@ import { MessengersMocks } from '../../../mocks/messenger.mocks';
 import { BehaviorSubject } from 'rxjs';
 import { UserService } from '../user/user.service';
 import { MessageInterface } from '../../interfaces/message.interface';
+import { CompanionInterface } from '../../interfaces/companion.interface';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class MessengerService {
 	protected readonly MessengerMocks: MessengerInterface[] = MessengersMocks;
 
-	public messenger$: BehaviorSubject<MessengerInterface[] | null> = new BehaviorSubject<MessengerInterface[] | null>(
+	public messengers$: BehaviorSubject<MessengerInterface[] | null> = new BehaviorSubject<MessengerInterface[] | null>(
+		null,
+	);
+	public messenger$: BehaviorSubject<MessengerInterface | null> = new BehaviorSubject<MessengerInterface | null>(
+		null,
+	);
+
+	public companion$: BehaviorSubject<CompanionInterface | null> = new BehaviorSubject<CompanionInterface | null>(
 		null,
 	);
 
@@ -48,7 +54,7 @@ export class MessengerService {
 			messenger.participants.includes(this._userService.getIdThisUser() || 0),
 		);
 
-		this.messenger$.next(filteredMessengers);
+		this.messengers$.next(filteredMessengers);
 	}
 
 	public getMessengers(userId: number): void {
@@ -58,7 +64,21 @@ export class MessengerService {
 			messenger.participants.includes(userId),
 		);
 
-		this.messenger$.next(filteredMessenger);
+		this.messengers$.next(filteredMessenger);
+	}
+
+	public getMessengerById(messengerId: number): void {
+		const foundMessenger: MessengerInterface | undefined = this.messengers$.value?.find(
+			(messenger: MessengerInterface) => messenger.id === messengerId,
+		);
+
+		if (!foundMessenger) return;
+
+		this.messenger$.next(foundMessenger);
+	}
+
+	public setCompanion(companion: CompanionInterface): void {
+		this.companion$.next(companion);
 	}
 
 	public createMessengers(userId: number): void {
