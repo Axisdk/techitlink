@@ -1,8 +1,9 @@
-import {Component, OnDestroy, OnInit, signal, WritableSignal} from "@angular/core";
+import {Component, EventEmitter, OnDestroy, OnInit, Output, signal, WritableSignal} from "@angular/core";
 import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, Subject, takeUntil} from "rxjs";
 import {FindUserService} from "./find-user.service";
 import {UserInterface} from "../../../core/interfaces/user.interface";
+import {MessengerService} from "../../../core/services/messanger/messenger.service";
 
 @Component({
   selector: "app-find-user",
@@ -10,7 +11,6 @@ import {UserInterface} from "../../../core/interfaces/user.interface";
   imports: [ReactiveFormsModule],
 })
 export class FindUserComponent implements OnInit, OnDestroy {
-
   private _destroy$: Subject<void> = new Subject<void>();
 
   protected form!: FormGroup;
@@ -21,6 +21,7 @@ export class FindUserComponent implements OnInit, OnDestroy {
   constructor(
     private _formBuilder: FormBuilder,
     private _findUserService: FindUserService,
+    private _messengerService: MessengerService
   ) {}
 
   private _initForm(): void {
@@ -72,8 +73,9 @@ export class FindUserComponent implements OnInit, OnDestroy {
     this.form.reset()
   }
 
-  protected openDialogWithUser(): void {
-    console.log('openDialog')
+  protected openDialogWithUser(userId: number): void {
+    this._messengerService.createMessengers(userId)
+    this.toggleModal()
   }
 
   ngOnInit() {

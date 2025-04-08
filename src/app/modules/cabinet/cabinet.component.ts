@@ -15,8 +15,7 @@ import {FindUserComponent} from "../../shared/components/find-user/find-user.com
     imports: [
         MenuComponent,
         TopLineComponent,
-        RouterOutlet,
-        FindUserComponent
+        RouterOutlet
     ]
 })
 

@@ -15,9 +15,11 @@
                   <h3 class="text-lg font-medium dark:text-gray-200">
                     {{ getFullNameCompanion(companionsMap[companionId]) }}
                   </h3>
-                  <span class="text-sm text-neutral">
-                    {{ getLastMessage(message) }}
-                  </span>
+                  @if (message.messages.length) {
+                    <span class="text-sm text-neutral">
+                      {{ getLastMessage(message) }}
+                    </span>
+                  }
                 </div>
               </div>
             </div>

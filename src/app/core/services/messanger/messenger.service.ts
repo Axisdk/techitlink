@@ -21,21 +21,20 @@ export class MessengerService {
     private _userService: UserService
   ) {}
 
-  private setMessengersInLocalStorage(messenger: MessengerInterface[]) {
+  private _setMessengersInLocalStorage(messenger: MessengerInterface[]) {
     localStorage.setItem(messengerLocalStorage, JSON.stringify(messenger))
   }
 
-  private getMessengerFromLocalStorage(): MessengerInterface[] {
+  private _getMessengerFromLocalStorage(): MessengerInterface[] {
     const messenger: string | null = localStorage.getItem(messengerLocalStorage)
     if (messenger) return JSON.parse(messenger)
 
-    this.setMessengersInLocalStorage(this.MessengerMocks)
+    this._setMessengersInLocalStorage(this.MessengerMocks)
     return this.MessengerMocks
   }
 
-
   public sendMessage(dialogId: number, newMessage: MessageInterface) {
-    const allMessengers: MessengerInterface[] = this.getMessengerFromLocalStorage();
+    const allMessengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
     const dialogIndex: number = allMessengers.findIndex(
       (messenger: MessengerInterface): boolean => messenger.id === dialogId
     );
@@ -46,7 +45,7 @@ export class MessengerService {
     updatedDialog.messages = [...updatedDialog.messages, newMessage];
     allMessengers[dialogIndex] = updatedDialog;
 
-    this.setMessengersInLocalStorage(allMessengers);
+    this._setMessengersInLocalStorage(allMessengers);
 
     const filteredMessengers: MessengerInterface[] = allMessengers.filter((messenger: MessengerInterface) =>
       messenger.participants.includes(this._userService.getIdThisUser() || 0)
@@ -56,7 +55,7 @@ export class MessengerService {
   }
 
   public getMessengers(userId: number): void {
-    const messengers: MessengerInterface[] = this.getMessengerFromLocalStorage();
+    const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
 
     const filteredMessenger: MessengerInterface[] = messengers.filter((messenger: MessengerInterface) =>
       messenger.participants.includes(userId)
@@ -65,13 +64,30 @@ export class MessengerService {
     this.messenger$.next(filteredMessenger);
   }
 
-  public getDialogMessages(dialogId: number): MessengerInterface | undefined {
-    const findMessenger: MessengerInterface | undefined =
-      this.getMessengerFromLocalStorage().find((messenger: MessengerInterface): boolean => messenger.id === dialogId);
+  public createMessengers(userId: number): void {
+    const thisUser: number | null = this._userService.getIdThisUser()
+    if (!thisUser) return
 
-    if (!findMessenger) return undefined
+    const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
 
-    return findMessenger
+    const hasMessengerUsers: boolean = messengers.some((messenger: MessengerInterface) => {
+      const participants: number[] = messenger.participants;
+      return participants.length === 2 &&
+        participants.includes(thisUser) &&
+        participants.includes(userId);
+    });
+
+    if (hasMessengerUsers)
+
+    console.log(hasMessengerUsers)
+
+    // const newMessenger: MessengerInterface = {
+    //   id: messengers.length + 1,
+    //   participants: [thisUser, userId],
+    //   messages: []
+    // }
+    //
+    // messengers.push(newMessenger)
+    // this.setMessengersInLocalStorage(messengers)
   }
-
 }
