@@ -1,21 +1,20 @@
-import {Injectable} from "@angular/core";
-import {BehaviorSubject} from "rxjs";
-import {NewsInterface} from "../../interfaces/news.interface";
-import {newsMocks} from "../../../mocks/news.mocks";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { NewsInterface } from '../../interfaces/news.interface';
+import { newsMocks } from '../../../mocks/news.mocks';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class NewsService {
+	protected readonly news: NewsInterface[] = newsMocks;
 
-  protected readonly news: NewsInterface[] = newsMocks;
+	public news$: BehaviorSubject<NewsInterface[] | null> = new BehaviorSubject<NewsInterface[] | null>(null);
 
-  public news$: BehaviorSubject<NewsInterface[] | null> = new BehaviorSubject<NewsInterface[] | null>(null);
+	constructor() {}
 
-  constructor() {}
-
-  public getNews() {
-    if (!this.news) return
-    this.news$.next(this.news)
-  }
+	public getNews(): void {
+		if (!this.news) return;
+		this.news$.next(this.news);
+	}
 }

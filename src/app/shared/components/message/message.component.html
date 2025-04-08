@@ -1,16 +1,17 @@
-<div class="max-w-full w-full flex items-center"
-     [class.justify-start]="message.senderId !== user.id"
-     [class.justify-end]="message.senderId === user.id"
+<div
+	class="max-w-full w-full flex items-center"
+	[class.justify-start]="message.senderId !== user.id"
+	[class.justify-end]="message.senderId === user.id"
 >
-  <div class="px-3 py-2 w-fit flex items-center rounded-xl overflow-hidden"
-       [class.bg-gray-200]="message.senderId === user.id"
-       [class.bg-gray-300]="message.senderId !== user.id"
-       [class.dark:bg-gray-600]="message.senderId === user.id"
-       [class.dark:bg-gray-700]="message.senderId !== user.id"
-  >
-  <span class="text-base text-gray-900 dark:text-gray-400">
-    {{ message.message }}
-  </span>
-  </div>
+	<div
+		class="px-3 py-2 w-fit flex items-center rounded-xl overflow-hidden"
+		[class.bg-gray-200]="message.senderId === user.id"
+		[class.bg-gray-300]="message.senderId !== user.id"
+		[class.dark:bg-gray-600]="message.senderId === user.id"
+		[class.dark:bg-gray-700]="message.senderId !== user.id"
+	>
+		<span class="text-base text-gray-900 dark:text-gray-400">
+			{{ message.message }}
+		</span>
+	</div>
 </div>
-

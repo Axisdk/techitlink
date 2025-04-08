@@ -1,102 +1,100 @@
-import {Injectable} from "@angular/core";
-import {userLocalstorageConst} from "../../consts/user-localstorage.const";
-import {AuthInterface} from "../../interfaces/auth.interface";
-import {userMocks} from "../../../mocks/user.mocks";
-import {UserInterface} from "../../interfaces/user.interface";
-import {BehaviorSubject} from "rxjs";
-import {LocalStorageService} from "../localstorage/localstorage.service";
+import { Injectable } from '@angular/core';
+import { userLocalstorageConst } from '../../consts/user-localstorage.const';
+import { AuthInterface } from '../../interfaces/auth.interface';
+import { userMocks } from '../../../mocks/user.mocks';
+import { UserInterface } from '../../interfaces/user.interface';
+import { BehaviorSubject } from 'rxjs';
+import { LocalStorageService } from '../localstorage/localstorage.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
-
 export class UserService {
+	protected readonly userMocks: UserInterface[] = userMocks;
 
-  protected readonly userMocks: UserInterface[] = userMocks;
+	public user$: BehaviorSubject<UserInterface | null> = new BehaviorSubject<UserInterface | null>(null);
 
-  public user$: BehaviorSubject<UserInterface | null> = new BehaviorSubject<UserInterface | null>(null);
+	constructor(private _localStorageService: LocalStorageService) {}
 
-  constructor(
-    private _localStorageService: LocalStorageService,
-  ) {}
+	private _changeUserInLocalStorage(updatedUser: UserInterface): void {
+		const users: UserInterface[] = this.getUsers();
+		const updatedUsers: UserInterface[] = users.map(
+			(user: UserInterface): UserInterface => (user.id === updatedUser.id ? updatedUser : user),
+		);
 
-  public getUsers(): UserInterface[] {
-    const usersJson: string | null = localStorage.getItem('users');
+		localStorage.setItem('users', JSON.stringify(updatedUsers));
+	}
 
-    if (!usersJson) {
-      const defaultUsers: string = JSON.stringify(this.userMocks);
-      localStorage.setItem('users', defaultUsers);
-      return this.userMocks;
-    }
+	public getUsers(): UserInterface[] {
+		const usersJson: string | null = localStorage.getItem('users');
 
-    return JSON.parse(usersJson) || this.userMocks;
-  }
+		if (!usersJson) {
+			const defaultUsers: string = JSON.stringify(this.userMocks);
+			localStorage.setItem('users', defaultUsers);
+			return this.userMocks;
+		}
 
-  public checkAuthUser(): boolean {
-    const user: UserInterface | null = this._localStorageService.getUser ?? null
-    if (!user) {
-      this.logout()
-      return false
-    }
+		return JSON.parse(usersJson) || this.userMocks;
+	}
 
-    this.user$.next(user);
-    return true
-  }
+	public checkAuthUser(): boolean {
+		const user: UserInterface | null = this._localStorageService.getUser ?? null;
+		if (!user) {
+			this.logout();
+			return false;
+		}
 
-  public setUser(userData: AuthInterface){
-    localStorage.setItem(userLocalstorageConst, JSON.stringify(userData))
-  }
+		this.user$.next(user);
+		return true;
+	}
 
-  public getUser(id: number): UserInterface | null {
-    const foundUser: UserInterface | undefined = this.userMocks.find((user: UserInterface): boolean => user.id === id);
-    if (!foundUser) return null
+	public setUser(userData: AuthInterface): void {
+		localStorage.setItem(userLocalstorageConst, JSON.stringify(userData));
+	}
 
-    return foundUser
-  }
+	public getUser(id: number): UserInterface | null {
+		const foundUser: UserInterface | undefined = this.userMocks.find(
+			(user: UserInterface): boolean => user.id === id,
+		);
+		if (!foundUser) return null;
 
-  public getIdThisUser(): number | null {
-    return this.user$.value?.id ?? null
-  }
+		return foundUser;
+	}
 
-  public authUser(userData: AuthInterface): boolean {
-    if (!userData) return false;
+	public getIdThisUser(): number | null {
+		return this.user$.value?.id ?? null;
+	}
 
-    const foundUser: UserInterface | undefined = this.getUsers().find((user: UserInterface) => {
-      return user.email === userData.email && user.password === userData.password;
-    });
+	public authUser(userData: AuthInterface): boolean {
+		if (!userData) return false;
 
-    if (foundUser) {
-      this._localStorageService.setUser(foundUser)
-      this.user$.next(foundUser);
-      return true;
-    }
+		const foundUser: UserInterface | undefined = this.getUsers().find((user: UserInterface) => {
+			return user.email === userData.email && user.password === userData.password;
+		});
 
-    return false;
-  }
+		if (foundUser) {
+			this._localStorageService.setUser(foundUser);
+			this.user$.next(foundUser);
+			return true;
+		}
 
-  private changeUserInLocalStorage(updatedUser: UserInterface): void {
-    const users: UserInterface[] = this.getUsers()
-    const updatedUsers: UserInterface[] = users.map((user: UserInterface): UserInterface =>
-      user.id === updatedUser.id ? updatedUser : user
-    );
+		return false;
+	}
 
-    localStorage.setItem('users', JSON.stringify(updatedUsers));
-  }
+	public changeUserData(user: Partial<UserInterface>): boolean {
+		const thisUser: UserInterface | null = this.user$.value;
+		if (!thisUser) return false;
 
-  public changeUserData(user: Partial<UserInterface>): boolean {
-    let thisUser: UserInterface | null = this.user$.value
-    if (!thisUser) return false
+		const updatedUser: UserInterface = { ...thisUser, ...user };
 
-    const updatedUser: UserInterface = {...thisUser, ...user}
+		this._changeUserInLocalStorage(updatedUser);
+		this._localStorageService.setUser(updatedUser);
+		this.user$.next(updatedUser);
 
-    this.changeUserInLocalStorage(updatedUser)
-    this._localStorageService.setUser(updatedUser)
-    this.user$.next(updatedUser);
+		return true;
+	}
 
-    return true
-  }
-
-  public logout(): void {
-    localStorage.removeItem(userLocalstorageConst)
-  }
+	public logout(): void {
+		localStorage.removeItem(userLocalstorageConst);
+	}
 }

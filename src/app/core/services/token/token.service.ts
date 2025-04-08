@@ -1,43 +1,42 @@
-import {Injectable} from "@angular/core";
-import {userTokenLocalstorageConst} from "../../consts/user-token-localstorage.const";
+import { Injectable } from '@angular/core';
+import { userTokenLocalstorageConst } from '../../consts/user-token-localstorage.const';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class TokenService {
+	constructor() {}
 
-  constructor() {}
+	private _generateToken(): number {
+		return new Date().getTime();
+	}
 
-  private _generateToken(): number {
-    return new Date().getTime()
-  }
+	public getToken(): number | null {
+		const userToken: string | null = localStorage.getItem(userTokenLocalstorageConst);
+		return userToken ? +userToken : null;
+	}
 
-  public getToken(): number | null {
-    const userToken: string | null = localStorage.getItem(userTokenLocalstorageConst);
-    return userToken ? +userToken : null;
-  }
+	public setToken(): void {
+		const token: number = this._generateToken();
+		localStorage.setItem(userTokenLocalstorageConst, JSON.stringify(token));
+	}
 
-  public setToken(): void {
-    const token: number = this._generateToken()
-    localStorage.setItem(userTokenLocalstorageConst, JSON.stringify(token));
-  }
+	public checkToken(): boolean {
+		const token: number | null = this.getToken();
+		if (!token) return false;
 
-  public checkToken(): boolean {
-    const token: number | null = this.getToken()
-    if (!token) return false
+		const dateNow: Date = new Date();
+		const tokenLifetimeMs: number = 24 * 60 * 60 * 1000;
 
-    const dateNow: Date = new Date();
-    const tokenLifetimeMs: number = 24 * 60 * 60 * 1000;
+		if (dateNow.getTime() - token > tokenLifetimeMs) {
+			this.deleteToken();
+			return false;
+		}
 
-    if (dateNow.getTime() - token > tokenLifetimeMs) {
-      this.deleteToken()
-      return false
-    }
+		return true;
+	}
 
-    return true
-  }
-
-  public deleteToken() {
-    localStorage.removeItem(userTokenLocalstorageConst)
-  }
+	public deleteToken(): void {
+		localStorage.removeItem(userTokenLocalstorageConst);
+	}
 }

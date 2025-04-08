@@ -1,78 +1,87 @@
 <div class="relative w-full min-h-96 bg-gray-200 dark:bg-gray-900">
-  @if (message()) {
-    <div class="p-5 flex flex-col gap-2">
-      <div>
-        @if (companion) {
-          <div class="flex justify-start items-center gap-2">
-            <div class="avatar avatar-lg">
-              <img [src]="companion.avatar_url" alt="avatar">
-            </div>
-            <span class="text-xl font-medium dark:text-gray-200">{{ companion.fname + ' ' + companion.lname }}</span>
-          </div>
-        }
-      </div>
-      <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
-      <div>
-        <div #messageContainer class="p-5 flex flex-col gap-2 w-full h-96 overflow-y-auto scroll-smooth snap-end">
-          @if (!isLoading()) {
-            <div class="flex flex-col gap-2">
-              @for (message of message()?.messages; track message.id) {
-                <app-message [message]="message"></app-message>
-              }
-            </div>
-          } @else {
-            <div class="flex flex-col gap-2">
-              @for (skeleton of [1, 2, 3, 4, 5, 6]; track skeleton) {
-                <div class="max-w-full w-full flex items-center"
-                     [class.justify-start]="skeleton % 2 === 0"
-                     [class.justify-end]="skeleton % 2 !== 0"
-                >
-                  <div class="skeleton w-96 h-8 rounded-xl overflow-hidden"></div>
-                </div>
-              }
-            </div>
-          }
-        </div>
-      </div>
-      <div class="divider before:bg-gray-700 after:bg-gray-700"></div>
-      <div class="flex w-full max-w-full">
-        <form [formGroup]="form" class="w-full">
-          <div class="relative max-w-full w-full">
-            <input class="input-block input-solid input-xl input dark:bg-gray-900 dark:text-gray-200"
-                   placeholder="Написать сообщение..."
-                   formControlName="message"
-                   [readonly]="isLoadingMessage()"
-            />
-            <div class="absolute top-1/2 right-5 -translate-y-1/2">
-              @if (!isLoadingMessage()) {
-                <button class="w-5 h-5 flex justify-center items-center"
-                        (click)="sendMessage()"
-                >
-                  <img src="./assets/images/icons/plain.svg" alt="send message" class="dark:brightness-200">
-                </button>
-              } @else {
-                <svg class="spinner-ring dark:spinner-secondary" viewBox="25 25 50 50" stroke-width="5">
-                  <circle cx="50" cy="50" r="20" />
-                </svg>
-              }
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  } @else {
-    @if (!isLoading()) {
-      <div class="w-full min-h-96 h-full">
-        <div class="w-full min-h-96 h-full flex justify-center items-center">
-          <span class="text-center text-neutral font-medium text-lg">Выберите, кому хотели бы написать</span>
-        </div>
-      </div>
-    } @else {
-      <div class="w-full min-h-96 h-full">
-        <div class="w-full min-h-96 h-full flex justify-center items-center">
-          <div class="skeleton w-96 h-10"></div>
-        </div>
-      </div>
-    }
-  }
+	@if (message()) {
+		<div class="p-5 flex flex-col gap-2">
+			<div>
+				@if (companion) {
+					<div class="flex justify-start items-center gap-2">
+						<div class="avatar avatar-lg">
+							<img [src]="companion.avatar_url" alt="avatar" />
+						</div>
+						<span class="text-xl font-medium dark:text-gray-200">{{
+							companion.fname + ' ' + companion.lname
+						}}</span>
+					</div>
+				}
+			</div>
+			<div class="divider before:bg-gray-700 after:bg-gray-700"></div>
+			<div>
+				<div
+					#messageContainer
+					class="p-5 flex flex-col gap-2 w-full h-96 overflow-y-auto scroll-smooth snap-end"
+				>
+					@if (!isLoading()) {
+						<div class="flex flex-col gap-2">
+							@for (message of message()?.messages; track message.id) {
+								<app-message [message]="message"></app-message>
+							}
+						</div>
+					} @else {
+						<div class="flex flex-col gap-2">
+							@for (skeleton of [1, 2, 3, 4, 5, 6]; track skeleton) {
+								<div
+									class="max-w-full w-full flex items-center"
+									[class.justify-start]="skeleton % 2 === 0"
+									[class.justify-end]="skeleton % 2 !== 0"
+								>
+									<div class="skeleton w-96 h-8 rounded-xl overflow-hidden"></div>
+								</div>
+							}
+						</div>
+					}
+				</div>
+			</div>
+			<div class="divider before:bg-gray-700 after:bg-gray-700"></div>
+			<div class="flex w-full max-w-full">
+				<form [formGroup]="form" class="w-full">
+					<div class="relative max-w-full w-full">
+						<input
+							class="input-block input-solid input-xl input dark:bg-gray-900 dark:text-gray-200"
+							placeholder="Написать сообщение..."
+							formControlName="message"
+							[readonly]="isLoadingMessage()"
+						/>
+						<div class="absolute top-1/2 right-5 -translate-y-1/2">
+							@if (!isLoadingMessage()) {
+								<button class="w-5 h-5 flex justify-center items-center" (click)="sendMessage()">
+									<img
+										src="./assets/images/icons/plain.svg"
+										alt="send message"
+										class="dark:brightness-200"
+									/>
+								</button>
+							} @else {
+								<svg class="spinner-ring dark:spinner-secondary" viewBox="25 25 50 50" stroke-width="5">
+									<circle cx="50" cy="50" r="20" />
+								</svg>
+							}
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	} @else {
+		@if (!isLoading()) {
+			<div class="w-full min-h-96 h-full">
+				<div class="w-full min-h-96 h-full flex justify-center items-center">
+					<span class="text-center text-neutral font-medium text-lg">Выберите, кому хотели бы написать</span>
+				</div>
+			</div>
+		} @else {
+			<div class="w-full min-h-96 h-full">
+				<div class="w-full min-h-96 h-full flex justify-center items-center">
+					<div class="skeleton w-96 h-10"></div>
+				</div>
+			</div>
+		}
+	}
 </div>
