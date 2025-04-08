@@ -1,1 +1,1 @@
-export const themeLocalStorage : string = "theme";
+export const themeLocalStorage: string = 'theme';

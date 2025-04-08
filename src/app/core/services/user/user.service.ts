@@ -1,104 +1,106 @@
-import {Injectable} from "@angular/core";
-import {userLocalstorageConst} from "../../consts/user-localstorage.const";
-import {AuthInterface} from "../../interfaces/auth.interface";
-import {userMocks} from "../../../mocks/user.mocks";
-import {UserInterface} from "../../interfaces/user.interface";
-import {BehaviorSubject} from "rxjs";
-import {LocalStorageService} from "../localstorage/localstorage.service";
+import { Injectable } from '@angular/core';
+import { userLocalstorageConst } from '../../consts/user-localstorage.const';
+import { AuthInterface } from '../../interfaces/auth.interface';
+import { userMocks } from '../../../mocks/user.mocks';
+import { UserInterface } from '../../interfaces/user.interface';
+import { BehaviorSubject } from 'rxjs';
+import { LocalStorageService } from '../localstorage/localstorage.service';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
-
 export class UserService {
+	protected readonly userMocks: UserInterface[] = userMocks;
 
-  protected readonly userMocks: UserInterface[] = userMocks;
+	public user$: BehaviorSubject<UserInterface | null> = new BehaviorSubject<UserInterface | null>(null);
 
-  public user$: BehaviorSubject<UserInterface | null> = new BehaviorSubject<UserInterface | null>(null);
+	constructor(
+		private _localStorageService: LocalStorageService,
+		private _router: Router,
+	) {}
 
-  constructor(
-    private _localStorageService: LocalStorageService,
-  ) {}
+	private _changeUserInLocalStorage(updatedUser: UserInterface): void {
+		const users: UserInterface[] = this.getUsers();
+		const updatedUsers: UserInterface[] = users.map(
+			(user: UserInterface): UserInterface => (user.id === updatedUser.id ? updatedUser : user),
+		);
 
-  private getUsers(): UserInterface[] {
-    const usersJson: string | null = localStorage.getItem('users');
+		localStorage.setItem('users', JSON.stringify(updatedUsers));
+	}
 
-    if (!usersJson) {
-      const defaultUsers: string = JSON.stringify(this.userMocks);
-      localStorage.setItem('users', defaultUsers);
-      return this.userMocks;
-    }
+	public getUsers(): UserInterface[] {
+		const usersJson: string | null = localStorage.getItem('users');
 
-    return JSON.parse(usersJson) || this.userMocks;
-  }
+		if (!usersJson) {
+			const defaultUsers: string = JSON.stringify(this.userMocks);
+			localStorage.setItem('users', defaultUsers);
+			return this.userMocks;
+		}
 
-  public checkAuthUser(): boolean {
-    const user: UserInterface | null = this._localStorageService.getUser ?? null
-    if (!user) {
-      this.logout()
-      return false
-    }
+		return JSON.parse(usersJson) || this.userMocks;
+	}
 
-    this.user$.next(user);
-    return true
-  }
+	public checkAuthUser(): boolean {
+		return !!this._localStorageService.getUser;
+	}
 
-  public setUser(userData: AuthInterface){
-    localStorage.setItem(userLocalstorageConst, JSON.stringify(userData))
-  }
+	public setUser(userData: AuthInterface): void {
+		localStorage.setItem(userLocalstorageConst, JSON.stringify(userData));
+	}
 
-  public getUser(id: number): UserInterface | null {
-    const foundUser: UserInterface | undefined = this.userMocks.find((user: UserInterface): boolean => user.id === id);
-    if (!foundUser) return null
+	public getUser(id: number): UserInterface | null {
+		const foundUser: UserInterface | undefined = this.userMocks.find(
+			(user: UserInterface): boolean => user.id === id,
+		);
+		if (!foundUser) return null;
 
-    return foundUser
-  }
+		return foundUser;
+	}
 
-  public getIdThisUser(): number | null {
-    return this.user$.value?.id ?? null
-  }
+	public getIdThisUser(): number | null {
+		return this.user$.value?.id ?? null;
+	}
 
-  public authUser(userData: AuthInterface): boolean {
-    if (!userData) return false;
+	public authUser(userData: AuthInterface): boolean {
+		if (!userData) return false;
 
-    const foundUser: UserInterface | undefined = this.getUsers().find((user: UserInterface) => {
-      return user.email === userData.email && user.password === userData.password;
-    });
+		const foundUser: UserInterface | undefined = this.getUsers().find((user: UserInterface) => {
+			return user.email === userData.email && user.password === userData.password;
+		});
 
-    if (foundUser) {
-      this._localStorageService.setUser(foundUser)
-      this.user$.next(foundUser);
-      return true;
-    }
+		if (foundUser) {
+			this._localStorageService.setUser(foundUser);
+			this.user$.next(foundUser);
+			return true;
+		}
 
-    return false;
-  }
+		return false;
+	}
 
-  private changeUserInLocalStorage(updatedUser: UserInterface): void {
-    const users: UserInterface[] = this.getUsers()
-    const updatedUsers: UserInterface[] = users.map((user: UserInterface): UserInterface =>
-      user.id === updatedUser.id ? updatedUser : user
-    );
+	public changeUserData(user: Partial<UserInterface>): boolean {
+		const thisUser: UserInterface | null = this.user$.value;
+		if (!thisUser) return false;
 
-    localStorage.setItem('users', JSON.stringify(updatedUsers));
+		const updatedUser: UserInterface = { ...thisUser, ...user };
 
-    console.log('Пользователь обновлен:', updatedUser);
-  }
+		this._changeUserInLocalStorage(updatedUser);
+		this._localStorageService.setUser(updatedUser);
+		this.user$.next(updatedUser);
 
-  public changeUserData(user: Partial<UserInterface>): boolean {
-    let thisUser: UserInterface | null = this.user$.value
-    if (!thisUser) return false
+		return true;
+	}
 
-    const updatedUser: UserInterface = {...thisUser, ...user}
+	public initUser(): void {
+		const foundUser: UserInterface | null = this._localStorageService.getUser;
+		if (!foundUser) {
+			this._router.navigate(['./']);
+			return;
+		}
+		this.user$.next(foundUser);
+	}
 
-    this.changeUserInLocalStorage(updatedUser)
-    this._localStorageService.setUser(updatedUser)
-    this.user$.next(updatedUser);
-
-    return true
-  }
-
-  public logout(): void {
-    localStorage.removeItem(userLocalstorageConst)
-  }
+	public logout(): void {
+		localStorage.removeItem(userLocalstorageConst);
+	}
 }

@@ -1,7 +1,7 @@
-import {MessageInterface} from "./message.interface";
+import { MessageInterface } from './message.interface';
 
 export interface MessengerInterface {
-  id: number
-  participants: number[]
-  messages: MessageInterface[]
+	id: number;
+	participants: number[];
+	messages: MessageInterface[];
 }

@@ -1,1 +1,1 @@
-export const messengerLocalStorage: string = "messengers"
+export const messengerLocalStorage: string = 'messengers';

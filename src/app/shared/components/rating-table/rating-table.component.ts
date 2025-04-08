@@ -1,51 +1,50 @@
-import {Component, Input, OnDestroy, OnInit, signal, WritableSignal} from "@angular/core";
-import {TimeTableInterface} from "../../../core/interfaces/time-table.interface";
-import {ProgressComponent} from "../progress/progress.component";
-import {CardComponent} from "../card/card.component";
-import {Subject, takeUntil} from "rxjs";
-import {UserInterface} from "../../../core/interfaces/user.interface";
-import {RatingTableService} from "../../../core/services/rating-table/rating-table.service";
+import { Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { TimeTableInterface } from '../../../core/interfaces/time-table.interface';
+import { ProgressComponent } from '../progress/progress.component';
+import { CardComponent } from '../card/card.component';
+import { Subject, takeUntil } from 'rxjs';
+import { RatingTableService } from '../../../core/services/rating-table/rating-table.service';
+import { UserService } from '../../../core/services/user/user.service';
 
 @Component({
-    selector: 'app-rating-table',
-    templateUrl: './rating-table.component.html',
-    imports: [
-        ProgressComponent,
-        CardComponent,
-    ]
+	selector: 'app-rating-table',
+	templateUrl: './rating-table.component.html',
+	imports: [ProgressComponent, CardComponent],
 })
-
 export class RatingTableComponent implements OnInit, OnDestroy {
+	private _destroy$: Subject<void> = new Subject<void>();
 
-  @Input() user!: UserInterface
+	protected isLoading: WritableSignal<boolean> = signal(false);
+	protected tablePosition!: TimeTableInterface[];
 
-  private _destroy$: Subject<void> = new Subject<void>();
+	constructor(
+		private _ratingTableService: RatingTableService,
+		private _userService: UserService,
+	) {}
 
-  public isLoading: WritableSignal<boolean> = signal(false)
-  public tablePosition!: TimeTableInterface[]
+	private _initTable(): void {
+		const userId: number | null = this._userService.getIdThisUser();
+		if (!userId) return;
+		this._ratingTableService.getRatingTable(userId);
+		this.isLoading.update((value: boolean): boolean => !value);
 
-  constructor(
-    private _ratingTableService: RatingTableService,
-  ) {}
+		setTimeout(() => {
+			this._ratingTableService.ratingTable$
+				.pipe(takeUntil(this._destroy$))
+				.subscribe((ratingTable: TimeTableInterface[] | null) => {
+					if (!ratingTable) return;
+					this.tablePosition = ratingTable;
+					this.isLoading.update((value: boolean): boolean => !value);
+				});
+		}, 3000);
+	}
 
-  ngOnInit(): void {
-    this._ratingTableService.getRatingTable(this.user.id)
-    this.isLoading.update((value: boolean): boolean => !value)
+	ngOnInit(): void {
+		this._initTable();
+	}
 
-    setTimeout(() => {
-      this._ratingTableService.ratingTable$
-        .pipe(takeUntil(this._destroy$))
-        .subscribe((ratingTable : TimeTableInterface[] | null) => {
-          if (!ratingTable) return
-          this.tablePosition = ratingTable
-          this.isLoading.update((value: boolean): boolean => !value)
-        })
-    }, 3000)
-  }
-
-  ngOnDestroy() {
-    this._destroy$.next()
-    this._destroy$.complete()
-  }
-
+	ngOnDestroy(): void {
+		this._destroy$.next();
+		this._destroy$.complete();
+	}
 }
