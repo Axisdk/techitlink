@@ -45,13 +45,15 @@ export class MessengerMessagesComponent implements OnInit, OnDestroy, AfterViewC
 	) {}
 
 	private _scrollToBottom(): void {
-		if (!this.isLoadingMessage()) return;
+		if (this.isLoadingMessage()) return;
+		const msg: MessengerInterface | null = this.message();
+		if (!msg || msg.messages.length <= 8) return;
 		this._messageContainer.nativeElement.scrollTop = this._messageContainer.nativeElement.scrollHeight;
 	}
 
 	private _initForm(): void {
 		this.form = this._formBuilder.group({
-			message: ['', [Validators.required]],
+			message: [null, [Validators.required]],
 		});
 	}
 
@@ -61,19 +63,20 @@ export class MessengerMessagesComponent implements OnInit, OnDestroy, AfterViewC
 			.subscribe((companion: CompanionInterface | null) => {
 				if (!companion) return;
 				this.companion = companion;
+				this.form.reset();
 			});
 	}
 
 	private _loadMessenger(): void {
 		this.isLoading.set(true);
+
 		this._messengerService.messenger$
 			.pipe(takeUntil(this._destroy$))
 			.subscribe((messenger: MessengerInterface | null) => {
 				if (!messenger) return;
-				setTimeout(() => {
-					this.message.set(messenger);
-					this.isLoading.set(false);
-				}, 1000);
+				this.message.set(messenger);
+				this.isLoading.set(false);
+				this._scrollToBottom();
 			});
 	}
 
@@ -85,32 +88,38 @@ export class MessengerMessagesComponent implements OnInit, OnDestroy, AfterViewC
 		const currentMessage: MessengerInterface | null = this.message();
 		if (!currentMessage) return;
 
+		const errorEvent = (): void => {
+			this.isLoadingMessage.set(false);
+			this.form.reset();
+			this.form.get('message')?.enable();
+			this._notificationService.showNotification({
+				type: NotificationTypeEnum.error,
+				title: 'Ошибка',
+				message: 'Ошибка в отправке сообщения, неправильный формат текста',
+			});
+		};
+
 		this.isLoadingMessage.set(true);
 		const formControl: AbstractControl<string, string> | null = this.form.get('message');
 		if (!formControl) return;
 
 		formControl.disable();
 
-		setTimeout(() => {
-			if (!this.form.valid) {
-				this.isLoadingMessage.set(false);
-				this._notificationService.showNotification({
-					type: NotificationTypeEnum.error,
-					title: 'Ошибка',
-					message: 'Ошибка в отправке сообщения, неправильный формат текста',
-				});
-				return;
-			}
+		const message: string = formControl.value;
+		if (!message || !message.length) {
+			errorEvent();
+			return;
+		}
 
-			this._messengerService.sendMessage(
-				currentMessage.id,
-				this._messengerHelperService.setMessage(formControl.value),
-			);
-			this.isLoadingMessage.set(false);
-			this.form.get('message')?.enable();
-			this.form.reset();
-			this._scrollToBottom();
-		}, 1000);
+		if (this.form.valid) {
+			errorEvent();
+			return;
+		}
+
+		this._messengerService.sendMessage(currentMessage.id, this._messengerHelperService.setMessage(message));
+		this.isLoadingMessage.set(false);
+		formControl.enable();
+		this.form.reset();
 	}
 
 	ngOnInit(): void {

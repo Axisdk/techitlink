@@ -5,6 +5,7 @@ import { userMocks } from '../../../mocks/user.mocks';
 import { UserInterface } from '../../interfaces/user.interface';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '../localstorage/localstorage.service';
+import { Router } from '@angular/router';
 
 @Injectable({
 	providedIn: 'root',
@@ -14,7 +15,10 @@ export class UserService {
 
 	public user$: BehaviorSubject<UserInterface | null> = new BehaviorSubject<UserInterface | null>(null);
 
-	constructor(private _localStorageService: LocalStorageService) {}
+	constructor(
+		private _localStorageService: LocalStorageService,
+		private _router: Router,
+	) {}
 
 	private _changeUserInLocalStorage(updatedUser: UserInterface): void {
 		const users: UserInterface[] = this.getUsers();
@@ -38,14 +42,7 @@ export class UserService {
 	}
 
 	public checkAuthUser(): boolean {
-		const user: UserInterface | null = this._localStorageService.getUser ?? null;
-		if (!user) {
-			this.logout();
-			return false;
-		}
-
-		this.user$.next(user);
-		return true;
+		return !!this._localStorageService.getUser;
 	}
 
 	public setUser(userData: AuthInterface): void {
@@ -92,6 +89,15 @@ export class UserService {
 		this.user$.next(updatedUser);
 
 		return true;
+	}
+
+	public initUser(): void {
+		const foundUser: UserInterface | null = this._localStorageService.getUser;
+		if (!foundUser) {
+			this._router.navigate(['./']);
+			return;
+		}
+		this.user$.next(foundUser);
 	}
 
 	public logout(): void {

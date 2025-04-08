@@ -13,10 +13,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
 	canActivate(): MaybeAsync<GuardResult> {
 		if (this._userService.checkAuthUser()) {
+			this._userService.initUser();
 			return true;
 		}
 
-		this._router.navigate(['/auth']);
+		this._router.navigate(['/']);
 		return false;
 	}
 

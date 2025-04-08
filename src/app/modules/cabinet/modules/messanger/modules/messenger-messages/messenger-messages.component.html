@@ -2,16 +2,14 @@
 	@if (message()) {
 		<div class="p-5 flex flex-col gap-2">
 			<div>
-        @if (companion) {
-          <div class="flex justify-start items-center gap-2">
-            <div class="avatar avatar-lg">
-              <img [src]="companion.avatar_url" alt="avatar" />
-            </div>
-            <span class="text-xl font-medium dark:text-gray-200">{{
-                getCompanionName(companion)
-              }}</span>
-          </div>
-        }
+				@if (companion) {
+					<div class="flex justify-start items-center gap-2">
+						<div class="avatar avatar-lg">
+							<img [src]="companion.avatar_url" alt="avatar" />
+						</div>
+						<span class="text-xl font-medium dark:text-gray-200">{{ getCompanionName(companion) }}</span>
+					</div>
+				}
 			</div>
 			<div class="divider before:bg-gray-700 after:bg-gray-700"></div>
 			<div>

@@ -30,9 +30,9 @@ export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecke
 
 	protected destroy$: Subject<void> = new Subject<void>();
 
-	protected message!: MessengerInterface;
 	protected companion!: CompanionInterface | null;
 	protected form!: FormGroup;
+	protected message: WritableSignal<MessengerInterface | undefined> = signal(undefined);
 	protected isOpen: WritableSignal<boolean> = signal(false);
 	protected isLoading: WritableSignal<boolean> = signal(false);
 
@@ -62,6 +62,7 @@ export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecke
 
 	private _checkIsOpenModal(): void {
 		this._messageModalService.isOpen$.pipe(takeUntil(this.destroy$)).subscribe((isOpen: boolean) => {
+			if (!isOpen) this._messengerService.messenger$.next(null);
 			this.isOpen.set(isOpen);
 		});
 	}
@@ -71,7 +72,7 @@ export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecke
 			.pipe(takeUntil(this.destroy$))
 			.subscribe((message: MessengerInterface | null) => {
 				if (!message) return;
-				this.message = message;
+				this.message.set(message);
 
 				setTimeout(() => {
 					this._scrollToBottom();
@@ -96,9 +97,20 @@ export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecke
 		this._messageModalService.toggleModal();
 	}
 
-	public sendMessage(): void {
-		const currentMessage: MessengerInterface | null = this.message;
+	protected sendMessage(): void {
+		const currentMessage: MessengerInterface | undefined = this.message();
 		if (!currentMessage) return;
+
+		const errorEvent = (): void => {
+			this.isLoading.set(false);
+			this.form.reset();
+			this.form.get('message')?.enable();
+			this._notificationService.showNotification({
+				type: NotificationTypeEnum.error,
+				title: 'Ошибка',
+				message: 'Ошибка в отправке сообщения, неправильный формат текста',
+			});
+		};
 
 		this.isLoading.set(true);
 		const formControl: AbstractControl<string, string> | null = this.form.get('message');
@@ -106,26 +118,21 @@ export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecke
 
 		formControl.disable();
 
-		setTimeout(() => {
-			if (!this.form.valid) {
-				this.isLoading.set(false);
-				this._notificationService.showNotification({
-					type: NotificationTypeEnum.error,
-					title: 'Ошибка',
-					message: 'Ошибка в отправке сообщения, неправильный формат текста',
-				});
-				return;
-			}
+		const message: string = formControl.value;
+		if (!message || !message.length) {
+			errorEvent();
+			return;
+		}
 
-			this._messengerService.sendMessage(
-				currentMessage.id,
-				this._messengerHelperService.setMessage(formControl.value),
-			);
-			this.isLoading.set(false);
-			this.form.get('message')?.enable();
-			this.form.reset();
-			this._scrollToBottom();
-		}, 1000);
+		if (this.form.valid) {
+			errorEvent();
+			return;
+		}
+
+		this._messengerService.sendMessage(currentMessage.id, this._messengerHelperService.setMessage(message));
+		this.isLoading.set(false);
+		formControl.enable();
+		this.form.reset();
 	}
 
 	ngOnInit(): void {

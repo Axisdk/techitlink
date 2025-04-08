@@ -12,11 +12,10 @@ export class TokenGuard implements CanActivate, CanActivateChild {
 	) {}
 
 	canActivate(): MaybeAsync<GuardResult> {
-		if (this._tokenService.checkToken()) {
-			return true;
-		}
+		const hasToken: boolean = this._tokenService.checkToken();
+		if (hasToken) return true;
 
-		this._router.navigate(['/auth']);
+		this._router.navigate(['./']);
 		return false;
 	}
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { messengerLocalStorage } from '../../consts/messenger-localstorage';
 import { MessengerInterface } from '../../interfaces/messenger.interface';
 import { MessengersMocks } from '../../../mocks/messenger.mocks';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { UserService } from '../user/user.service';
 import { MessageInterface } from '../../interfaces/message.interface';
 import { CompanionInterface } from '../../interfaces/companion.interface';
@@ -21,6 +21,8 @@ export class MessengerService {
 	public companion$: BehaviorSubject<CompanionInterface | null> = new BehaviorSubject<CompanionInterface | null>(
 		null,
 	);
+
+	private _destroy$: Subject<void> = new Subject();
 
 	constructor(private _userService: UserService) {}
 
@@ -68,13 +70,17 @@ export class MessengerService {
 	}
 
 	public getMessengerById(messengerId: number): void {
-		const foundMessenger: MessengerInterface | undefined = this.messengers$.value?.find(
-			(messenger: MessengerInterface) => messenger.id === messengerId,
-		);
+		this.messengers$.pipe(takeUntil(this._destroy$)).subscribe((messengers: MessengerInterface[] | null) => {
+			if (!messengers) return;
 
-		if (!foundMessenger) return;
+			const foundMessenger: MessengerInterface | undefined = messengers.find(
+				(messenger: MessengerInterface) => messenger.id === messengerId,
+			);
 
-		this.messenger$.next(foundMessenger);
+			if (!foundMessenger) return;
+
+			this.messenger$.next(foundMessenger);
+		});
 	}
 
 	public setCompanion(companion: CompanionInterface): void {

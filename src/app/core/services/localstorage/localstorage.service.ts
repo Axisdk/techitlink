@@ -13,13 +13,8 @@ export class LocalStorageService {
 	}
 
 	get getUser(): UserInterface | null {
-		try {
-			const userData: string | null = localStorage.getItem(userLocalstorageConst);
-			return userData ? JSON.parse(userData) : null;
-		} catch (error) {
-			console.error('Error parsing user data from localStorage:', error);
-			return null;
-		}
+		const userData: string | null = localStorage.getItem(userLocalstorageConst);
+		return userData ? JSON.parse(userData) : null;
 	}
 
 	constructor() {}

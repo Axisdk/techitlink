@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UserInterface } from '../../../core/interfaces/user.interface';
 import { UserService } from '../../../core/services/user/user.service';

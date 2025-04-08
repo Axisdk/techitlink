@@ -28,7 +28,8 @@ export class MessengerUsersComponent implements OnInit, OnDestroy {
 	private _getDialogs(): void {
 		const userId: number | null = this._userService.getIdThisUser();
 		if (!userId) return;
-		this.isLoading.update((value: boolean): boolean => !value);
+
+		this.isLoading.set(true);
 		this._messengerService.getMessengers(userId);
 
 		setTimeout(() => {
@@ -38,7 +39,7 @@ export class MessengerUsersComponent implements OnInit, OnDestroy {
 					if (!messengers) return;
 					this.userMessages.set(messengers);
 					this._getCompanionsUser();
-					this.isLoading.update((value: boolean): boolean => !value);
+					this.isLoading.set(false);
 				});
 		}, 2000);
 	}

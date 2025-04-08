@@ -10,7 +10,7 @@
 		(click)="toggleModal()"
 	></div>
 
-	@if (message && companion) {
+	@if (message() && companion) {
 		<div class="relative card dark:bg-gray-800 max-w-full w-6/12 z-30">
 			<div class="absolute top-5 right-5 cursor-pointer dark:text-gray-200" (click)="toggleModal()">X</div>
 			<div class="card-body">
@@ -26,7 +26,7 @@
 					class="p-5 flex flex-col gap-2 w-full h-96 overflow-y-auto scroll-smooth snap-end bg-gray-100 dark:bg-gray-900"
 				>
 					<div class="flex flex-col gap-2">
-						@for (message of message.messages; track message.id) {
+						@for (message of message()?.messages; track message.id) {
 							<app-message [message]="message"></app-message>
 						}
 					</div>
