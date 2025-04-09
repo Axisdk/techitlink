@@ -4,7 +4,6 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { FindUserService } from './find-user.service';
 import { UserInterface } from '../../../core/interfaces/user.interface';
 import { MessengerService } from '../../../core/services/messanger/messenger.service';
-import { UserRoleEnum } from '../../../core/enums/user-role.enum';
 import { UserHelperService } from '../../../core/services/user/user-helper.service';
 import { UserRoleBadgeComponent } from '../user-role-badge/user-role-badge.component';
 
