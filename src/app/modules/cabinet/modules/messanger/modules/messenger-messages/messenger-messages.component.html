@@ -7,7 +7,12 @@
 						<div class="avatar avatar-lg">
 							<img [src]="companion.avatar_url" alt="avatar" />
 						</div>
-						<span class="text-xl font-medium dark:text-gray-200">{{ getCompanionName(companion) }}</span>
+						<div class="flex flex-col">
+							<span class="text-xl font-medium dark:text-gray-200">{{
+								getCompanionName(companion)
+							}}</span>
+							<app-user-role-badge [role]="companion.role" />
+						</div>
 					</div>
 				}
 			</div>

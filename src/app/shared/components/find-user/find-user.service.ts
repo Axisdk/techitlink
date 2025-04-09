@@ -35,7 +35,7 @@ export class FindUserService {
 
 		if (name) {
 			foundUsers = users.filter((user: UserInterface) => {
-				const fullNameUser: string = `${user.fname}${user.lname}`;
+				const fullNameUser: string = `${user.lname}${user.fname}`;
 				return fullNameUser.toLowerCase().trim().includes(name.toLowerCase().trim());
 			});
 		} else {

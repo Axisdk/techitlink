@@ -17,11 +17,12 @@ import { NotificationTypeEnum } from '../../../../../../shared/components/notifi
 import { MessageComponent } from '../../../../../../shared/components/message/message.component';
 import { MessengerHelperService } from '../../../../../../core/services/messanger/messenger-helper.service';
 import { CompanionInterface } from '../../../../../../core/interfaces/companion.interface';
+import { UserRoleBadgeComponent } from '../../../../../../shared/components/user-role-badge/user-role-badge.component';
 
 @Component({
 	selector: 'app-messenger-messages',
 	templateUrl: './messenger-messages.component.html',
-	imports: [MessageComponent, ReactiveFormsModule],
+	imports: [MessageComponent, ReactiveFormsModule, UserRoleBadgeComponent],
 })
 export class MessengerMessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
 	@ViewChild('messageContainer') private _messageContainer!: ElementRef;
