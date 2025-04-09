@@ -9,11 +9,12 @@ import { RouterLink } from '@angular/router';
 import { MessengerHelperService } from '../../../core/services/messanger/messenger-helper.service';
 import { CompanionInterface } from '../../../core/interfaces/companion.interface';
 import { UserService } from '../../../core/services/user/user.service';
+import { UserRoleBadgeComponent } from '../user-role-badge/user-role-badge.component';
 
 @Component({
 	selector: 'app-mini-messenger',
 	templateUrl: 'mini-messenger.component.html',
-	imports: [RouterLink, MessageModalComponent, CardComponent],
+	imports: [RouterLink, MessageModalComponent, CardComponent, UserRoleBadgeComponent],
 })
 export class MiniMessengerComponent implements OnInit, OnDestroy {
 	private _destroy$: Subject<void> = new Subject<void>();
