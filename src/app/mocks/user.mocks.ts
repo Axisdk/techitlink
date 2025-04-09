@@ -66,29 +66,8 @@ export const userMocks: UserInterface[] = [
 			'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1',
 	},
 	{
-		id: 7,
-		role: UserRoleEnum.user,
-		fname: 'Иван',
-		lname: 'Козлов',
-		email: 'ivan.kozlov@mail.ru',
-		phone: '+79261112233',
-		password: 'ivan2023!',
-		avatar_url: 'https://randomuser.me/api/portraits/men/32.jpg',
-	},
-	{
-		id: 8,
-		role: UserRoleEnum.admin,
-		fname: 'Екатерина',
-		lname: 'Волкова',
-		email: 'volkova.ek@yandex.ru',
-		phone: '+79095556677',
-		password: 'katya1988',
-		avatar_url:
-			'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
-	},
-	{
 		id: 9,
-		role: UserRoleEnum.user,
+		role: UserRoleEnum.teacher,
 		fname: 'Анна',
 		lname: 'Соколова',
 		email: 'anna.sokolova@gmail.com',
@@ -96,15 +75,5 @@ export const userMocks: UserInterface[] = [
 		password: 'anna_sokol',
 		avatar_url:
 			'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1',
-	},
-	{
-		id: 10,
-		role: UserRoleEnum.user,
-		fname: 'Ольга',
-		lname: 'Лебедева',
-		email: 'lebedeva.o@mail.com',
-		phone: '+79203334455',
-		password: 'lebedev@2024',
-		avatar_url: 'https://randomuser.me/api/portraits/women/44.jpg',
 	},
 ];

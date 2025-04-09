@@ -16,7 +16,7 @@ export class MessengerHelperService {
 
 	public getFullNameCompanion(companion: CompanionInterface): string {
 		if (!companion) return '';
-		return companion.fname + ' ' + companion.lname;
+		return companion.lname + ' ' + companion.fname;
 	}
 
 	public setMessage(message: string): MessageInterface {
@@ -48,6 +48,7 @@ export class MessengerHelperService {
 						fname: user.fname,
 						lname: user.lname,
 						avatar_url: user.avatar_url,
+						role: user.role,
 					});
 				}
 			}

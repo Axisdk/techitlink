@@ -6,10 +6,12 @@ import { FindUserService } from '../../../../../../shared/components/find-user/f
 import { CompanionInterface } from '../../../../../../core/interfaces/companion.interface';
 import { MessengerHelperService } from '../../../../../../core/services/messanger/messenger-helper.service';
 import { UserService } from '../../../../../../core/services/user/user.service';
+import { UserRoleBadgeComponent } from '../../../../../../shared/components/user-role-badge/user-role-badge.component';
 
 @Component({
 	selector: 'app-messenger-users',
 	templateUrl: './messenger-users.component.html',
+	imports: [UserRoleBadgeComponent],
 })
 export class MessengerUsersComponent implements OnInit, OnDestroy {
 	private _destroy$: Subject<void> = new Subject<void>();

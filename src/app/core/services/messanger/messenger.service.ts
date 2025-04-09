@@ -38,17 +38,37 @@ export class MessengerService {
 		return this.MessengerMocks;
 	}
 
+	private _listenFirstMessage(): void {
+		if (!this.messenger$.value) return;
+
+		if (this.messenger$.value.messages.length) {
+			const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
+			messengers.push(this.messenger$.value);
+			this._setMessengersInLocalStorage(messengers);
+		}
+	}
+
 	public sendMessage(dialogId: number, newMessage: MessageInterface): void {
+		const currentMessenger: MessengerInterface | null = this.messenger$.value;
 		const allMessengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
+
 		const dialogIndex: number = allMessengers.findIndex(
 			(messenger: MessengerInterface): boolean => messenger.id === dialogId,
 		);
 
-		if (dialogIndex === -1) return;
-
-		const updatedDialog: MessengerInterface = { ...allMessengers[dialogIndex] };
-		updatedDialog.messages = [...updatedDialog.messages, newMessage];
-		allMessengers[dialogIndex] = updatedDialog;
+		if (dialogIndex !== -1) {
+			const updatedDialog: MessengerInterface = { ...allMessengers[dialogIndex] };
+			updatedDialog.messages = [...updatedDialog.messages, newMessage];
+			allMessengers[dialogIndex] = updatedDialog;
+		} else if (currentMessenger && currentMessenger.id === dialogId) {
+			const newDialog: MessengerInterface = {
+				...currentMessenger,
+				messages: [...currentMessenger.messages, newMessage],
+			};
+			allMessengers.push(newDialog);
+		} else {
+			return;
+		}
 
 		this._setMessengersInLocalStorage(allMessengers);
 
@@ -57,6 +77,8 @@ export class MessengerService {
 		);
 
 		this.messengers$.next(filteredMessengers);
+		this.getMessengerById(dialogId);
+		console.log(this.messenger$.value);
 	}
 
 	public getMessengers(userId: number): void {
@@ -92,21 +114,41 @@ export class MessengerService {
 		if (!thisUser) return;
 
 		const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
+		let messengerWithUser: MessengerInterface | null = null;
 
 		const hasMessengerUsers: boolean = messengers.some((messenger: MessengerInterface) => {
 			const participants: number[] = messenger.participants;
-			return participants.length === 2 && participants.includes(thisUser) && participants.includes(userId);
+			const hasDialog: boolean =
+				participants.length === 2 && participants.includes(thisUser) && participants.includes(userId);
+
+			if (hasDialog) {
+				messengerWithUser = messenger;
+				return true;
+			}
+
+			return false;
 		});
 
-		if (hasMessengerUsers) console.log(hasMessengerUsers);
+		if (hasMessengerUsers && messengerWithUser) {
+			const findCompanionById: CompanionInterface | null = this._userService.getUser(userId);
+			if (!findCompanionById) return;
 
-		// const newMessenger: MessengerInterface = {
-		//   id: messengers.length + 1,
-		//   participants: [thisUser, userId],
-		//   messages: []
-		// }
-		//
-		// messengers.push(newMessenger)
-		// this.setMessengersInLocalStorage(messengers)
+			this.companion$.next(findCompanionById);
+			this.messenger$.next(messengerWithUser);
+			return;
+		}
+
+		const dialogId: number = messengers.length + 1;
+		const phantomMessenger: MessengerInterface = {
+			id: dialogId,
+			participants: [thisUser, userId],
+			messages: [],
+		};
+
+		const findCompanionById: CompanionInterface | null = this._userService.getUser(userId);
+		if (!findCompanionById) return;
+
+		this.companion$.next(findCompanionById);
+		this.messenger$.next(phantomMessenger);
 	}
 }

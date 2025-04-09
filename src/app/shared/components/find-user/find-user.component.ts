@@ -4,11 +4,14 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { FindUserService } from './find-user.service';
 import { UserInterface } from '../../../core/interfaces/user.interface';
 import { MessengerService } from '../../../core/services/messanger/messenger.service';
+import { UserRoleEnum } from '../../../core/enums/user-role.enum';
+import { UserHelperService } from '../../../core/services/user/user-helper.service';
+import { UserRoleBadgeComponent } from '../user-role-badge/user-role-badge.component';
 
 @Component({
 	selector: 'app-find-user',
 	templateUrl: './find-user.component.html',
-	imports: [ReactiveFormsModule],
+	imports: [ReactiveFormsModule, UserRoleBadgeComponent],
 })
 export class FindUserComponent implements OnInit, OnDestroy {
 	private _destroy$: Subject<void> = new Subject<void>();
@@ -22,6 +25,7 @@ export class FindUserComponent implements OnInit, OnDestroy {
 		private _formBuilder: FormBuilder,
 		private _findUserService: FindUserService,
 		private _messengerService: MessengerService,
+		private _userHelperService: UserHelperService,
 	) {}
 
 	private _initForm(): void {
@@ -62,6 +66,10 @@ export class FindUserComponent implements OnInit, OnDestroy {
 	protected toggleModal(): void {
 		this._findUserService.toggleModal();
 		this.form.reset();
+	}
+
+	protected getNameUser(user: UserInterface): string {
+		return this._userHelperService.getUserName(user);
 	}
 
 	protected openDialogWithUser(userId: number): void {

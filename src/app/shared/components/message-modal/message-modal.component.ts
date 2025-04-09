@@ -13,17 +13,17 @@ import { Subject, takeUntil } from 'rxjs';
 import { MessageModalService } from './message-modal.service';
 import { MessageComponent } from '../message/message.component';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup, AbstractControl } from '@angular/forms';
-import { UserInterface } from '../../../core/interfaces/user.interface';
 import { MessengerService } from '../../../core/services/messanger/messenger.service';
 import { NotificationService } from '../notification/notification.service';
 import { NotificationTypeEnum } from '../notification/core/enums/notification-type.enum';
 import { MessengerHelperService } from '../../../core/services/messanger/messenger-helper.service';
 import { CompanionInterface } from '../../../core/interfaces/companion.interface';
+import { UserRoleBadgeComponent } from '../user-role-badge/user-role-badge.component';
 
 @Component({
 	selector: 'app-message-modal',
 	templateUrl: './message-modal.component.html',
-	imports: [MessageComponent, ReactiveFormsModule],
+	imports: [MessageComponent, ReactiveFormsModule, UserRoleBadgeComponent],
 })
 export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecked {
 	@ViewChild('messageContainer') private _messageContainer!: ElementRef;
@@ -83,7 +83,7 @@ export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecke
 	private _getCompanionDialog(): void {
 		this._messengerService.companion$
 			.pipe(takeUntil(this.destroy$))
-			.subscribe((companion: Pick<UserInterface, 'id' | 'avatar_url' | 'fname' | 'lname'> | null) => {
+			.subscribe((companion: CompanionInterface | null) => {
 				if (!companion) return;
 				this.companion = companion;
 
