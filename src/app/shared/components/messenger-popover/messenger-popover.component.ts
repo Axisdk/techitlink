@@ -74,9 +74,35 @@ export class MessengerPopoverComponent implements OnInit, OnDestroy {
 		this.close();
 	}
 
-	protected deleteMessenger(): void {}
+	protected deleteMessenger(): void {
+		if (!this.popoverActions()) return;
+		const isDeleted: boolean = this._messengerService.deleteMessenger(this.popoverActions()?.messengerId);
 
-	protected reportMessenger(): void {}
+		if (isDeleted)
+			this._notificationService.showNotification({
+				type: NotificationTypeEnum.success,
+				title: 'Успешно',
+				message: 'Вы удалили диалог',
+			});
+		else
+			this._notificationService.showNotification({
+				type: NotificationTypeEnum.error,
+				title: 'Ошибка',
+				message: 'Не удалось удалить диалог',
+			});
+
+		this.close();
+	}
+
+	protected reportMessenger(): void {
+		this._notificationService.showNotification({
+			type: NotificationTypeEnum.success,
+			title: 'Успешно',
+			message: 'Вы отправили жалобу на диалог',
+		});
+
+		this.close();
+	}
 
 	ngOnInit(): void {
 		this._listenPopover();

@@ -163,4 +163,29 @@ export class MessengerService {
 
 		return true;
 	}
+
+	public deleteMessenger(messengerId: number | undefined): boolean {
+		if (!messengerId) return false;
+		const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
+		const targetMessenger: MessengerInterface | undefined = messengers.find(
+			(m: MessengerInterface) => m.id === messengerId,
+		);
+
+		if (!targetMessenger) return false;
+
+		const updatedMessengers: MessengerInterface[] = messengers.filter(
+			(messenger: MessengerInterface) => messenger.id !== messengerId,
+		);
+
+		this._setMessengersInLocalStorage(updatedMessengers);
+
+		const userId: number | null = this._userService.getIdThisUser();
+		if (!userId) return false;
+
+		this.getMessengers(userId);
+		this.messenger$.next(null);
+		this.companion$.next(null);
+
+		return true;
+	}
 }
