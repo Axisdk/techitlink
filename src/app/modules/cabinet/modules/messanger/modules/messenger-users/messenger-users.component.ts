@@ -7,13 +7,18 @@ import { CompanionInterface } from '../../../../../../core/interfaces/companion.
 import { MessengerHelperService } from '../../../../../../core/services/messanger/messenger-helper.service';
 import { UserService } from '../../../../../../core/services/user/user.service';
 import { UserRoleBadgeComponent } from '../../../../../../shared/components/user-role-badge/user-role-badge.component';
+import { MessengerPopoverComponent } from '../../../../../../shared/components/messenger-popover/messenger-popover.component';
+import { MessengerPopoverService } from '../../../../../../shared/components/messenger-popover/messenger-popover.service';
+import { UserRoleEnum } from '../../../../../../core/enums/user-role.enum';
 
 @Component({
 	selector: 'app-messenger-users',
 	templateUrl: './messenger-users.component.html',
-	imports: [UserRoleBadgeComponent],
+	imports: [UserRoleBadgeComponent, MessengerPopoverComponent],
 })
 export class MessengerUsersComponent implements OnInit, OnDestroy {
+	protected readonly UserRoleEnum = UserRoleEnum;
+
 	private _destroy$: Subject<void> = new Subject<void>();
 
 	protected userMessages: WritableSignal<MessengerInterface[]> = signal([]);
@@ -25,6 +30,7 @@ export class MessengerUsersComponent implements OnInit, OnDestroy {
 		private _messengerHelperService: MessengerHelperService,
 		private _findUserService: FindUserService,
 		private _userService: UserService,
+		private _messengerPopoverService: MessengerPopoverService,
 	) {}
 
 	private _getDialogs(): void {
@@ -65,6 +71,12 @@ export class MessengerUsersComponent implements OnInit, OnDestroy {
 
 	protected startDialog(): void {
 		this._findUserService.toggleModal();
+	}
+
+	protected openPopover(event: MouseEvent, messengerId: number): void {
+		event.preventDefault();
+		this._messengerPopoverService.openPopover();
+		this._messengerPopoverService.setPopoverAction({ event, messengerId });
 	}
 
 	ngOnInit(): void {

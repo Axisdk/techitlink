@@ -4,11 +4,13 @@ import { MessengerMessagesComponent } from './modules/messenger-messages/messeng
 import { Subject } from 'rxjs';
 import { FindUserComponent } from '../../../../shared/components/find-user/find-user.component';
 import { MessengerUsersComponent } from './modules/messenger-users/messenger-users.component';
+import { MessengerPopoverService } from '../../../../shared/components/messenger-popover/messenger-popover.service';
 
 @Component({
 	selector: 'app-messenger-module',
 	templateUrl: './messenger.component.html',
 	imports: [CardComponent, MessengerUsersComponent, MessengerMessagesComponent, FindUserComponent],
+	providers: [MessengerPopoverService],
 })
 export class MessengerModuleComponent implements OnDestroy {
 	private _destroy$: Subject<void> = new Subject<void>();
