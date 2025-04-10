@@ -36,7 +36,7 @@ export class MessengerMessagesComponent implements OnInit, OnDestroy, AfterViewC
 	protected isLoading: WritableSignal<boolean> = signal(false);
 	protected isLoadingMessage: WritableSignal<boolean> = signal(false);
 
-	protected companion!: CompanionInterface;
+	protected companion!: CompanionInterface | null;
 
 	constructor(
 		private _messengerService: MessengerService,
@@ -62,7 +62,6 @@ export class MessengerMessagesComponent implements OnInit, OnDestroy, AfterViewC
 		this._messengerService.companion$
 			.pipe(takeUntil(this._destroy$))
 			.subscribe((companion: CompanionInterface | null) => {
-				if (!companion) return;
 				this.companion = companion;
 				this.form.reset();
 			});
@@ -74,7 +73,6 @@ export class MessengerMessagesComponent implements OnInit, OnDestroy, AfterViewC
 		this._messengerService.messenger$
 			.pipe(takeUntil(this._destroy$))
 			.subscribe((messenger: MessengerInterface | null) => {
-				if (!messenger) return;
 				this.message.set(messenger);
 				this.isLoading.set(false);
 				this._scrollToBottom();

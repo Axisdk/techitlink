@@ -38,16 +38,6 @@ export class MessengerService {
 		return this.MessengerMocks;
 	}
 
-	private _listenFirstMessage(): void {
-		if (!this.messenger$.value) return;
-
-		if (this.messenger$.value.messages.length) {
-			const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
-			messengers.push(this.messenger$.value);
-			this._setMessengersInLocalStorage(messengers);
-		}
-	}
-
 	public sendMessage(dialogId: number, newMessage: MessageInterface): void {
 		const currentMessenger: MessengerInterface | null = this.messenger$.value;
 		const allMessengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
@@ -78,7 +68,6 @@ export class MessengerService {
 
 		this.messengers$.next(filteredMessengers);
 		this.getMessengerById(dialogId);
-		console.log(this.messenger$.value);
 	}
 
 	public getMessengers(userId: number): void {
@@ -150,5 +139,53 @@ export class MessengerService {
 
 		this.companion$.next(findCompanionById);
 		this.messenger$.next(phantomMessenger);
+	}
+
+	public cleanMessenger(messengerId: number | undefined): boolean {
+		if (!messengerId) return false;
+		const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
+		const targetMessenger: MessengerInterface | undefined = messengers.find(
+			(m: MessengerInterface) => m.id === messengerId,
+		);
+
+		if (!targetMessenger) return false;
+
+		const updatedMessengers: MessengerInterface[] = messengers.map((messenger: MessengerInterface) =>
+			messenger.id === messengerId ? { ...messenger, messages: [] } : messenger,
+		);
+
+		this._setMessengersInLocalStorage(updatedMessengers);
+
+		const userId: number | null = this._userService.getIdThisUser();
+		if (!userId) return false;
+
+		this.getMessengers(userId);
+
+		return true;
+	}
+
+	public deleteMessenger(messengerId: number | undefined): boolean {
+		if (!messengerId) return false;
+		const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
+		const targetMessenger: MessengerInterface | undefined = messengers.find(
+			(m: MessengerInterface) => m.id === messengerId,
+		);
+
+		if (!targetMessenger) return false;
+
+		const updatedMessengers: MessengerInterface[] = messengers.filter(
+			(messenger: MessengerInterface) => messenger.id !== messengerId,
+		);
+
+		this._setMessengersInLocalStorage(updatedMessengers);
+
+		const userId: number | null = this._userService.getIdThisUser();
+		if (!userId) return false;
+
+		this.getMessengers(userId);
+		this.messenger$.next(null);
+		this.companion$.next(null);
+
+		return true;
 	}
 }
