@@ -1,0 +1,15 @@
+<div class="h-full flex items-center gap-2">
+	<div>
+		<span class="text-neutral font-medium text-base">{{ time() }}</span>
+	</div>
+	@if (weather()) {
+		<div class="flex items-center gap-2">
+			<span class="text-neutral font-medium text-base">{{ weather()?.current?.temp_c + '°C' }}</span>
+			<img
+				class="w-8 h-8"
+				[src]="weather()?.current?.condition?.icon"
+				[alt]="weather()?.current?.condition?.text"
+			/>
+		</div>
+	}
+</div>
