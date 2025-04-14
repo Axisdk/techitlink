@@ -17,14 +17,14 @@
 				}
 			</div>
 			<div class="divider before:bg-gray-700 after:bg-gray-700"></div>
-			<div>
+			<div class="relative">
 				<div
 					#messageContainer
 					class="p-5 flex flex-col gap-2 w-full h-96 overflow-y-auto scroll-smooth snap-end"
 				>
 					@if (!isLoading()) {
 						@if (message()?.messages?.length) {
-							<div class="flex flex-col gap-2">
+							<div class="relative flex flex-col gap-2">
 								@for (message of message()?.messages; track message.id) {
 									<app-message [message]="message"></app-message>
 								}

@@ -6,6 +6,7 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { UserService } from '../user/user.service';
 import { MessageInterface } from '../../interfaces/message.interface';
 import { CompanionInterface } from '../../interfaces/companion.interface';
+import { UserInterface } from '../../interfaces/user.interface';
 
 @Injectable()
 export class MessengerService {
@@ -39,26 +40,18 @@ export class MessengerService {
 	}
 
 	public sendMessage(dialogId: number, newMessage: MessageInterface): void {
-		const currentMessenger: MessengerInterface | null = this.messenger$.value;
 		const allMessengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
 
 		const dialogIndex: number = allMessengers.findIndex(
 			(messenger: MessengerInterface): boolean => messenger.id === dialogId,
 		);
 
-		if (dialogIndex !== -1) {
-			const updatedDialog: MessengerInterface = { ...allMessengers[dialogIndex] };
-			updatedDialog.messages = [...updatedDialog.messages, newMessage];
-			allMessengers[dialogIndex] = updatedDialog;
-		} else if (currentMessenger && currentMessenger.id === dialogId) {
-			const newDialog: MessengerInterface = {
-				...currentMessenger,
-				messages: [...currentMessenger.messages, newMessage],
-			};
-			allMessengers.push(newDialog);
-		} else {
-			return;
-		}
+		if (dialogIndex === -1) return;
+
+		allMessengers[dialogIndex] = {
+			...allMessengers[dialogIndex],
+			messages: [...allMessengers[dialogIndex].messages, newMessage],
+		};
 
 		this._setMessengersInLocalStorage(allMessengers);
 
@@ -78,6 +71,7 @@ export class MessengerService {
 		);
 
 		this.messengers$.next(filteredMessenger);
+		console.log(filteredMessenger);
 	}
 
 	public getMessengerById(messengerId: number): void {
@@ -103,42 +97,39 @@ export class MessengerService {
 		if (!thisUser) return;
 
 		const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
-		let messengerWithUser: MessengerInterface | null = null;
+		let existingMessenger: MessengerInterface | null = null;
 
-		const hasMessengerUsers: boolean = messengers.some((messenger: MessengerInterface) => {
-			const participants: number[] = messenger.participants;
+		const alreadyExists: boolean = messengers.some((messenger: MessengerInterface) => {
 			const hasDialog: boolean =
-				participants.length === 2 && participants.includes(thisUser) && participants.includes(userId);
-
-			if (hasDialog) {
-				messengerWithUser = messenger;
+				messenger.participants.includes(thisUser) && messenger.participants.includes(userId);
+			if (hasDialog && messenger.participants.length === 2) {
+				existingMessenger = messenger;
 				return true;
 			}
-
 			return false;
 		});
 
-		if (hasMessengerUsers && messengerWithUser) {
-			const findCompanionById: CompanionInterface | null = this._userService.getUser(userId);
-			if (!findCompanionById) return;
+		const companion: UserInterface | null = this._userService.getUser(userId);
+		if (!companion) return;
 
-			this.companion$.next(findCompanionById);
-			this.messenger$.next(messengerWithUser);
+		if (alreadyExists && existingMessenger) {
+			this.companion$.next(companion);
+			this.messenger$.next(existingMessenger);
 			return;
 		}
 
-		const dialogId: number = messengers.length + 1;
-		const phantomMessenger: MessengerInterface = {
-			id: dialogId,
+		const newMessenger: MessengerInterface = {
+			id: messengers.length > 0 ? Math.max(...messengers.map((m: MessengerInterface) => m.id)) + 1 : 1,
 			participants: [thisUser, userId],
 			messages: [],
 		};
 
-		const findCompanionById: CompanionInterface | null = this._userService.getUser(userId);
-		if (!findCompanionById) return;
+		messengers.push(newMessenger);
+		this._setMessengersInLocalStorage(messengers);
+		this.getMessengers(thisUser);
 
-		this.companion$.next(findCompanionById);
-		this.messenger$.next(phantomMessenger);
+		this.companion$.next(companion);
+		this.messenger$.next(newMessenger);
 	}
 
 	public cleanMessenger(messengerId: number | undefined): boolean {
@@ -185,6 +176,33 @@ export class MessengerService {
 		this.getMessengers(userId);
 		this.messenger$.next(null);
 		this.companion$.next(null);
+
+		return true;
+	}
+
+	public deleteMessage(messageId: number | null): boolean {
+		if (!messageId && !this.messenger$.value) return false;
+
+		const messengers: MessengerInterface[] = this._getMessengerFromLocalStorage();
+		const targetMessenger: MessengerInterface | undefined = messengers.find(
+			(m: MessengerInterface) => m.id === this.messenger$.value?.id,
+		);
+		if (!targetMessenger) return false;
+
+		targetMessenger.messages = targetMessenger.messages.filter(
+			(message: MessageInterface) => message.id !== messageId,
+		);
+
+		const updateMessenger: MessengerInterface[] = messengers.map((messenger: MessengerInterface) => {
+			if (messenger.id === targetMessenger.id) return targetMessenger;
+			return messenger;
+		});
+
+		const userId: number | null = this._userService.getIdThisUser();
+		if (!userId) return false;
+
+		this._setMessengersInLocalStorage(updateMessenger);
+		this.getMessengers(userId);
 
 		return true;
 	}

@@ -139,6 +139,8 @@ export class MessengerMessagesComponent implements OnInit, OnDestroy, AfterViewC
 	ngOnDestroy(): void {
 		this._destroy$.next();
 		this._destroy$.complete();
+		this._messengerService.messengers$.next(null);
 		this._messengerService.messenger$.next(null);
+		this._messengerService.companion$.next(null);
 	}
 }
