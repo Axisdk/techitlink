@@ -9,6 +9,7 @@
 		[class.bg-gray-300]="message.senderId !== user.id"
 		[class.dark:bg-gray-600]="message.senderId === user.id"
 		[class.dark:bg-gray-700]="message.senderId !== user.id"
+		(contextmenu)="openPopover($event, message.id)"
 	>
 		<span class="text-base text-gray-900 dark:text-gray-400">
 			{{ message.message }}

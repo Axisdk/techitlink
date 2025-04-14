@@ -16,7 +16,6 @@ export const appRoutes: Routes = [
 	{
 		path: 'auth',
 		component: AuthComponent,
-		canActivate: [TokenGuard],
 	},
 	{
 		path: 'cabinet',

@@ -11,22 +11,22 @@
 					>
 						<div class="flex justify-center items-center">
 							<div class="flex items-center gap-3">
-								@if (companionsMap()[companionId]?.avatar_url) {
-									<div class="avatar avatar-xl">
-										<img [src]="companionsMap()[companionId].avatar_url" alt="avatar" />
-									</div>
-								} @else {
-									<div class="avatar avatar-xl">
-										<img src="./assets/images/avatars/woman.jpg" alt="avatar" />
-									</div>
-								}
+								<div class="avatar avatar-xl">
+									<img
+										[src]="
+											companionsMap()[companionId].avatar_url ||
+											'./assets/images/avatars/woman.jpg'
+										"
+										alt="avatar"
+									/>
+								</div>
 								<div class="flex flex-col justify-start">
 									<div class="flex items-center gap-2">
 										<h3 class="text-base font-medium dark:text-gray-200">
 											{{ getCompanionName(companionsMap()[companionId]) }}
 										</h3>
-										@if (companionsMap()[companionId]?.role !== UserRoleEnum.user) {
-											<app-user-role-badge [role]="companionsMap()[companionId]?.role" />
+										@if (companionsMap()[companionId].role !== UserRoleEnum.user) {
+											<app-user-role-badge [role]="companionsMap()[companionId].role" />
 										}
 									</div>
 

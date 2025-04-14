@@ -62,7 +62,6 @@ export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecke
 
 	private _checkIsOpenModal(): void {
 		this._messageModalService.isOpen$.pipe(takeUntil(this.destroy$)).subscribe((isOpen: boolean) => {
-			if (!isOpen) this._messengerService.messenger$.next(null);
 			this.isOpen.set(isOpen);
 		});
 	}
@@ -149,6 +148,8 @@ export class MessageModalComponent implements OnInit, OnDestroy, AfterViewChecke
 	ngOnDestroy(): void {
 		this.destroy$.next();
 		this.destroy$.complete();
+		this._messengerService.messengers$.next(null);
 		this._messengerService.messenger$.next(null);
+		this._messengerService.companion$.next(null);
 	}
 }
