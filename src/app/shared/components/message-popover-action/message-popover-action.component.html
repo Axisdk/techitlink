@@ -1,36 +1,37 @@
 <div
-  class="absolute popover popover-open"
-  [class.popover-open]="isOpen()"
-  [ngStyle]="{ top: popoverY() + 'px', left: popoverX() + 'px' }"
-  (clickOutside)="close()"
+	class="absolute popover popover-open"
+	[class.popover-open]="isOpen()"
+	[ngStyle]="{ top: popoverY() + 'px', left: popoverX() + 'px' }"
+	(clickOutside)="close()"
 >
-  <div class="popover-content px-5 py-2 dark:bg-gray-800"
-       [class.popover-right-bottom]="popoverX() < 1200"
-       [class.popover-left]="popoverX() >= 1200"
-  >
-    <div class="flex flex-col gap-2">
-      <button
-        class="px-3 py-2 flex justify-start items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-        (click)="deleteMessage()"
-      >
-        <div class="w-5 h-5">
-          <img
-            src="./assets/images/icons/clipboard-remove.svg"
-            alt="delete dialog"
-            class="dark:brightness-200"
-          />
-        </div>
-        <span class="text-black dark:text-gray-200 font-medium text-base">Удалить</span>
-      </button>
-      <button
-        class="px-3 py-2 flex justify-start items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-        (click)="editMessage()"
-      >
-        <div class="w-5 h-5">
-          <img src="./assets/images/icons/danger-triangle.svg" alt="report" class="dark:brightness-200" />
-        </div>
-        <span class="text-rose-500 font-medium text-base">Пожаловаться</span>
-      </button>
-    </div>
-  </div>
+	<div
+		class="popover-content px-5 py-2 dark:bg-gray-800"
+		[class.popover-right-bottom]="popoverX() < 1200"
+		[class.popover-left]="popoverX() >= 1200"
+	>
+		<div class="flex flex-col gap-2">
+			<button
+				class="px-3 py-2 flex justify-start items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+				(click)="deleteMessage()"
+			>
+				<div class="w-5 h-5">
+					<img
+						src="./assets/images/icons/clipboard-remove.svg"
+						alt="delete dialog"
+						class="dark:brightness-200"
+					/>
+				</div>
+				<span class="text-black dark:text-gray-200 font-medium text-base">Удалить</span>
+			</button>
+			<button
+				class="px-3 py-2 flex justify-start items-center gap-3 duration-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+				(click)="editMessage()"
+			>
+				<div class="w-5 h-5">
+					<img src="./assets/images/icons/danger-triangle.svg" alt="report" class="dark:brightness-200" />
+				</div>
+				<span class="text-rose-500 font-medium text-base">Пожаловаться</span>
+			</button>
+		</div>
+	</div>
 </div>
