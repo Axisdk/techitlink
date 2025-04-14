@@ -19,14 +19,17 @@
 				</ul>
 			</div>
 		</div>
-		<div class="flex gap-2">
-			<button class="w-8 h-8 tooltip tooltip-bottom" data-tooltip="Новости">
-				<img src="./assets/images/icons/info-circle.svg" alt="bell" class="dark:brightness-200" />
-			</button>
-			<button class="w-8 h-8 relative tooltip tooltip-bottom" data-tooltip="Уведомления">
-				<img src="./assets/images/icons/bell-bing.svg" alt="bell" class="dark:brightness-200" />
-				<span class="absolute top-0 right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"> </span>
-			</button>
+		<div class="flex items-center gap-5">
+			<app-weather />
+			<div class="flex items-center gap-5">
+				<button class="w-8 h-8 tooltip tooltip-bottom" data-tooltip="Новости">
+					<img src="./assets/images/icons/info-circle.svg" alt="bell" class="dark:brightness-200" />
+				</button>
+				<button class="w-8 h-8 relative tooltip tooltip-bottom" data-tooltip="Уведомления">
+					<img src="./assets/images/icons/bell-bing.svg" alt="bell" class="dark:brightness-200" />
+					<span class="absolute top-0 right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"> </span>
+				</button>
+			</div>
 		</div>
 	</div>
 </div>

@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/c
 import { ThemeEnum } from '../../../core/enums/theme.enum';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../core/services/theme/theme.service';
+import { WeatherComponent } from '../weather/weather.component';
 
 @Component({
 	selector: 'app-top-line',
 	templateUrl: './top-line.component.html',
+	imports: [WeatherComponent],
 })
 export class TopLineComponent implements OnInit, OnDestroy {
 	protected readonly themeEnum = ThemeEnum;
