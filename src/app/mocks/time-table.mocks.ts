@@ -11,7 +11,7 @@ export const TimeTableMocks: TimeTableInterface[] = [
 	},
 	{
 		forUser: 1,
-		item: LessonsEnum.javascript_programming,
+		item: LessonsEnum.web_development,
 		teacher: TeacherEnum.an_vladislav,
 		grade: 88,
 	},
@@ -35,19 +35,19 @@ export const TimeTableMocks: TimeTableInterface[] = [
 	},
 	{
 		forUser: 2,
-		item: LessonsEnum.cybersecurity,
+		item: LessonsEnum.web_development,
 		teacher: TeacherEnum.an_vladislav,
 		grade: 90,
 	},
 	{
 		forUser: 3,
-		item: LessonsEnum.devops,
+		item: LessonsEnum.web_development,
 		teacher: TeacherEnum.kupriyanov_danil,
 		grade: 81,
 	},
 	{
 		forUser: 3,
-		item: LessonsEnum.software_testing,
+		item: LessonsEnum.web_development,
 		teacher: TeacherEnum.an_vladislav,
 		grade: 77,
 	},
@@ -65,13 +65,13 @@ export const TimeTableMocks: TimeTableInterface[] = [
 	},
 	{
 		forUser: 4,
-		item: LessonsEnum.programming_basics,
+		item: LessonsEnum.web_development,
 		teacher: TeacherEnum.kupriyanov_danil,
 		grade: 91,
 	},
 	{
 		forUser: 4,
-		item: LessonsEnum.python_programming,
+		item: LessonsEnum.web_development,
 		teacher: TeacherEnum.an_vladislav,
 		grade: 84,
 	},

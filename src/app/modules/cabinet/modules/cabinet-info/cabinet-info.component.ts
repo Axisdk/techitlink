@@ -8,6 +8,7 @@ import { NewsComponent } from '../../../../shared/components/news/news.component
 import { CalendarComponent } from '../../../../shared/components/calendar/calendar.component';
 import { UserHelperService } from '../../../../core/services/user/user-helper.service';
 import { MessengerService } from '../../../../core/services/messanger/messenger.service';
+import { UserRoleEnum } from '../../../../core/enums/user-role.enum';
 
 @Component({
 	selector: 'app-cabinet-info',
@@ -49,4 +50,6 @@ export class CabinetInfoComponent implements OnInit, OnDestroy {
 		this._messengerService.messenger$.next(null);
 		this._messengerService.companion$.next(null);
 	}
+
+	protected readonly UserRoleEnum = UserRoleEnum;
 }

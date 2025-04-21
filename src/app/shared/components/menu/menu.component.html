@@ -34,7 +34,7 @@
 	}
 
 	<div class="p-5 w-full h-full flex flex-col">
-		<nav class="menu">
+		<nav class="h-full menu">
 			<section class="menu-section">
 				<ul class="menu-items">
 					<li>
@@ -64,22 +64,21 @@
 						<div class="menu-item-collapse">
 							<div class="min-h-0">
 								<a
-									routerLink="/cabinet"
+									routerLink="/cabinet/info"
 									aria-current="page"
 									routerLinkActive="active"
 									class="menu-item ml-6 dark:text-gray-300 dark:hover:bg-gray-700"
 								>
 									Кабинет
 								</a>
-								<label class="menu-item ml-6 dark:text-gray-300 dark:hover:bg-gray-700">
-									Учебный план
-								</label>
-								<label class="menu-item ml-6 dark:text-gray-300 dark:hover:bg-gray-700">
-									Рассписание
-								</label>
-								<label class="menu-item ml-6 dark:text-gray-300 dark:hover:bg-gray-700">
-									Успеваемость
-								</label>
+                <a
+                  routerLink="/cabinet/courses"
+                  aria-current="page"
+                  routerLinkActive="active"
+                  class="menu-item ml-6 dark:text-gray-300 dark:hover:bg-gray-700"
+                >
+                  Учебные курсы
+                </a>
 							</div>
 						</div>
 					</li>
@@ -119,18 +118,18 @@
 							</div>
 						</a>
 					</li>
-					<li>
-						<label class="menu-item dark:hover:bg-gray-700" tabindex="0" role="button">
-							<div class="flex items-center gap-3">
-								<img
-									class="w-6 dark:brightness-200"
-									src="./assets/images/icons/danger-triangle.svg"
-									alt="support"
-								/>
-								<span class="text-lg dark:text-gray-200">Поддержка</span>
-							</div>
-						</label>
-					</li>
+          <li>
+            <label class="menu-item dark:hover:bg-gray-700" tabindex="0" role="button">
+              <div class="flex items-center gap-3">
+                <img
+                  class="w-6 dark:brightness-200"
+                  src="./assets/images/icons/checklist-minimalistic.svg"
+                  alt="check list"
+                />
+                <span class="text-lg dark:text-gray-200">Выставление оценок</span>
+              </div>
+            </label>
+          </li>
 				</ul>
 			</section>
 		</nav>

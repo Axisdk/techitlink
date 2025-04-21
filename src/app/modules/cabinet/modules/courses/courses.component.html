@@ -1,0 +1,75 @@
+<div class="w-full">
+  <app-card title="Наши учебные курсы">
+    @if (!isLoading()) {
+      <div class="flex flex-wrap">
+        @for (course of courses(); track course.id) {
+          <div class="p-5 w-1/3">
+            <div class="relative flex flex-col rounded-xl overflow-hidden">
+              <div class="absolute top-5 right-5">
+                <div class="flex items-center gap-1">
+                  @for (badge of course.badges; track badge) {
+                    <span class="badge badge-flat-secondary">{{badge}}</span>
+                  }
+                </div>
+              </div>
+              <div class="w-full h-52 overflow-hidden">
+                <img
+                  [src]="course.imageUrl"
+                  alt="course image"
+                  class="w-full h-full object-cover"
+                >
+              </div>
+              <div class="px-3 py-2 flex flex-col gap-2 bg-gray-100 dark:bg-gray-800">
+                <span class="text-xl font-medium text-black dark:text-gray-200">{{course.title}}</span>
+                  <span class="text-sm text-neutral line-clamp-3">{{course.description}}</span>
+                <span class="text-xs text-neutral">Преподаватель: {{course.teacher}}</span>
+                <div class="mt-5 flex gap-2">
+                  @for (tag of course.tags; track tag) {
+                    <span class="badge badge-flat-primary badge-md dark:badge-flat-secondary">{{tag}}</span>
+                  }
+                </div>
+                <div class="mt-5 w-52">
+                  <button class="btn btn-md btn-solid-primary dark:btn-solid-secondary"
+                          (click)="openCourseDetail(course)"
+                  >Подробнее</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="flex flex-wrap">
+        @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+          <div class="p-5 w-1/3">
+            <div class="relative flex flex-col rounded-xl overflow-hidden">
+              <div class="absolute top-5 right-5">
+                <div class="flex items-center gap-1">
+                  @for (j of [1]; track j) {
+                    <div class="skeleton w-14 h-5"></div>
+                  }
+                </div>
+              </div>
+              <div class="skeleton w-full h-52 overflow-hidden"></div>
+              <div class="px-3 py-2 flex flex-col gap-2">
+                <div class="skeleton w-80 h-6"></div>
+                <div class="skeleton w-60 h-4"></div>
+                <div class="skeleton w-56 h-4"></div>
+                <div class="skeleton w-52 h-4"></div>
+                <div class="skeleton w-64 h-5"></div>
+                <div class="mt-5 flex gap-2">
+                  @for (k of [1, 2, 3]; track k) {
+                    <div class="skeleton w-14 h-5"></div>
+                  }
+                </div>
+                <div class="skeleton w-40 h-10"></div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </app-card>
+</div>
+
+<app-course-detail-modal/>
