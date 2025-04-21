@@ -11,7 +11,9 @@
 
 	<div class="flex gap-3">
 		<div class="w-8/12 flex flex-col gap-3">
-			<app-rating-table />
+      @if (user()?.role === UserRoleEnum.user) {
+        <app-rating-table />
+      }
 			<app-calendar />
 		</div>
 		<div class="w-4/12 flex flex-col gap-3">

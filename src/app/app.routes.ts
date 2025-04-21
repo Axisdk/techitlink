@@ -6,6 +6,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { TokenGuard } from './core/guards/token.guard';
 import { SettingsComponent } from './modules/cabinet/modules/settings/settings.component';
 import { MessengerModuleComponent } from './modules/cabinet/modules/messanger/messenger.component';
+import { CoursesComponent } from './modules/cabinet/modules/courses/courses.component';
 
 export const appRoutes: Routes = [
 	{
@@ -30,6 +31,10 @@ export const appRoutes: Routes = [
 			{
 				path: 'info',
 				component: CabinetInfoComponent,
+			},
+			{
+				path: 'courses',
+				component: CoursesComponent,
 			},
 			{
 				path: 'messenger',

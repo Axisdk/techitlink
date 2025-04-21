@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
-import { CardComponent } from '../card/card.component';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { WeatherService } from './weather.service';
 import { WeatherApiResponse } from '../../../core/interfaces/weather.interface';
@@ -7,7 +6,6 @@ import { WeatherApiResponse } from '../../../core/interfaces/weather.interface';
 @Component({
 	selector: 'app-weather',
 	templateUrl: './weather.component.html',
-	imports: [CardComponent],
 })
 export class WeatherComponent implements OnInit, OnDestroy {
 	private _weatherSubscription!: Subscription;

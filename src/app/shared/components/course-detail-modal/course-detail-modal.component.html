@@ -1,0 +1,75 @@
+<div class="fixed top-0 left-0 w-full h-dvh duration-500 transition"
+     [class.opacity-0]="!isOpen()"
+     [class.opacity-100]="isOpen()"
+     [class.-z-10]="!isOpen()"
+     [class.z-0]="isOpen()"
+>
+  <div class="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-20"
+       (click)="closeModal()"
+  ></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 duration-500"
+       [class.scale-100]="isOpen()"
+       [class.scale-50]="!isOpen()"
+  >
+    @if (course()) {
+      <div class="relative p-10 bg-gray-100 dark:bg-gray-900 flex gap-5 justify-between rounded-2xl"
+           style="width: 1248px; height: 686px;"
+      >
+        <div class="absolute top-5 right-5 cursor-pointer dark:text-gray-200" (click)="closeModal()">X</div>
+        <div class="w-1/2">
+          <img class="rounded-3xl" [src]="course()?.imageUrl" alt="course">
+        </div>
+        <div class="w-full h-full flex flex-col gap-5">
+          <div class="mb-10 flex gap-5 justify-between items-center">
+            <span class="text-4xl font-medium dark:text-gray-200">{{ course()?.title }}</span>
+            <div class="avatar-group">
+              @for (subscriber of course()?.subscribers; track subscriber) {
+                <div class="avatar">
+                  <img [src]="getSubscriberAvatar(subscriber) ?? ''" alt="avatar" />
+                </div>
+              }
+              <div class="avatar">
+                <div>+ {{ course()?.subscribers?.length }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-5 overflow-auto">
+            <div class="flex flex-col gap-3">
+              <span class="text-xl text-neutral">{{course()?.description_total}}</span>
+              <div class="accordion-group mt-5">
+                @for (faq of course()?.faq; track faq.title; let index = $index) {
+                  <div class="accordion">
+                    <input type="checkbox" [id]="index" class="accordion-toggle" />
+                    <label [for]="index" class="accordion-title bg-transparent dark:text-gray-400">{{ faq.title }}</label>
+                    <span class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path></svg>
+                      </span>
+                    <div class="accordion-content text-content2">
+                      <div class="min-h-0  dark:text-gray-500">{{ faq.answer }}</div>
+                    </div>
+                  </div>
+                }
+              </div>
+              <span class="text-xs text-neutral">Преподаватель: {{course()?.teacher}}</span>
+            </div>
+            <div class="mt-5 flex gap-2">
+              @for (tag of course()?.tags; track tag) {
+                <span class="badge badge-flat-primary badge-lg dark:badge-flat-secondary">{{tag}}</span>
+              }
+            </div>
+            <div class="mt-5">
+              @if (!checkIsSubscription()) {
+                <button class="w-64 btn btn-md btn-solid-primary dark:btn-solid-secondary"
+                        [class.btn-loading]="isLoading()"
+                        (click)="signUp()"
+                >Записаться</button>
+              } @else {
+                <span class="text-md font-medium">Вы уже являетесь участником курса!</span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

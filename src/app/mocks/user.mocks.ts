@@ -4,7 +4,7 @@ import { UserRoleEnum } from '../core/enums/user-role.enum';
 export const userMocks: UserInterface[] = [
 	{
 		id: 1,
-		role: UserRoleEnum.teacher,
+		role: UserRoleEnum.user,
 		fname: 'Жансая',
 		lname: 'Абдыкалык',
 		email: 'user329@test.com',
@@ -14,7 +14,7 @@ export const userMocks: UserInterface[] = [
 	},
 	{
 		id: 2,
-		role: UserRoleEnum.user,
+		role: UserRoleEnum.teacher,
 		fname: 'Владислав',
 		lname: 'Ан',
 		email: 'maryjane666@gmail.com',
@@ -66,8 +66,19 @@ export const userMocks: UserInterface[] = [
 			'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1',
 	},
 	{
-		id: 9,
+		id: 7,
 		role: UserRoleEnum.teacher,
+		fname: 'Данил',
+		lname: 'Куприянов',
+		email: 'danil@gmail.com',
+		phone: '+79165554433',
+		password: '1234test1234',
+		avatar_url:
+			'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1',
+	},
+	{
+		id: 9,
+		role: UserRoleEnum.user,
 		fname: 'Анна',
 		lname: 'Соколова',
 		email: 'anna.sokolova@gmail.com',
