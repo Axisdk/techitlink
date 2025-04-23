@@ -49,7 +49,7 @@ export const courses: CourseInterface[] = [
 		badges: ['Новое'],
 		tags: ['Angular', 'TypeScript'],
 		teacher: TeacherEnum.an_vladislav,
-		subscribers: [9],
+		subscribers: [1, 9, 5, 7],
 	},
 	{
 		id: 3,

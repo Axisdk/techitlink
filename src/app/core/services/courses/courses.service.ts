@@ -17,7 +17,7 @@ export class CoursesService {
 		return this.courses$.getValue()?.find((course: CourseInterface) => course.id === id) ?? null;
 	}
 
-	private _updateCourses(course: CourseInterface): void {
+	public updateCourses(course: CourseInterface): void {
 		const courses: CourseInterface[] = this.getCoursesInLocalStorage();
 		if (!courses) return;
 
@@ -53,7 +53,7 @@ export class CoursesService {
 
 		course.subscribers.push(userId);
 
-		this._updateCourses(course);
+		this.updateCourses(course);
 		return true;
 	}
 }

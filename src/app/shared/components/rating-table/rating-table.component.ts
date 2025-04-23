@@ -25,7 +25,7 @@ export class RatingTableComponent implements OnInit, OnDestroy {
 	private _initTable(): void {
 		const userId: number | null = this._userService.getIdThisUser();
 		if (!userId) return;
-		this._ratingTableService.getRatingTable(userId);
+		this._ratingTableService.getRatingTableForUser(userId);
 		this.isLoading.update((value: boolean): boolean => !value);
 
 		setTimeout(() => {

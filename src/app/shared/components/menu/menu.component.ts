@@ -4,6 +4,7 @@ import { UserInterface } from '../../../core/interfaces/user.interface';
 import { UserService } from '../../../core/services/user/user.service';
 import { Subject, takeUntil } from 'rxjs';
 import { UserHelperService } from '../../../core/services/user/user-helper.service';
+import { UserRoleEnum } from '../../../core/enums/user-role.enum';
 
 @Component({
 	selector: 'app-menu',
@@ -52,4 +53,6 @@ export class MenuComponent implements OnInit, OnDestroy {
 		this._destroy$.next();
 		this._destroy$.complete();
 	}
+
+	protected readonly UserRoleEnum = UserRoleEnum;
 }
