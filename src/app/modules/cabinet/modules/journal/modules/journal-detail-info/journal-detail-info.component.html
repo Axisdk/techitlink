@@ -1,0 +1,73 @@
+@if (course()) {
+  <app-card [title]="course()?.title ?? 'Журнал курса'">
+    <div class="w-full flex">
+      <div class="w-1/4 border-r-gray-500 p-5 border-solid border-gray-400 border-r-2">
+        <div class="flex flex-col gap-5">
+          <span class="text-3xl font-medium text-black dark:text-gray-200">Описание курса</span>
+          <div class="flex flex-col gap-5">
+            <div class="w-full rounded-xl overflow-hidden">
+              <img
+                [src]="course()?.imageUrl"
+                alt="course image"
+                class="w-full h-full object-cover"
+              >
+            </div>
+            <div class="px-3 py-2 flex flex-col gap-2 bg-gray-100 dark:bg-gray-800">
+              <span class="text-2xl font-medium text-black dark:text-gray-200">{{course()?.title}}</span>
+              <span class="text-base font-medium text-neutral">{{course()?.description_total}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-3/4 p-5">
+        <div class="flex flex-col gap-5">
+          <span class="text-3xl font-medium text-black dark:text-gray-200">Студенты курса</span>
+          <div class="flex flex-col gap-5">
+            <table class="table-hover table dark:bg-gray-800">
+              <thead class="bg-blue-500 dark:bg-gray-800">
+              <tr>
+                <th class="font-medium border-none dark:text-neutral dark:bg-gray-800">Номер</th>
+                <th class="font-medium border-none dark:text-neutral dark:bg-gray-800">Студент</th>
+                <th class="font-medium border-none dark:text-neutral dark:bg-gray-800">Успеваемость</th>
+                <th class="flex justify-end items-center font-medium border-none dark:text-neutral dark:bg-gray-800">Действие</th>
+              </tr>
+              </thead>
+              <tbody class="dark:bg-gray-800">
+                @for (student of students(); track student.id; let index = $index) {
+                  <tr class="group bg-gray-100 hover:!bg-gray-400 dark:bg-gray-800 dark:hover:!bg-gray-700">
+                    <th class="group-hover:!bg-gray-200 dark:group-hover:!bg-gray-700 dark:border-b-gray-700">
+                      <span class="text-base text-medium dark:text-gray-300">
+                        {{ index }}
+                      </span>
+                    </th>
+                    <th class="group-hover:!bg-gray-200 dark:group-hover:!bg-gray-700 dark:border-b-gray-700">
+                      <div class="flex items-center gap-5">
+                        <div class="avatar avatar-md">
+                          <img [src]="student.avatar_url" alt="avatar" />
+                        </div>
+                        <span class="text-base text-medium dark:text-gray-300">
+                          {{ student.lname + ' ' + student.fname }}
+                        </span>
+                      </div>
+                    </th>
+                    <td class="group-hover:!bg-gray-200 dark:group-hover:!bg-gray-700 dark:border-b-gray-700">
+                      <input #gradeInput type="number" class="input input-solid" placeholder="Поставьте оценку" />
+                    </td>
+                    <td class="group-hover:!bg-gray-200 dark:group-hover:!bg-gray-700 dark:border-b-gray-700">
+                      <div class="flex justify-end items-center gap-5">
+                        <button class="btn btn-primary dark:btn-secondary btn-md" (click)="setGrade(student.id, gradeInput.value)">Выставить оценку</button>
+                        <button class="btn btn-primary dark:btn-secondary btn-md" (click)="contactWithStudent(student.id)">Связаться</button>
+                        <button class="btn btn-error btn-md" (click)="expelStudent(student.id)">Отчислить</button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-card>
+}
+

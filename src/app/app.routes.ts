@@ -7,6 +7,9 @@ import { TokenGuard } from './core/guards/token.guard';
 import { SettingsComponent } from './modules/cabinet/modules/settings/settings.component';
 import { MessengerModuleComponent } from './modules/cabinet/modules/messanger/messenger.component';
 import { CoursesComponent } from './modules/cabinet/modules/courses/courses.component';
+import { JournalComponent } from './modules/cabinet/modules/journal/journal.component';
+import { JournalDetailInfoComponent } from './modules/cabinet/modules/journal/modules/journal-detail-info/journal-detail-info.component';
+import { JournalInfoComponent } from './modules/cabinet/modules/journal/modules/journal-info/journal-info.component';
 
 export const appRoutes: Routes = [
 	{
@@ -43,6 +46,24 @@ export const appRoutes: Routes = [
 			{
 				path: 'settings',
 				component: SettingsComponent,
+			},
+			{
+				path: 'journal',
+				component: JournalComponent,
+				children: [
+					{
+						path: '',
+						component: JournalInfoComponent,
+					},
+					{
+						path: 'info',
+						component: JournalInfoComponent,
+					},
+					{
+						path: ':id',
+						component: JournalDetailInfoComponent,
+					},
+				],
 			},
 		],
 	},

@@ -71,7 +71,6 @@ export class MessengerService {
 		);
 
 		this.messengers$.next(filteredMessenger);
-		console.log(filteredMessenger);
 	}
 
 	public getMessengerById(messengerId: number): void {
